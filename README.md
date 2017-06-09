@@ -61,7 +61,7 @@ The service will return a JSON array of Byte values, e.g. `[37, 80, 68, 70, 45, 
 
 ### Debug mode
 
-When the service is instantiated in Debug mode e.g. `DEBUG_LOG=true java -jar pdfGenerator.jar`, a GET browser accessible PDF generation endpoint is made available at `/debug` which can be used to test a template and value substition directly.
+When the service is instantiated in Debug mode e.g. `DEBUG_LOG=true java -jar pdfGenerator.jar`, a GET browser accessible PDF generation endpoint is made available at `/debug` which can be used to test a template and value substitution directly.
 
 E.g. browse to `http://localhost:8080/debug/helloWorld?SALUTATION=Mr&FORENAME=John&SURNAME=Smith&CASE_NUMBER=ABC12345&ADDRESS_LINE_1=10%20High%20Street&ADDRESS_LINE_2=Sometown&ADDRESS_LINE_3=Shiresville&DD_MMM_YYYY=10th%20June%202017`
 
@@ -69,7 +69,7 @@ E.g. browse to `http://localhost:8080/debug/helloWorld?SALUTATION=Mr&FORENAME=Jo
 
 To create or modify new templates, load or create e.g. a Word Document in [LibreOffice](https://www.libreoffice.org/), and alter as necessary to include PLACE_HOLDER text which will be substituted in generated PDFs.
 
-Then choose `File | Export..` from the menu, and export in XTML `.html` format. This new template should then be made available to the PDF Generator service.
+Then choose `File | Export..` from the menu, and export in XHTML `.html` format. This new template should then be made available to the PDF Generator service.
 
 ### Building and running with Docker
 
