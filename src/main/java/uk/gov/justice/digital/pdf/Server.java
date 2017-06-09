@@ -57,13 +57,3 @@ public class Server {
         }
     }
 }
-
-//@TODO: Tests required !!
-// unit test on process for leng, integration on whole for config AND postJons returning text starting [0, 50, 5 etc
-// Write a test for [0, 45, 25 ...]
-
-// CAN THEN OFFER TWO DIFFERENT REPORTS FROM THE FRONT SCREEN IN PLAY
-// RETURN A JSON ARRAY OF BYTES eg [1, 60, 24, 44] etc
-
-
-// @todo: dockerise - ./gradle build && docker build -t pdfgenerator - same fat jat run Docker with environments
