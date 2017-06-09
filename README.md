@@ -2,7 +2,7 @@
 
 A REST-accessible self-contained fat-jar micro-service that creates PDFs from XHTML templates, substituting placeholder text in the template with caller-supplied values.
 
-### Builing and running
+### Building and running
 
 Build command (includes running unit and integration tests):
 
@@ -25,7 +25,7 @@ The service endpoint defaults to local port 8080.
 
 ### Development notes
 
-Developed in Java 8 with additional [Lombok](https://projectlombok.org/features/all) support. Unit and Integration tests are written in [Groovy](http://groovy-lang.org/documentation.html) and [Spock](http://spockframework.org/spock/docs/1.1/spock_primer.html).
+Developed in [Java 8](http://www.oracle.com/technetwork/java/javase/8-whats-new-2157071.html) with additional [Lombok](https://projectlombok.org/features/all) support. Unit and Integration tests are written in [Groovy](http://groovy-lang.org/documentation.html) and [Spock](http://spockframework.org/spock/docs/1.1/spock_primer.html).
 
 The HTTP service is provided by the Java [Spark Framework](http://sparkjava.com/documentation), and the PDF Renderer uses the [Flying Saucer](https://github.com/flyingsaucerproject/flyingsaucer/blob/master/README.md) library.
 
