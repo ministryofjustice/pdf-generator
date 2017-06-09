@@ -1,0 +1,45 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+// Apply application plugin for easy application start
+apply plugin: 'application'
+
+mainClassName = "uk.gov.justice.digital.pdf.Server"
+
+// Apply the groovy plugin to also add support for Groovy (needed for Spock)
+apply plugin: 'groovy'
+
+repositories {
+    // Use 'jcenter' for resolving your dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    jcenter()
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'uk.gov.justice.digital.pdf.Server'
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it).matching {
+            exclude { it.path.contains('META-INF') } }
+        }
+    }
+}
+
+dependencies {
+
+    compile "ch.qos.logback:logback-classic:1.2.3"
+    compile 'com.google.inject:guice:4.1.0'
+    compile 'com.sparkjava:spark-core:2.6.0'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.8.8.1'
+    compile 'org.apache.commons:commons-lang3:3.5'
+    compile 'org.xhtmlrenderer:flying-saucer-pdf:9.1.5'
+    compile 'org.mongodb:mongodb-driver-rx:1.4.0'
+
+    compileOnly 'org.projectlombok:lombok:1.16.16'
+
+    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+    testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
+}
