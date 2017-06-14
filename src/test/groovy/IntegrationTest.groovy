@@ -33,7 +33,7 @@ class IntegrationTest extends Specification {
         then:
         result.status == 200
         result.data.subList(0, 5) == [37, 80, 68, 70, 45]
-        result.data.size == 126733
+        result.data.size > 100000
     }
 
     def "debug unavailable in default configuration"() {
