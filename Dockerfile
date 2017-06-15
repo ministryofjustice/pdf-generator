@@ -1,4 +1,4 @@
-FROM java:8
+FROM openjdk:8
 
 MAINTAINER Nick Talbot <nick.talbot@digital.justice.gov.uk>
 
