@@ -1,0 +1,13 @@
+version: 2
+
+jobs:
+    build:
+        working_directory: ~/pdf-generator
+        docker:
+            - image: openjdk:8
+        steps:
+            - checkout
+            - setup_remote_docker
+            - run:
+                name: Run gradle build
+                command: ./gradlew build
