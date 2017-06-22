@@ -17,8 +17,8 @@ class IntegrationTest extends Specification {
         then:
         result.status == 200
         result.data.PORT == "8080"
-        result.data.DEBUG_LOG == "false"
-        result.data.MONGO_DB_NAME == "templates"
+        result.data.ALFRESCO_URL == "http://localhost:8080/alfresco/service/"
+        result.data.ALFRESCO_USER == "alfrescoUser"
     }
 
     def "POST generate creates a PDF and returns as a JSON string of Bytes"() {
