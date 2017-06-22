@@ -17,8 +17,8 @@ public class Configuration extends AbstractModule implements EnvironmentBinder {
         return ImmutableMap.of(
                 "PORT", "8080",
                 "DEBUG_LOG", "false",
-                "MONGO_DB_URL", "mongodb://localhost:27017",
-                "MONGO_DB_NAME", "templates"
+                "ALFRESCO_URL", "http://localhost:8080/alfresco/service/",
+                "ALFRESCO_USER", "alfrescoUser"
         );
     }
 
@@ -45,8 +45,8 @@ public class Configuration extends AbstractModule implements EnvironmentBinder {
                 String.class,
                 Function.identity(),
                 ImmutableMap.of(
-                        "mongoUri", "MONGO_DB_URL",
-                        "dbName", "MONGO_DB_NAME"
+                        "alfrescoUrl", "ALFRESCO_URL",
+                        "alfrescoUser", "ALFRESCO_USER"
                 )
         );
 

@@ -36,7 +36,7 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-databind:2.8.8.1'
     compile 'org.apache.commons:commons-lang3:3.5'
     compile 'org.xhtmlrenderer:flying-saucer-pdf:9.1.5'
-    compile 'org.mongodb:mongodb-driver-rx:1.4.0'
+    compile 'com.mashape.unirest:unirest-java:1.4.9'
 
     compileOnly 'org.projectlombok:lombok:1.16.16'
 
