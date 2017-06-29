@@ -16,6 +16,6 @@ class PdfGeneratorTest  extends Specification {
 
         then:
         result[0..5] == [37, 80, 68, 70, 45, 49].collect { it.byteValue() }
-        result.length > 100000
+        result.length > 10000
     }
 }
