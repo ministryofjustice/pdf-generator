@@ -9,7 +9,7 @@ class PdfGeneratorTest  extends Specification {
 
         setup:
         def pdfGenerator = new PdfGenerator(new ResourceRepository())
-        def pdfRequest = new PdfRequest('helloWorld', [CASE_NUMBER: 'ABC1234D'])
+        def pdfRequest = new PdfRequest('shortFormatPreSentenceReport', [CASE_NUMBER: 'ABC1234D'])
 
         when:
         def result = pdfGenerator.process(pdfRequest)

@@ -27,7 +27,7 @@ class IntegrationTest extends Specification {
         def result = new RESTClient('http://localhost:8080/').post(
                 path: 'generate',
                 requestContentType: JSON,
-                body: [templateName: 'helloWorld', values: [CASE_NUMBER: 'ABC1234D']]
+                body: [templateName: 'shortFormatPreSentenceReport', values: [CASE_NUMBER: 'ABC1234D']]
         )
 
         then:
@@ -39,7 +39,7 @@ class IntegrationTest extends Specification {
     def "debug unavailable in default configuration"() {
 
         when:
-        new RESTClient('http://localhost:8080/').get(path: 'debug/helloWorld')
+        new RESTClient('http://localhost:8080/').get(path: 'debug/shortFormatPreSentenceReport')
 
         then:
         thrown HttpResponseException

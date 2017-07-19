@@ -9,7 +9,7 @@ class DebugIntegrationTest extends Specification {
     def "debug available in test configuration"() {
 
         when:
-        def result = new RESTClient('http://localhost:8081/').get(path: 'debug/helloWorld')
+        def result = new RESTClient('http://localhost:8081/').get(path: 'debug/shortFormatPreSentenceReport')
 
         then:
         result.status == 200
