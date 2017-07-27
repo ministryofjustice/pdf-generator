@@ -39,6 +39,51 @@
             vertical-align: bottom;
         }
 
+        .page {
+            display: block;
+            width: 21cm;
+            height: 29.7cm;
+            margin: 0 auto;
+            padding: 1cm;
+            margin-bottom: 0.5cm;
+            box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+        }
+
+        .watermark {
+            display: block;
+            position: relative;
+            top: 20cm;
+            left: -1.5cm;
+            width: 0;
+            height: 0;
+            overflow: visible;
+            z-index: -1;
+            font-size: 300px;
+            color: #EAEAEA;
+            -o-transform: rotate(45deg);
+            -moz-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            -webkit-transform: rotate(45deg);
+            transform: rotate(-45deg);
+        }
+
+        @media print {
+            body, .page {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                box-shadow: none;
+            }
+            .watermark {
+                width: 100%;
+                top: 2cm;
+                left: 0;
+                font-size: 200px;
+                text-align: center;
+            }
+        }
+
         .organisation-logo {
             display: inline-block;
             position: relative;
@@ -91,243 +136,259 @@
 </head>
 <body>
 
-    <h3 class="center">OFFICIAL</h3>
+    <div class="page">
 
-    <table>
-        <tr>
-            <td class="no-border">
-                <h1><span class="organisation-logo"><span>HM Prison &amp;<br/>Probation Service</span></span></h1>
-            </td>
-            <td class="no-border bottom" align="right">
-                <div class="probabtion-logo"></div>
-            </td>
-        </tr>
-    </table>
+        <div class="watermark">_WATERMARK_</div>
 
-    <h2 class="center margin-top medium">Short Format Pre-Sentence Report</h2>
+        <h3 class="center">OFFICIAL</h3>
 
-    <p>This is a Pre-Sentence Report as defined in Section 158 of the Criminal Justice Act 2003.</p>
+        <table>
+            <tr>
+                <td class="no-border">
+                    <h1><span class="organisation-logo"><span>HM Prison &amp;<br/>Probation Service</span></span></h1>
+                </td>
+                <td class="no-border bottom" align="right">
+                    <div class="probabtion-logo"></div>
+                </td>
+            </tr>
+        </table>
 
-    <table class="margin-top medium">
-        <tr class="table-header">
-            <td colspan="4" class="heading">Offender Details</td>
-        </tr>
-        <tr>
-            <td width="25%" class="heading">Name:</td>
-            <td colspan="3">_NAME_</td>
-        </tr>
-        <tr>
-            <td class="heading">Date of Birth:</td>
-            <td width="25%">_DATE_OF_BIRTH_</td>
-            <td width="25%" class="heading">Age:</td>
-            <td width="25%">_AGE_</td>
-        </tr>
-        <tr>
-            <td class="heading">Address:</td>
-            <td colspan="3">_ADDRESS_</td>
-        </tr>
-        <tr>
-            <td class="heading">Delius CRN:</td>
-            <td>_DELIUS_CRN_</td>
-            <td class="heading">PNC ID:</td>
-            <td>_PNC_ID_</td>
-        </tr>
-    </table>
+        <h2 class="center margin-top medium">Short Format Pre-Sentence Report</h2>
 
-    <table class="margin-top medium">
-        <tr class="table-header">
-            <td colspan="2" class="heading">Sentencing Court Details</td>
-        </tr>
-        <tr>
-            <td width="25%" class="heading">Court:</td>
-            <td width="75%">_COURT_</td>
-        </tr>
-        <tr>
-            <td class="heading">Date of hearing:</td>
-            <td>_DATE_OF_HEARING_</td>
-        </tr>
-        <tr>
-            <td class="heading">Local Justice Area:</td>
-            <td>_LOCAL_JUSTICE_AREA_</td>
-        </tr>
-    </table>
+        <p>This is a Pre-Sentence Report as defined in Section 158 of the Criminal Justice Act 2003.</p>
 
-    <table class="margin-top medium">
-        <tr class="table-header">
-            <td colspan="4" class="heading">Sources of Information</td>
-        </tr>
-        <tr>
-            <td width="40%">Interview</td>
-            <td width="10%">INTERVIEW_INFORMATION_SOURCE</td>
-            <td width="40%">Service Records</td>
-            <td width="10%">SERVICE_RECORDS_INFORMATION_SOURCE</td>
-        </tr>
-        <tr>
-            <td>CPS Summary</td>
-            <td>CPS_SUMMARY_INFORMATION_SOURCE</td>
-            <td>Previous OASys Assessments</td>
-            <td>OASYS_ASSESSMENTS_INFORMATION_SOURCE</td>
-        </tr>
-        <tr>
-            <td>Previous Convictions</td>
-            <td>PREVIOUS_CONVICTIONS_INFORMATION_SOURCE</td>
-            <td>Victim Statement</td>
-            <td>VICTIM_STATEMENT_INFORMATION_SOURCE</td>
-        </tr>
-        <tr>
-            <td>Children Services Checks</td>
-            <td>CHILDREN_SERVICES_INFORMATION_SOURCE</td>
-            <td>Police Information</td>
-            <td>POLICE_INFORMATION_SOURCE</td>
-        </tr>
-        <tr>
-            <td>Other (please specify below)</td>
-            <td>OTHER_INFORMATION_SOURCE</td>
-            <td colspan="2"></td>
-        </tr>
-        <tr>
-            <td colspan="4" class="free-text">OTHER_INFORMATION_DETAILS</td>
-        </tr>
-    </table>
+        <table class="margin-top medium">
+            <tr class="table-header">
+                <td colspan="4" class="heading">Offender Details</td>
+            </tr>
+            <tr>
+                <td width="25%" class="heading">Name:</td>
+                <td colspan="3">_NAME_</td>
+            </tr>
+            <tr>
+                <td class="heading">Date of Birth:</td>
+                <td width="25%">_DATE_OF_BIRTH_</td>
+                <td width="25%" class="heading">Age:</td>
+                <td width="25%">_AGE_</td>
+            </tr>
+            <tr>
+                <td class="heading">Address:</td>
+                <td colspan="3">_ADDRESS_</td>
+            </tr>
+            <tr>
+                <td class="heading">Delius CRN:</td>
+                <td>_DELIUS_CRN_</td>
+                <td class="heading">PNC ID:</td>
+                <td>_PNC_ID_</td>
+            </tr>
+        </table>
 
-    <h3 class="center">Page 1 of 4</h3>
+        <table class="margin-top medium">
+            <tr class="table-header">
+                <td colspan="2" class="heading">Sentencing Court Details</td>
+            </tr>
+            <tr>
+                <td width="25%" class="heading">Court:</td>
+                <td width="75%">_COURT_</td>
+            </tr>
+            <tr>
+                <td class="heading">Date of hearing:</td>
+                <td>_DATE_OF_HEARING_</td>
+            </tr>
+            <tr>
+                <td class="heading">Local Justice Area:</td>
+                <td>_LOCAL_JUSTICE_AREA_</td>
+            </tr>
+        </table>
 
-    <div class="pagebreak"></div>
+        <table class="margin-top medium">
+            <tr class="table-header">
+                <td colspan="4" class="heading">Sources of Information</td>
+            </tr>
+            <tr>
+                <td width="40%">Interview</td>
+                <td width="10%">INTERVIEW_INFORMATION_SOURCE</td>
+                <td width="40%">Service Records</td>
+                <td width="10%">SERVICE_RECORDS_INFORMATION_SOURCE</td>
+            </tr>
+            <tr>
+                <td>CPS Summary</td>
+                <td>CPS_SUMMARY_INFORMATION_SOURCE</td>
+                <td>Previous OASys Assessments</td>
+                <td>OASYS_ASSESSMENTS_INFORMATION_SOURCE</td>
+            </tr>
+            <tr>
+                <td>Previous Convictions</td>
+                <td>PREVIOUS_CONVICTIONS_INFORMATION_SOURCE</td>
+                <td>Victim Statement</td>
+                <td>VICTIM_STATEMENT_INFORMATION_SOURCE</td>
+            </tr>
+            <tr>
+                <td>Children Services Checks</td>
+                <td>CHILDREN_SERVICES_INFORMATION_SOURCE</td>
+                <td>Police Information</td>
+                <td>POLICE_INFORMATION_SOURCE</td>
+            </tr>
+            <tr>
+                <td>Other (please specify below)</td>
+                <td>OTHER_INFORMATION_SOURCE</td>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td colspan="4" class="free-text">OTHER_INFORMATION_DETAILS</td>
+            </tr>
+        </table>
 
-    <table class="margin-top medium">
-        <tr class="table-header">
-            <td class="heading">Offender Details</td>
-        </tr>
-        <tr>
-            <td class="heading">Main Offence and Dates:</td>
-        </tr>
-        <tr>
-            <td class="free-text">MAIN_OFFENCE</td>
-        </tr>
-        <tr>
-            <td class="heading">Please provide a brief summary of the offence:</td>
-        </tr>
-        <tr>
-            <td class="free-text">OFFENCE_SUMMARY</td>
-        </tr>
-        <tr>
-            <td class="heading">Offence Analysis:</td>
-        </tr>
-        <tr>
-            <td class="free-text">OFFENCE_ANALYSIS</td>
-        </tr>
-    </table>
-
-    <table class="margin-top medium">
-        <tr class="table-header">
-            <td class="heading">Offender Assessment</td>
-        </tr>
-        <tr>
-            <td class="heading">Please provide a brief assessment covering all relevant areas:</td>
-        </tr>
-        <tr>
-            <td class="free-text">OFFENDER_ASSESSMENT</td>
-        </tr>
-    </table>
-
-    <h3 class="center">Page 2 of 4</h3>
+    </div>
 
     <div class="pagebreak"></div>
 
-    <table class="margin-top medium">
-        <tr class="table-header">
-            <td class="heading">Pattern of offending</td>
-        </tr>
-        <tr>
-            <td class="free-text">PATTERN_OF_OFFENDING</td>
-        </tr>
-    </table>
+    <div class="page">
 
-    <table class="margin-top medium">
-        <tr class="table-header">
-            <td class="heading">Risk Assessment</td>
-        </tr>
-        <tr>
-            <td class="heading">Likelihood of re-offending:</td>
-        </tr>
-        <tr>
-            <td class="free-text">LIKELIHOOD_OF_RE_OFFENDING</td>
-        </tr>
-        <tr>
-            <td class="heading">Risk of serious harm:</td>
-        </tr>
-        <tr>
-            <td class="free-text">RISK_OF_SERIOUS_HARM</td>
-        </tr>
-        <tr>
-            <td class="heading">Response to previous supervision:</td>
-        </tr>
-        <tr>
-            <td class="free-text">PREVIOUS_SUPERVISION_RESPONSE</td>
-        </tr>
-    </table>
+        <div class="watermark">_WATERMARK_</div>
 
-    <h3 class="center">Page 3 of 4</h3>
+        <table class="margin-top medium">
+            <tr class="table-header">
+                <td class="heading">Offender Details</td>
+            </tr>
+            <tr>
+                <td class="heading">Main Offence and Dates:</td>
+            </tr>
+            <tr>
+                <td class="free-text">MAIN_OFFENCE</td>
+            </tr>
+            <tr>
+                <td class="heading">Please provide a brief summary of the offence:</td>
+            </tr>
+            <tr>
+                <td class="free-text">OFFENCE_SUMMARY</td>
+            </tr>
+            <tr>
+                <td class="heading">Offence Analysis:</td>
+            </tr>
+            <tr>
+                <td class="free-text">OFFENCE_ANALYSIS</td>
+            </tr>
+        </table>
+
+        <table class="margin-top medium">
+            <tr class="table-header">
+                <td class="heading">Offender Assessment</td>
+            </tr>
+            <tr>
+                <td class="heading">Please provide a brief assessment covering all relevant areas:</td>
+            </tr>
+            <tr>
+                <td class="free-text">OFFENDER_ASSESSMENT</td>
+            </tr>
+        </table>
+
+    </div>
 
     <div class="pagebreak"></div>
 
-    <table class="margin-top medium">
-        <tr class="table-header">
-            <td class="heading">Proposal</td>
-        </tr>
-        <tr>
-            <td class="heading">Proposed Sentence (including length and any sentence components):</td>
-        </tr>
-        <tr>
-            <td class="free-text">
+    <div class="page">
 
-                PROPOSAL
+        <div class="watermark">_WATERMARK_</div>
 
-            </td>
-        </tr>
-    </table>
+        <table class="margin-top medium">
+            <tr class="table-header">
+                <td class="heading">Pattern of offending</td>
+            </tr>
+            <tr>
+                <td class="free-text">PATTERN_OF_OFFENDING</td>
+            </tr>
+        </table>
 
-    <table class="margin-top medium">
-        <tr class="table-header">
-            <td colspan="2" class="heading">Completion details</td>
-        </tr>
-        <tr>
-            <td width="25%" class="heading">Report Author</td>
-            <td width="75%">REPORT_AUTHOR</td>
-        </tr>
-        <tr>
-            <td width="25%" class="heading">Office</td>
-            <td width="75%">OFFICE</td>
-        </tr>
-        <tr>
-            <td width="25%" class="heading">Signature</td>
-            <td width="75%">REPORT_AUTHOR</td>
-        </tr>
-        <tr>
-            <td width="25%" class="heading">Date</td>
-            <td width="75%">REPORT_DATE</td>
-        </tr>
-    </table>
+        <table class="margin-top medium">
+            <tr class="table-header">
+                <td class="heading">Risk Assessment</td>
+            </tr>
+            <tr>
+                <td class="heading">Likelihood of re-offending:</td>
+            </tr>
+            <tr>
+                <td class="free-text">LIKELIHOOD_OF_RE_OFFENDING</td>
+            </tr>
+            <tr>
+                <td class="heading">Risk of serious harm:</td>
+            </tr>
+            <tr>
+                <td class="free-text">RISK_OF_SERIOUS_HARM</td>
+            </tr>
+            <tr>
+                <td class="heading">Response to previous supervision:</td>
+            </tr>
+            <tr>
+                <td class="free-text">PREVIOUS_SUPERVISION_RESPONSE</td>
+            </tr>
+        </table>
 
-    <table class="margin-top medium">
-        <tr class="table-header">
-            <td colspan="4" class="heading">Distributed to</td>
-        </tr>
-        <tr>
-            <td width="40%">CPS</td>
-            <td width="10%"></td>
-            <td width="40%">Sentencer</td>
-            <td width="10%"></td>
-        </tr>
-        <tr>
-            <td width="40%">Defence</td>
-            <td width="10%"></td>
-            <td width="40%">Probation</td>
-            <td width="10%"></td>
-        </tr>
-    </table>
+    </div>
 
-    <h3 class="center">Page 4 of 4</h3>
+    <div class="pagebreak"></div>
+
+    <div class="page">
+
+        <div class="watermark">_WATERMARK_</div>
+
+        <table class="margin-top medium">
+            <tr class="table-header">
+                <td class="heading">Proposal</td>
+            </tr>
+            <tr>
+                <td class="heading">Proposed Sentence (including length and any sentence components):</td>
+            </tr>
+            <tr>
+                <td class="free-text">
+
+                    PROPOSAL
+
+                </td>
+            </tr>
+        </table>
+
+        <table class="margin-top medium">
+            <tr class="table-header">
+                <td colspan="2" class="heading">Completion details</td>
+            </tr>
+            <tr>
+                <td width="25%" class="heading">Report Author</td>
+                <td width="75%">REPORT_AUTHOR</td>
+            </tr>
+            <tr>
+                <td width="25%" class="heading">Office</td>
+                <td width="75%">OFFICE</td>
+            </tr>
+            <tr>
+                <td width="25%" class="heading">Signature</td>
+                <td width="75%">REPORT_AUTHOR</td>
+            </tr>
+            <tr>
+                <td width="25%" class="heading">Date</td>
+                <td width="75%">REPORT_DATE</td>
+            </tr>
+        </table>
+
+        <table class="margin-top medium">
+            <tr class="table-header">
+                <td colspan="4" class="heading">Distributed to</td>
+            </tr>
+            <tr>
+                <td width="40%">CPS</td>
+                <td width="10%"></td>
+                <td width="40%">Sentencer</td>
+                <td width="10%"></td>
+            </tr>
+            <tr>
+                <td width="40%">Defence</td>
+                <td width="10%"></td>
+                <td width="40%">Probation</td>
+                <td width="10%"></td>
+            </tr>
+        </table>
+
+    </div>
 
 </body>
 </html>
