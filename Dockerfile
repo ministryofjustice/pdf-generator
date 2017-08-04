@@ -2,7 +2,7 @@ FROM openjdk:8
 
 MAINTAINER Nick Talbot <nick.talbot@digital.justice.gov.uk>
 
-COPY build/libs/pdfGenerator.jar /root/
+COPY build/libs/pdfGenerator-*.jar /root/pdfGenerator.jar
 
 EXPOSE 8080
 
