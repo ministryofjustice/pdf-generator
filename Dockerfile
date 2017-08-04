@@ -1,6 +1,4 @@
-FROM openjdk:8
-
-MAINTAINER Nick Talbot <nick.talbot@digital.justice.gov.uk>
+FROM openjdk:8-jre-alpine
 
 COPY build/libs/pdfGenerator-*.jar /root/pdfGenerator.jar
 
