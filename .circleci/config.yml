@@ -1,13 +1,22 @@
 version: 2
 
 jobs:
-    build:
-        working_directory: ~/pdf-generator
-        docker:
-            - image: openjdk:8
-        steps:
-            - checkout
-            - setup_remote_docker
-            - run:
-                name: Run gradle build
-                command: ./gradlew build
+  build:
+    working_directory: ~/app
+    docker:
+      - image: openjdk:8
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - jars-{{ checksum "build.gradle" }}
+            - jars-
+      - run:
+          name: Run gradle build
+          command: ./gradlew build
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}
+      - store_test_results:
+          path: ./build/test-results/test/

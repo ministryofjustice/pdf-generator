@@ -45,3 +45,6 @@ dependencies {
     testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
     testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
 }
+
+// Always run tests, because why wouldn't you?
+test.outputs.upToDateWhen {false}
