@@ -4,19 +4,40 @@ jobs:
   build:
     working_directory: ~/app
     docker:
-      - image: openjdk:8
+      - image: circleci/openjdk:8
     steps:
       - checkout
       - restore_cache:
           keys:
-            - jars-{{ checksum "build.gradle" }}
-            - jars-
+            - dotgradle-{{ checksum "build.gradle" }}
+            - dotgradle-
       - run:
           name: Run gradle build
           command: ./gradlew build
       - save_cache:
           paths:
             - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}
+          key: dotgradle-{{ checksum "build.gradle" }}
       - store_test_results:
           path: ./build/test-results/test/
+      - setup_remote_docker
+      - run:
+          name: Generate Build version
+          command: |
+            echo "export BUILD_VERSION=$(date +%Y%m%d%H%M)-$CIRCLE_BUILD_NUM" >> $BASH_ENV
+      - deploy:
+          name: Build Container
+          command: |
+            docker build . \
+              --tag "mojdigitalstudio/pdf-generator:$BUILD_VERSION" \
+              --label "maintainer=noms-studio-webops@digital.justice.gov.uk" \
+              --label "build.number=$CIRCLE_BUILD_NUM" \
+              --label "build.url=$CIRCLE_BUILD_URL" \
+              --label "build.gitref=$CIRCLE_SHA1"
+
+            mkdir -p ./build/container
+            docker image save \
+              -o "build/container/pdf-generator-container-image-$BUILD_VERSION.tar" \
+              "mojdigitalstudio/pdf-generator:$BUILD_VERSION"
+      - store_artifacts:
+          path: ./build/container
