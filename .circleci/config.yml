@@ -26,18 +26,9 @@ jobs:
           command: |
             echo "export BUILD_VERSION=$(date +%Y%m%d%H%M)-$CIRCLE_BUILD_NUM" >> $BASH_ENV
       - deploy:
-          name: Build Container
+          name: Build Fat Jar
           command: |
-            docker build . \
-              --tag "mojdigitalstudio/pdf-generator:$BUILD_VERSION" \
-              --label "maintainer=noms-studio-webops@digital.justice.gov.uk" \
-              --label "build.number=$CIRCLE_BUILD_NUM" \
-              --label "build.url=$CIRCLE_BUILD_URL" \
-              --label "build.gitref=$CIRCLE_SHA1"
-
-            mkdir -p ./build/container
-            docker image save \
-              -o "build/container/pdf-generator-container-image-$BUILD_VERSION.tar" \
-              "mojdigitalstudio/pdf-generator:$BUILD_VERSION"
+            mkdir -p ./build/artifacts
+            mv build/libs/pdfGenerator.jar ./build/artifacts/pdf-generator-$BUILD_VERSION.jar
       - store_artifacts:
-          path: ./build/container
+          path: ./build/artifacts
