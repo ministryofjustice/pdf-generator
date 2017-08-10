@@ -25,7 +25,7 @@ jobs:
           command: |
             echo "export BUILD_VERSION=$(date +%Y%m%d%H%M)-$CIRCLE_BUILD_NUM" >> $BASH_ENV
       - deploy:
-          name: Build Fat Jar
+          name: Save Fat Jar
           command: |
             mkdir -p ./build/artifacts
             mv build/libs/pdfGenerator.jar ./build/artifacts/pdf-generator-$BUILD_VERSION.jar
