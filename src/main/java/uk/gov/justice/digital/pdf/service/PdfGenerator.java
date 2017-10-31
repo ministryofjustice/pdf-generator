@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.text.StrBuilder;
 import org.xhtmlrenderer.simple.PDFRenderer;
 import uk.gov.justice.digital.pdf.data.PdfRequest;
@@ -35,7 +36,8 @@ public class PdfGenerator {
 
             val document = new StrBuilder(templates.get(pdfRequest.getTemplateName()));
 
-            pdfRequest.getValues().forEach(document::replaceAll); // Perform substitutions
+            pdfRequest.getValues().forEach((from, to) ->
+                    document.replaceAll(from, StringEscapeUtils.escapeXml10(to))); // Perform substitutions
 
             Files.write(inputFile.toPath(), document.toString().getBytes());
             PDFRenderer.renderToPDF(inputFile, outputFile.getCanonicalPath());
