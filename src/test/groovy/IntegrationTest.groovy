@@ -47,7 +47,7 @@ class IntegrationTest extends Specification {
 
     def setupSpec() {
 
-        Server.run(new Configuration())
+        new Server().run(new Configuration())
         Thread.sleep 1500
     }
 

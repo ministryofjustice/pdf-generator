@@ -17,7 +17,7 @@ class DebugIntegrationTest extends Specification {
 
     def setupSpec() {
 
-        Server.run(new TestConfiguration())
+        new Server().run(new TestConfiguration())
         Thread.sleep 1500
     }
 

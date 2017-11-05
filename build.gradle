@@ -33,7 +33,7 @@ repositories {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'uk.gov.justice.digital.pdf.Server'
+        attributes 'Main-Class': 'uk.gov.justice.digital.pdf.ServerKt'
     }
 
     from {
@@ -46,16 +46,16 @@ jar {
 dependencies {
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8"
-
+    compile "org.jetbrains.kotlin:kotlin-reflect"
+    compile 'io.github.microutils:kotlin-logging:1.4.6'
     compile "ch.qos.logback:logback-classic:1.2.3"
     compile 'com.google.inject:guice:4.1.0'
     compile 'com.sparkjava:spark-core:2.6.0'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.8.8.1'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.2'
+    compile 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.2'
     compile 'org.apache.commons:commons-lang3:3.5'
     compile 'org.xhtmlrenderer:flying-saucer-pdf:9.1.5'
     compile 'com.mashape.unirest:unirest-java:1.4.9'
-
-    compileOnly 'org.projectlombok:lombok:1.16.16'
 
     testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
     testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
