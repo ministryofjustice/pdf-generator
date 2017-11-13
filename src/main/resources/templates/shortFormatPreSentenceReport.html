@@ -104,6 +104,28 @@
             height: 65px;
         }
 
+        .check {
+            display: inline-block;
+            position: relative;
+            background-size: contain;
+            width: 15px;
+            height: 15px;
+        }
+
+        .check.true {
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAABS2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDAgNzkuMTYwNDUxLCAyMDE3LzA1LzA2LTAxOjA4OjIxICAgICAgICAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIi8+CiA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgo8P3hwYWNrZXQgZW5kPSJyIj8+LUNEtwAAAI5JREFUKJGd0LENwyAQRuE/qZnDg9wU3oEZYCB7Mvpz/VJEiW2BccJJVNz3hHgAaHCeo3AYb9s2hnPOCiFoXVeJPyalhKT9DMMPdneWZcHdf4bTNCF3x8yQhJlVgStYSkHzPJ8ujoEeBFCMsVows1sIvJ/dCtxBYP+wXqAFv7gXuIIn3Ar0YIWPATPrQoAXBP/KUW8DFl4AAAAASUVORK5CYII=');
+
+        }
+
+        .check.false {
+            width: 30px;
+        }
+
+        .check.false:before {
+            display: inline-block;
+            content: 'N/A';
+        }
+
         .table-header {
             background: #EAEAEA;
         }
@@ -134,6 +156,10 @@
 
         .center {
             text-align: center;
+        }
+
+        .check-padding {
+            padding: 10px 0 0 10px;
         }
     </style>
 
@@ -211,31 +237,31 @@
             </tr>
             <tr>
                 <td width="40%">Interview</td>
-                <td width="10%">INTERVIEW_INFORMATION_SOURCE</td>
+                <td width="10%" class="check-padding"><span class="check INTERVIEW_INFORMATION_SOURCE"></span></td>
                 <td width="40%">Service Records</td>
-                <td width="10%">SERVICE_RECORDS_INFORMATION_SOURCE</td>
+                <td width="10%" class="check-padding"><span class="check SERVICE_RECORDS_INFORMATION_SOURCE"></span></td>
             </tr>
             <tr>
                 <td>CPS Summary</td>
-                <td>CPS_SUMMARY_INFORMATION_SOURCE</td>
+                <td class="check-padding"><span class="check CPS_SUMMARY_INFORMATION_SOURCE"></span></td>
                 <td>Previous OASys Assessments</td>
-                <td>OASYS_ASSESSMENTS_INFORMATION_SOURCE</td>
+                <td class="check-padding"><span class="check OASYS_ASSESSMENTS_INFORMATION_SOURCE"></span></td>
             </tr>
             <tr>
                 <td>Previous Convictions</td>
-                <td>PREVIOUS_CONVICTIONS_INFORMATION_SOURCE</td>
+                <td class="check-padding"><span class="check PREVIOUS_CONVICTIONS_INFORMATION_SOURCE"></span></td>
                 <td>Victim Statement</td>
-                <td>VICTIM_STATEMENT_INFORMATION_SOURCE</td>
+                <td class="check-padding"><span class="check VICTIM_STATEMENT_INFORMATION_SOURCE"></span></td>
             </tr>
             <tr>
                 <td>Children Services Checks</td>
-                <td>CHILDREN_SERVICES_INFORMATION_SOURCE</td>
+                <td class="check-padding"><span class="check CHILDREN_SERVICES_INFORMATION_SOURCE"></span></td>
                 <td>Police Information</td>
-                <td>POLICE_INFORMATION_SOURCE</td>
+                <td class="check-padding"><span class="check POLICE_INFORMATION_SOURCE"></span></td>
             </tr>
             <tr>
                 <td>Other</td>
-                <td>OTHER_INFORMATION_SOURCE</td>
+                <td class="check-padding"><span class="check OTHER_INFORMATION_SOURCE"></span></td>
                 <td colspan="2"></td>
             </tr>
             <tr>
@@ -287,25 +313,25 @@
             </tr>
             <tr>
                 <td width="40%">Accommodation</td>
-                <td width="10%">ISSUE_ACCOMMODATION</td>
+                <td width="10%" class="check-padding"><span class="check ISSUE_ACCOMMODATION"></span></td>
                 <td width="40%">Employment</td>
-                <td width="10%">ISSUE_EMPLOYMENT</td>
+                <td width="10%" class="check-padding"><span class="check ISSUE_EMPLOYMENT"></span></td>
             </tr>
             <tr>
                 <td>Finance</td>
-                <td>ISSUE_FINANCE</td>
+                <td class="check-padding"><span class="check ISSUE_FINANCE"></span></td>
                 <td>Drugs</td>
-                <td>ISSUE_DRUGS</td>
+                <td class="check-padding"><span class="check ISSUE_DRUGS"></span></td>
             </tr>
             <tr>
                 <td>Alcohol</td>
-                <td>ISSUE_ALCOHOL</td>
+                <td class="check-padding"><span class="check ISSUE_ALCOHOL"></span></td>
                 <td>Physical &amp; Mental Health</td>
-                <td>ISSUE_HEALTH</td>
+                <td class="check-padding"><span class="check ISSUE_HEALTH"></span></td>
             </tr>
             <tr>
                 <td>Thinking &amp; Behaviour</td>
-                <td>ISSUE_BEHAVIOUR</td>
+                <td class="check-padding"><span class="check ISSUE_BEHAVIOUR"></span></td>
                 <td colspan="2">&nbsp;</td>
             </tr>
         </table>
