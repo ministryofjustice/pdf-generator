@@ -1,5 +1,7 @@
 # Pdf Generator Microservice
 
+[![CircleCI](https://circleci.com/gh/noms-digital-studio/pdf-generator.svg?style=svg)](https://circleci.com/gh/noms-digital-studio/pdf-generator)
+
 A REST-accessible self-contained fat-jar micro-service that creates PDFs from XHTML templates, substituting placeholder text in the template with caller-supplied values.
 
 ### Building and running
