@@ -1,3 +1,4 @@
+import groovy.json.JsonSlurper
 import groovyx.net.http.HttpResponseException
 import groovyx.net.http.RESTClient
 import spark.Spark
@@ -8,17 +9,27 @@ import uk.gov.justice.digital.pdf.Server
 import static groovyx.net.http.ContentType.*
 
 class IntegrationTest extends Specification {
+    def jsonSlurper = new JsonSlurper()
 
-    def "server returns configuration"() {
+    def "server returns healthcheck endpoint details"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').get(path: 'configuration')
+        def result = new RESTClient('http://localhost:8080/').get(path: 'healthcheck')
 
         then:
         result.status == 200
-        result.data.PORT == "8080"
-        result.data.ALFRESCO_URL == "http://localhost:8080/alfresco/service/"
-        result.data.ALFRESCO_USER == "alfrescoUser"
+        result.data == jsonSlurper.parseText("""
+            {
+                "status": "OK",
+                "version": "UNKNOWN",
+                "configuration": {
+                    "ALFRESCO_URL": "http://localhost:8080/alfresco/service/",
+                    "DEBUG_LOG": "false",
+                    "PORT": "8080",
+                    "ALFRESCO_USER": "alfrescoUser"
+                }
+            }
+        """)
     }
 
     def "POST generate creates a PDF and returns as a JSON string of Bytes"() {

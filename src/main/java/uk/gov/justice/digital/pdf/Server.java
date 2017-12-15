@@ -5,17 +5,21 @@ import ch.qos.logback.classic.Logger;
 import com.google.inject.Guice;
 import com.google.inject.Key;
 import com.google.inject.name.Names;
-import java.util.Map;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.LoggerFactory;
 import uk.gov.justice.digital.pdf.data.PdfRequest;
+import uk.gov.justice.digital.pdf.service.HealthService;
 import uk.gov.justice.digital.pdf.service.PdfGenerator;
 
-import static spark.Spark.*;
-import static uk.gov.justice.digital.pdf.helpers.JsonRoute.*;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static spark.Spark.get;
+import static spark.Spark.port;
+import static uk.gov.justice.digital.pdf.helpers.JsonRoute.getJson;
+import static uk.gov.justice.digital.pdf.helpers.JsonRoute.postJson;
 
 @Slf4j
 public class Server {
@@ -33,7 +37,7 @@ public class Server {
 
         port(injector.getInstance(Key.get(Integer.class, Names.named("port"))));
 
-        getJson("/configuration", configuration::allSettings);
+        getJson("/healthcheck", injector.getInstance(HealthService.class)::process);
         postJson("/generate", PdfRequest.class, injector.getInstance(PdfGenerator.class)::process);
 
 
