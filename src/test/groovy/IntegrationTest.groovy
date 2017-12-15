@@ -21,6 +21,7 @@ class IntegrationTest extends Specification {
         result.data == jsonSlurper.parseText("""
             {
                 "status": "OK",
+                "version": "UNKNOWN",
                 "configuration": {
                     "ALFRESCO_URL": "http://localhost:8080/alfresco/service/",
                     "DEBUG_LOG": "false",

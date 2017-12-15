@@ -7,7 +7,7 @@ apply plugin: 'application'
 
 mainClassName = "uk.gov.justice.digital.pdf.Server"
 
-version = "0.1.06"
+version = "0.1.07"
 
 // Apply the groovy plugin to also add support for Groovy (needed for Spock)
 apply plugin: 'groovy'
@@ -20,7 +20,8 @@ repositories {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'uk.gov.justice.digital.pdf.Server'
+        attributes 'Main-Class': 'uk.gov.justice.digital.pdf.Server',
+                   'Implementation-Version': version
     }
 
     from {

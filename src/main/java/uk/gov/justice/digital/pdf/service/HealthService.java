@@ -20,7 +20,14 @@ public class HealthService {
     public Map<String, Object> process() {
         return ImmutableMap.of(
             "status", "OK",
+            "version", getVersion(),
             "configuration", this.configuration.allSettings()
         );
+    }
+
+    private String getVersion() {
+        Package aPackage = HealthService.class.getPackage();
+        return aPackage != null && aPackage.getImplementationVersion() != null
+            ? aPackage.getImplementationVersion() : "UNKNOWN";
     }
 }
