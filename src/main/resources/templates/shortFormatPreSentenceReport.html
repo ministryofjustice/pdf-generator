@@ -10,7 +10,7 @@
         body {
             padding: 0 1cm 0 1cm;
             font-family: "nta", Arial, helvetica, sans-serif;
-            font-size: 12px;
+            font-size: 16px;
         }
 
         table {
@@ -93,6 +93,7 @@
             border-left: #231f20 2px solid;
             font-size: 18px;
             line-height: 20px;
+            font-weight: normal;
         }
 
         .probabtion-logo {
@@ -168,6 +169,17 @@
             padding: 10px 0 0 10px;
         }
 
+        .official-notice {
+            color: #BCBCBC;
+            text-align: center;
+        }
+        .cell-top {
+            vertical-align: top;
+        }
+        h2 {
+            font-size: 18px;
+        }
+
         .details-section {
             margin-top: 0.5cm;
         }
@@ -188,12 +200,14 @@
 
         <div class="watermark">_WATERMARK_</div>
 
-        <h3 class="center">OFFICIAL</h3>
 
         <table>
             <tr>
                 <td class="no-border">
                     <h1><span class="organisation-logo"><span>HM Prison &amp;<br/>Probation Service</span></span></h1>
+                </td>
+                <td class="no-border cell-top">
+                    <h3 class="official-notice">OFFICIAL</h3>
                 </td>
                 <td class="no-border bottom" align="right">
                     <div class="probabtion-logo"></div>
@@ -207,7 +221,7 @@
 
         <table class="margin-top medium">
             <tr class="table-header">
-                <td colspan="4" class="heading">Offender Details</td>
+                <td colspan="4" class="heading">Offender details</td>
             </tr>
             <tr>
                 <td width="25%" class="heading">Name:</td>
@@ -216,12 +230,21 @@
             <tr>
                 <td class="heading">Date of Birth:</td>
                 <td width="25%">_DATE_OF_BIRTH_</td>
-                <td width="25%" class="heading">Age:</td>
+                <td width="10%" class="heading">Age:</td>
                 <td width="25%">_AGE_</td>
             </tr>
             <tr>
                 <td class="heading">Address:</td>
-                <td colspan="3">_ADDRESS_</td>
+                <td colspan="3">
+                    <div>ADDRESS_LINES[0]</div>
+                    <div>ADDRESS_LINES[1]</div>
+                    <div>ADDRESS_LINES[2]</div>
+                    <div>ADDRESS_LINES[3]</div>
+                    <div>ADDRESS_LINES[4]</div>
+                    <div>ADDRESS_LINES[5]</div>
+                    <div>ADDRESS_LINES[6]</div>
+                    <div>ADDRESS_LINES[7]</div>
+                </td>
             </tr>
             <tr>
                 <td class="heading">Delius CRN:</td>
