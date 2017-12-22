@@ -7,7 +7,12 @@ apply plugin: 'application'
 
 mainClassName = "uk.gov.justice.digital.pdf.Server"
 
-version = "0.1.11"
+version = '0.1.'
+if ("$System.env.CIRCLECI" == 'true') {
+    version += "$System.env.CIRCLE_BUILD_NUM"
+} else {
+    version += 'SNAPSHOT'
+}
 
 // Apply the groovy plugin to also add support for Groovy (needed for Spock)
 apply plugin: 'groovy'
