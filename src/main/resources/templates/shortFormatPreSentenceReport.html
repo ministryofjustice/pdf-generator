@@ -122,10 +122,6 @@
             width: 30px;
         }
 
-        .check.false:before {
-            display: inline-block;
-            content: 'N/A';
-        }
         .optional-section.false {
             display: none;
         }
@@ -191,6 +187,12 @@
             margin-top: 0;
             paddinng-top: 0;
         }
+        .formatted-text {
+            white-space: pre-wrap;
+        }
+        .keep-together-section {
+            page-break-inside: avoid;
+        }
     </style>
 
 </head>
@@ -219,7 +221,7 @@
 
         <p>This is a Pre-Sentence Report as defined in Section 158 of the Criminal Justice Act 2003.</p>
 
-        <table class="margin-top medium">
+        <table class="margin-top medium keep-together-section">
             <tr class="table-header">
                 <td colspan="4" class="heading">Offender details</td>
             </tr>
@@ -254,191 +256,180 @@
             </tr>
         </table>
 
-        <table class="margin-top medium">
+        <table class="margin-top medium keep-together-section">
             <tr class="table-header">
                 <td class="heading">Offence details</td>
             </tr>
             <tr>
                 <td>
                     <h4 class="heading">Main offence and dates:</h4>
-                    <p style="white-space: pre-wrap">MAIN_OFFENCE</p>
+                    <p class="formatted-text">MAIN_OFFENCE</p>
                 </td>
             </tr>
             <tr>
                 <td>
                     <h4 class="heading">Other offences and dates:</h4>
-                    <p style="white-space: pre-wrap">OTHER_OFFENCE</p>
+                    <p class="formatted-text">OTHER_OFFENCE</p>
                 </td>
             </tr>
             <tr>
                 <td>
                     <h4 class="heading">Summary of the offence:</h4>
-                    <p style="white-space: pre-wrap">OFFENCE_SUMMARY</p>
+                    <p class="formatted-text">OFFENCE_SUMMARY</p>
                 </td>
             </tr>
         </table>
-        <div class="details-section">
+        <div class="details-section keep-together-section">
             <h3>Offence Analysis:</h3>
-            <p style="white-space: pre-wrap">OFFENCE_ANALYSIS</p>
+            <p class="formatted-text">OFFENCE_ANALYSIS</p>
+        </div>
 
+        <div class="keep-together-section">
+            <table class="margin-top medium">
+                <tr class="table-header">
+                    <td colspan="4" class="heading">Offender assessment issues</td>
+                </tr>
+                <tr>
+                    <td width="40%">Accommodation</td>
+                    <td width="10%" class="check-padding"><span class="check ISSUE_ACCOMMODATION"></span></td>
+                    <td width="40%">Employment</td>
+                    <td width="10%" class="check-padding"><span class="check ISSUE_EMPLOYMENT"></span></td>
+                </tr>
+                <tr>
+                    <td>Finance</td>
+                    <td class="check-padding"><span class="check ISSUE_FINANCE"></span></td>
+                    <td>Relationships</td>
+                    <td class="check-padding"><span class="check ISSUE_RELATIONSHIPS"></span></td>
+                </tr>
+                <tr>
+                    <td>Substance misuse</td>
+                    <td class="check-padding"><span class="check ISSUE_SUBSTANCE_MISUSE"></span></td>
+                    <td>Physical &amp; Mental Health</td>
+                    <td class="check-padding"><span class="check ISSUE_HEALTH"></span></td>
+                </tr>
+                <tr>
+                    <td>Thinking and Behaviour</td>
+                    <td class="check-padding"><span class="check ISSUE_BEHAVIOUR"></span></td>
+                    <td>Other</td>
+                    <td class="check-padding"><span class="check ISSUE_OTHER"></span></td>
+                </tr>
+            </table>
+            <div class="details-section">
+                <div class="optional-section ISSUE_ACCOMMODATION">
+                    <h3>Accommodation</h3>
+                    <p class="formatted-text">ISSUE_ACCOMMODATION_DETAILS</p>
+                </div>
+                <div class="optional-section ISSUE_EMPLOYMENT">
+                    <h3>Employment, training and education</h3>
+                    <p class="formatted-text">ISSUE_EMPLOYMENT_DETAILS</p>
+                </div>
+                <div class="optional-section ISSUE_FINANCE">
+                    <h3>Finance</h3>
+                    <p class="formatted-text">ISSUE_FINANCE_DETAILS</p>
+                </div>
+                <div class="optional-section ISSUE_RELATIONSHIPS">
+                    <h3>Relationships</h3>
+                    <p class="formatted-text">ISSUE_RELATIONSHIPS_DETAILS</p>
+                </div>
+                <div class="optional-section ISSUE_SUBSTANCE_MISUSE">
+                    <h3>Substance misuse</h3>
+                    <p class="formatted-text">ISSUE_SUBSTANCE_MISUSE_DETAILS</p>
+                </div>
+                <div class="optional-section ISSUE_HEALTH">
+                    <h3>Physical &amp; mental health</h3>
+                    <p class="formatted-text">ISSUE_HEALTH_DETAILS</p>
+                </div>
+                <div class="optional-section ISSUE_BEHAVIOUR">
+                    <h3>Thinking and behaviour</h3>
+                    <p class="formatted-text">ISSUE_BEHAVIOUR_DETAILS</p>
+                </div>
+                <div class="optional-section ISSUE_OTHER">
+                    <h3>Other</h3>
+                    <p class="formatted-text">ISSUE_OTHER_DETAILS</p>
+                </div>
+            </div>
         </div>
 
 
-        <table class="margin-top medium">
-            <tr class="table-header">
-                <td colspan="4" class="heading">Offender assessment issues</td>
-            </tr>
-            <tr>
-                <td width="40%">Accommodation</td>
-                <td width="10%" class="check-padding"><span class="check ISSUE_ACCOMMODATION"></span></td>
-                <td width="40%">Employment</td>
-                <td width="10%" class="check-padding"><span class="check ISSUE_EMPLOYMENT"></span></td>
-            </tr>
-            <tr>
-                <td>Finance</td>
-                <td class="check-padding"><span class="check ISSUE_FINANCE"></span></td>
-                <td>Relationships</td>
-                <td class="check-padding"><span class="check ISSUE_RELATIONSHIPS"></span></td>
-            </tr>
-            <tr>
-                <td>Substance misuse</td>
-                <td class="check-padding"><span class="check ISSUE_SUBSTANCE_MISUSE"></span></td>
-                <td>Physical &amp; Mental Health</td>
-                <td class="check-padding"><span class="check ISSUE_HEALTH"></span></td>
-            </tr>
-            <tr>
-                <td>Thinking and Behaviour</td>
-                <td class="check-padding"><span class="check ISSUE_BEHAVIOUR"></span></td>
-                <td>Other</td>
-                <td class="check-padding"><span class="check ISSUE_OTHER"></span></td>
-            </tr>
-        </table>
-        <div class="details-section">
-            <div class="optional-section ISSUE_ACCOMMODATION">
-                <h3>Accommodation</h3>
-                <p>ISSUE_ACCOMMODATION_DETAILS</p>
-            </div>
-            <div class="optional-section ISSUE_EMPLOYMENT">
-                <h3>Employment, training and education</h3>
-                <p>ISSUE_EMPLOYMENT_DETAILS</p>
-            </div>
-            <div class="optional-section ISSUE_FINANCE">
-                <h3>Finance</h3>
-                <p>ISSUE_FINANCE_DETAILS</p>
-            </div>
-            <div class="optional-section ISSUE_RELATIONSHIPS">
-                <h3>Relationships</h3>
-                <p>ISSUE_RELATIONSHIPS_DETAILS</p>
-            </div>
-            <div class="optional-section ISSUE_SUBSTANCE_MISUSE">
-                <h3>Substance misuse</h3>
-                <p>ISSUE_SUBSTANCE_MISUSE_DETAILS</p>
-            </div>
-            <div class="optional-section ISSUE_HEALTH">
-                <h3>Physical &amp; mental health</h3>
-                <p>ISSUE_HEALTH_DETAILS</p>
-            </div>
-            <div class="optional-section ISSUE_BEHAVIOUR">
-                <h3>Thinking and behaviour</h3>
-                <p>ISSUE_BEHAVIOUR_DETAILS</p>
-            </div>
-            <div class="optional-section ISSUE_OTHER">
-                <h3>Other</h3>
-                <p>ISSUE_OTHER_DETAILS</p>
+
+        <div class="keep-together-section">
+            <table class="margin-top medium">
+                <tr class="table-header">
+                    <td class="heading">Pattern of offending</td>
+                </tr>
+            </table>
+            <p class="formatted-text">PATTERN_OF_OFFENDING</p>
+        </div>
+
+        <div class="keep-together-section">
+            <table class="margin-top medium">
+                <tr class="table-header">
+                    <td colspan="2" class="heading">Risk Assessment</td>
+                </tr>
+            </table>
+            <h3>Likelihood of re-offending:</h3>
+            <p class="formatted-text">LIKELIHOOD_OF_RE_OFFENDING</p>
+            <h3>Risk of serious harm:</h3>
+            <p class="formatted-text">RISK_OF_SERIOUS_HARM</p>
+            <h3>Response to previous supervision:</h3>
+            <p class="formatted-text">PREVIOUS_SUPERVISION_RESPONSE</p>
+            <h3>Details on previous supervision:</h3>
+            <p class="formatted-text">ADDITIONAL_PREVIOUS_SUPERVISION</p>
+        </div>
+
+        <div class="keep-together-section">
+            <table class="margin-top medium">
+                <tr class="table-header">
+                    <td class="heading">Proposed sentence (including length and any sentence components)</td>
+                </tr>
+            </table>
+            <p class="formatted-text">PROPOSAL</p>
+        </div>
+
+
+        <div class="keep-together-section">
+            <table class="margin-top medium">
+                <tr class="table-header">
+                    <td colspan="4" class="heading">Sources of Information</td>
+                </tr>
+                <tr>
+                    <td width="40%">Interview</td>
+                    <td width="10%" class="check-padding"><span class="check INTERVIEW_INFORMATION_SOURCE"></span></td>
+                    <td width="40%">Service Records</td>
+                    <td width="10%" class="check-padding"><span class="check SERVICE_RECORDS_INFORMATION_SOURCE"></span></td>
+                </tr>
+                <tr>
+                    <td>CPS Summary</td>
+                    <td class="check-padding"><span class="check CPS_SUMMARY_INFORMATION_SOURCE"></span></td>
+                    <td>Previous OASys Assessments</td>
+                    <td class="check-padding"><span class="check OASYS_ASSESSMENTS_INFORMATION_SOURCE"></span></td>
+                </tr>
+                <tr>
+                    <td>Previous Convictions</td>
+                    <td class="check-padding"><span class="check PREVIOUS_CONVICTIONS_INFORMATION_SOURCE"></span></td>
+                    <td>Victim Statement</td>
+                    <td class="check-padding"><span class="check VICTIM_STATEMENT_INFORMATION_SOURCE"></span></td>
+                </tr>
+                <tr>
+                    <td>Children Services Checks</td>
+                    <td class="check-padding"><span class="check CHILDREN_SERVICES_INFORMATION_SOURCE"></span></td>
+                    <td>Police Information</td>
+                    <td class="check-padding"><span class="check POLICE_INFORMATION_SOURCE"></span></td>
+                </tr>
+                <tr>
+                    <td>Sentencing guidelines</td>
+                    <td class="check-padding"><span class="check SENTENCING_GUIDELINES_INFORMATION_SOURCE"></span></td>
+                    <td colspan="2"></td>
+                </tr>
+            </table>
+            <div class="optional-section OTHER_INFORMATION_SOURCE">
+                <h3>Other sources of information:</h3>
+                <p class="formatted-text">OTHER_INFORMATION_DETAILS</p>
             </div>
         </div>
 
 
-
-        <table class="margin-top medium">
-            <tr class="table-header">
-                <td class="heading">Pattern of offending</td>
-            </tr>
-            <tr>
-                <td class="free-text" style="white-space: pre-wrap">PATTERN_OF_OFFENDING</td>
-            </tr>
-        </table>
-
-        <table class="margin-top medium">
-            <tr class="table-header">
-                <td colspan="2" class="heading">Risk Assessment</td>
-            </tr>
-            <tr>
-                <td colspan="2" class="heading">Likelihood of re-offending:</td>
-            </tr>
-            <tr>
-                <td colspan="2" class="free-text" style="white-space: pre-wrap">LIKELIHOOD_OF_RE_OFFENDING</td>
-            </tr>
-            <tr>
-                <td colspan="2" class="heading">Risk of serious harm:</td>
-            </tr>
-            <tr>
-                <td colspan="2" class="free-text" style="white-space: pre-wrap">RISK_OF_SERIOUS_HARM</td>
-            </tr>
-            <tr>
-                <td width="50%" class="heading">Response to previous supervision:</td>
-                <td width="50%">PREVIOUS_SUPERVISION_RESPONSE</td>
-            </tr>
-            <tr>
-                <td colspan="2" class="heading">Additional details on previous supervision:</td>
-            </tr>
-            <tr>
-                <td colspan="2" class="free-text" style="white-space: pre-wrap">ADDITIONAL_PREVIOUS_SUPERVISION</td>
-            </tr>
-        </table>
-
-        <table class="margin-top medium">
-            <tr class="table-header">
-                <td class="heading">Proposal</td>
-            </tr>
-            <tr>
-                <td class="heading">Proposed Sentence (including length and any sentence components):</td>
-            </tr>
-            <tr>
-                <td class="free-text" style="white-space: pre-wrap">PROPOSAL</td>
-            </tr>
-        </table>
-
-        <table class="margin-top medium">
-            <tr class="table-header">
-                <td colspan="4" class="heading">Sources of Information</td>
-            </tr>
-            <tr>
-                <td width="40%">Interview</td>
-                <td width="10%" class="check-padding"><span class="check INTERVIEW_INFORMATION_SOURCE"></span></td>
-                <td width="40%">Service Records</td>
-                <td width="10%" class="check-padding"><span class="check SERVICE_RECORDS_INFORMATION_SOURCE"></span></td>
-            </tr>
-            <tr>
-                <td>CPS Summary</td>
-                <td class="check-padding"><span class="check CPS_SUMMARY_INFORMATION_SOURCE"></span></td>
-                <td>Previous OASys Assessments</td>
-                <td class="check-padding"><span class="check OASYS_ASSESSMENTS_INFORMATION_SOURCE"></span></td>
-            </tr>
-            <tr>
-                <td>Previous Convictions</td>
-                <td class="check-padding"><span class="check PREVIOUS_CONVICTIONS_INFORMATION_SOURCE"></span></td>
-                <td>Victim Statement</td>
-                <td class="check-padding"><span class="check VICTIM_STATEMENT_INFORMATION_SOURCE"></span></td>
-            </tr>
-            <tr>
-                <td>Children Services Checks</td>
-                <td class="check-padding"><span class="check CHILDREN_SERVICES_INFORMATION_SOURCE"></span></td>
-                <td>Police Information</td>
-                <td class="check-padding"><span class="check POLICE_INFORMATION_SOURCE"></span></td>
-            </tr>
-            <tr>
-                <td>Sentencing guidelines</td>
-                <td class="check-padding"><span class="check SENTENCING_GUIDELINES_INFORMATION_SOURCE"></span></td>
-                <td>Other</td>
-                <td class="check-padding"><span class="check OTHER_INFORMATION_SOURCE"></span></td>
-            </tr>
-            <tr>
-                <td colspan="4" class="free-text" style="white-space: pre-wrap">OTHER_INFORMATION_DETAILS</td>
-            </tr>
-        </table>
-
-        <table class="margin-top medium">
+        <table class="margin-top medium keep-together-section">
             <tr class="table-header">
                 <td colspan="2" class="heading">Sentencing Court Details</td>
             </tr>
@@ -447,7 +438,7 @@
                 <td width="75%">_COURT_</td>
             </tr>
             <tr>
-                <td class="heading">Date of hearing:</td>
+                <td class="heading">Date of Hearing:</td>
                 <td>_DATE_OF_HEARING_</td>
             </tr>
             <tr>
@@ -458,58 +449,44 @@
 
 
 
-        <table class="margin-top medium">
-            <tr class="table-header">
-                <td colspan="2" class="heading">Completion details</td>
-            </tr>
-            <tr>
-                <td width="25%" class="heading">Report Author</td>
-                <td width="75%">REPORT_AUTHOR</td>
-            </tr>
-            <tr>
-                <td width="25%" class="heading">Office</td>
-                <td width="75%">OFFICE</td>
-            </tr>
-            <tr>
-                <td width="25%" class="heading">Office phone number</td>
-                <td width="75%">COURT_OFFICE_PHONE_NUMBER</td>
-            </tr>
-            <tr>
-                <td width="25%" class="heading">Signature</td>
-                <td width="75%">REPORT_AUTHOR</td>
-            </tr>
-            <tr>
-                <td width="25%" class="heading">Counter signature</td>
-                <td width="75%">COUNTER_SIGNATURE</td>
-            </tr>
-            <tr>
-                <td width="25%" class="heading">Date</td>
-                <td width="75%">REPORT_DATE</td>
-            </tr>
-            <tr>
-                <td width="25%" class="heading">Start date</td>
-                <td width="75%">START_DATE</td>
-            </tr>
-        </table>
-
-        <table class="margin-top medium">
-            <tr class="table-header">
-                <td colspan="4" class="heading">Distributed to</td>
-            </tr>
-            <tr>
-                <td width="40%">CPS</td>
-                <td width="10%"></td>
-                <td width="40%">Sentencer</td>
-                <td width="10%"></td>
-            </tr>
-            <tr>
-                <td width="40%">Defence</td>
-                <td width="10%"></td>
-                <td width="40%">Probation</td>
-                <td width="10%"></td>
-            </tr>
-        </table>
-
+        <div class="keep-together-section">
+            <table class="margin-top medium">
+                <tr class="table-header">
+                    <td colspan="2" class="heading">Completion details</td>
+                </tr>
+                <tr>
+                    <td width="40%" class="heading">Report Author:</td>
+                    <td width="60%">REPORT_AUTHOR</td>
+                </tr>
+                <tr>
+                    <td width="40%" class="heading">Office:</td>
+                    <td width="60%">OFFICE</td>
+                </tr>
+                <tr>
+                    <td width="40%" class="heading">Court office phone number:</td>
+                    <td width="60%">COURT_OFFICE_PHONE_NUMBER</td>
+                </tr>
+                <tr>
+                    <td width="40%" class="heading">Signature:</td>
+                    <td width="60%">REPORT_AUTHOR</td>
+                </tr>
+                <tr>
+                    <td width="40%" class="heading">Counter signature*:</td>
+                    <td width="60%">COUNTER_SIGNATURE</td>
+                </tr>
+                <tr>
+                    <td width="40%" class="heading">Start date:</td>
+                    <td width="60%">START_DATE</td>
+                </tr>
+                <tr>
+                    <td width="40%" class="heading">Completion date:</td>
+                    <td width="60%">REPORT_DATE</td>
+                </tr>
+            </table>
+            <p>
+                * (if required)
+            </p>
+        </div>
     </div>
 
 </body>

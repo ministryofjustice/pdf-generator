@@ -34,6 +34,7 @@ public class PdfGenerator {
 
             String document = TemplateEngine.populate(pdfRequest, templates);
 
+            log.debug(document);
             Files.write(inputFile.toPath(), document.getBytes());
             PDFRenderer.renderToPDF(inputFile, outputFile.getCanonicalPath());
 

@@ -8,6 +8,7 @@ import uk.gov.justice.digital.pdf.interfaces.TemplateRepository;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -48,9 +49,6 @@ public class TemplateEngine {
             return IntStream.range(0, listValues.size())
                     .mapToObj(index -> immutableEntry(String.format("%s[%d]", entry.getKey(), index), listValues.get(index)));
         }
-        if (entry.getValue() instanceof String) {
-            return Stream.of(immutableEntry(entry.getKey(), (String)entry.getValue()));
-        }
-        return Stream.of(immutableEntry(entry.getKey(), ""));
+        return Stream.of(immutableEntry(entry.getKey(), Optional.ofNullable(entry.getValue()).map(Object::toString).orElse("")));
     }
 }
