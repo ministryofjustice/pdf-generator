@@ -34,7 +34,6 @@ public class PdfGenerator {
 
             String document = TemplateEngine.populate(pdfRequest, templates);
 
-            log.debug(document);
             Files.write(inputFile.toPath(), document.getBytes());
             PDFRenderer.renderToPDF(inputFile, outputFile.getCanonicalPath());
 
@@ -52,6 +51,7 @@ public class PdfGenerator {
         val tempTile = File.createTempFile(prefix, suffix);
 
         tempTile.delete();
+        log.info(tempTile.getAbsolutePath());
         return tempTile;
     }
 }
