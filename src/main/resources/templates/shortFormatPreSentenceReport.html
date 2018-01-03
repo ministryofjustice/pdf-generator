@@ -125,7 +125,13 @@
             display: inline-block;
             content: 'N/A';
         }
-
+        .optional-section.false {
+            display: none;
+        }
+        .optional-section.true {
+            display: block;
+            page-break-inside: avoid;
+        }
         .table-header {
             background: #EAEAEA;
         }
@@ -160,6 +166,18 @@
 
         .check-padding {
             padding: 10px 0 0 10px;
+        }
+
+        .details-section {
+            margin-top: 0.5cm;
+        }
+        .details-section h3 {
+            margin-bottom: 0.1cm;
+            paddinng-bottom: 0;
+        }
+        .details-section p {
+            margin-top: 0;
+            paddinng-top: 0;
         }
     </style>
 
@@ -310,7 +328,7 @@
 
         <table class="margin-top medium">
             <tr class="table-header">
-                <td colspan="4" class="heading">Offender Assessment - Issues</td>
+                <td colspan="4" class="heading">Offender assessment issues</td>
             </tr>
             <tr>
                 <td width="40%">Accommodation</td>
@@ -321,30 +339,56 @@
             <tr>
                 <td>Finance</td>
                 <td class="check-padding"><span class="check ISSUE_FINANCE"></span></td>
-                <td>Drugs</td>
-                <td class="check-padding"><span class="check ISSUE_DRUGS"></span></td>
+                <td>Relationships</td>
+                <td class="check-padding"><span class="check ISSUE_RELATIONSHIPS"></span></td>
             </tr>
             <tr>
-                <td>Alcohol</td>
-                <td class="check-padding"><span class="check ISSUE_ALCOHOL"></span></td>
+                <td>Substance misuse</td>
+                <td class="check-padding"><span class="check ISSUE_SUBSTANCE_MISUSE"></span></td>
                 <td>Physical &amp; Mental Health</td>
                 <td class="check-padding"><span class="check ISSUE_HEALTH"></span></td>
             </tr>
             <tr>
-                <td>Thinking &amp; Behaviour</td>
+                <td>Thinking and Behaviour</td>
                 <td class="check-padding"><span class="check ISSUE_BEHAVIOUR"></span></td>
-                <td colspan="2">&nbsp;</td>
+                <td>Other</td>
+                <td class="check-padding"><span class="check ISSUE_OTHER"></span></td>
             </tr>
         </table>
-
-        <table class="margin-top medium">
-            <tr class="table-header">
-                <td class="heading">Offender Assessment</td>
-            </tr>
-            <tr>
-                <td class="free-text" style="white-space: pre-wrap">OFFENDER_ASSESSMENT</td>
-            </tr>
-        </table>
+        <div class="details-section">
+            <div class="optional-section ISSUE_ACCOMMODATION">
+                <h3>Accommodation</h3>
+                <p>ISSUE_ACCOMMODATION_DETAILS</p>
+            </div>
+            <div class="optional-section ISSUE_EMPLOYMENT">
+                <h3>Employment, training and education</h3>
+                <p>ISSUE_EMPLOYMENT_DETAILS</p>
+            </div>
+            <div class="optional-section ISSUE_FINANCE">
+                <h3>Finance</h3>
+                <p>ISSUE_FINANCE_DETAILS</p>
+            </div>
+            <div class="optional-section ISSUE_RELATIONSHIPS">
+                <h3>Relationships</h3>
+                <p>ISSUE_RELATIONSHIPS_DETAILS</p>
+            </div>
+            <div class="optional-section ISSUE_SUBSTANCE_MISUSE">
+                <h3>Substance misuse</h3>
+                <p>ISSUE_SUBSTANCE_MISUSE_DETAILS</p>
+            </div>
+            <div class="optional-section ISSUE_HEALTH">
+                <h3>Physical &amp; mental health</h3>
+                <p>ISSUE_HEALTH_DETAILS</p>
+            </div>
+            <div class="optional-section ISSUE_BEHAVIOUR">
+                <h3>Thinking and behaviour</h3>
+                <p>ISSUE_BEHAVIOUR_DETAILS</p>
+            </div>
+            <div class="optional-section ISSUE_OTHER">
+                <h3>Other</h3>
+                <p>ISSUE_OTHER_DETAILS</p>
+            </div>
+        </div>
 
     </div>
 
