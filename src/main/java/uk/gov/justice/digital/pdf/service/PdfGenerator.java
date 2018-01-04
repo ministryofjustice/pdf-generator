@@ -51,7 +51,6 @@ public class PdfGenerator {
         val tempTile = File.createTempFile(prefix, suffix);
 
         tempTile.delete();
-        log.info(tempTile.getAbsolutePath());
         return tempTile;
     }
 }
