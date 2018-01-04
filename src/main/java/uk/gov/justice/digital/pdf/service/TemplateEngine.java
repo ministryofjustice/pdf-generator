@@ -45,7 +45,7 @@ public class TemplateEngine {
     private static Stream<? extends Map.Entry<String, String>> flattenListsToArrayNotation(Map.Entry<String, Object> entry) {
         if (entry.getValue() instanceof List) {
             @SuppressWarnings("unchecked")
-            List<String> listValues = (List<String>) entry.getValue();
+            val listValues = (List<String>) entry.getValue();
             return IntStream.range(0, listValues.size())
                     .mapToObj(index -> immutableEntry(String.format("%s[%d]", entry.getKey(), index), listValues.get(index)));
         }
