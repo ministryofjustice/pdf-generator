@@ -7,7 +7,7 @@ apply plugin: 'application'
 
 mainClassName = "uk.gov.justice.digital.pdf.Server"
 
-version = "0.1.09"
+version = "0.1.10"
 
 // Apply the groovy plugin to also add support for Groovy (needed for Spock)
 apply plugin: 'groovy'
