@@ -8,5 +8,5 @@ public class PdfRequest {
 
     private String templateName;
 
-    private Map<String, String> values;
+    private Map<String, Object> values;
 }
