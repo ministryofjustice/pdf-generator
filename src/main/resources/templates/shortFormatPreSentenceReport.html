@@ -8,7 +8,6 @@
 
     <style type="text/css">
         body {
-            padding: 0 1cm 0 1cm;
             font-family: "nta", Arial, helvetica, sans-serif;
             font-size: 16px;
         }
@@ -39,49 +38,23 @@
             vertical-align: bottom;
         }
 
-        .page {
-            display: block;
-            width: 21cm;
-            height: 29.7cm;
-            margin: 0 auto;
-            padding: 1cm;
-            margin-bottom: 0.5cm;
-            box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
-        }
-
         .watermark {
             display: block;
             position: relative;
-            top: 20cm;
-            left: -1.5cm;
-            width: 0;
+            top: 2cm;
+            left: 0;
+            width: 100%;
             height: 0;
             overflow: visible;
             z-index: -1;
-            font-size: 300px;
+            font-size: 170px;
             color: #EAEAEA;
             -o-transform: rotate(45deg);
             -moz-transform: rotate(45deg);
             -ms-transform: rotate(45deg);
             -webkit-transform: rotate(45deg);
             transform: rotate(-45deg);
-        }
-
-        @media print {
-            body, .page {
-                width: 100%;
-                height: 100%;
-                margin: 0;
-                padding: 0;
-                box-shadow: none;
-            }
-            .watermark {
-                width: 100%;
-                top: 2cm;
-                left: 0;
-                font-size: 200px;
-                text-align: center;
-            }
+            text-align: center;
         }
 
         .organisation-logo {
@@ -165,9 +138,8 @@
             padding: 10px 0 0 10px;
         }
 
-        .official-notice {
+        .header, .footer {
             color: #BCBCBC;
-            text-align: center;
         }
         .cell-top {
             vertical-align: top;
@@ -211,23 +183,46 @@
         .sub-section h3 {
             margin-bottom: 4px;
         }
+        div.header {
+            display: block; text-align: center;
+            position: running(header);
+            margin-top: 1cm;
+        }
+        div.footer {
+            display: block; text-align: center;
+            position: running(footer);
+        }
+        div#page-number:before {
+            content: counter(page);
+        }
+        @page {
+            @top-center {
+                content: element(header)
+            }
+            @bottom-center {
+                content: element(footer)
+            }
+            size: A4 portrait;
+            margin-top:2cm;
+            margin-left:3cm;
+            margin-right:3cm;
+            margin-bottom:2cm;
+        }
     </style>
 
 </head>
 <body>
-
+    <div class='header'>
+        <h3>OFFICIAL</h3>
+        <div class="watermark">_WATERMARK_</div>
+    </div>
+    <div class='footer'> <div id="page-number"></div></div>
     <div class="page">
 
-        <div class="watermark">_WATERMARK_</div>
-
-
-        <table>
+        <table class="first-page-header">
             <tr>
                 <td class="no-border">
                     <h1><span class="organisation-logo"><span>HM Prison &amp;<br/>Probation Service</span></span></h1>
-                </td>
-                <td class="no-border cell-top">
-                    <h3 class="official-notice">OFFICIAL</h3>
                 </td>
                 <td class="no-border bottom" align="right">
                     <div class="probabtion-logo"></div>
@@ -250,7 +245,7 @@
             <tr>
                 <td class="heading">Date of Birth:</td>
                 <td width="25%">_DATE_OF_BIRTH_</td>
-                <td width="10%" class="heading">Age:</td>
+                <td width="15%" class="heading">Age:</td>
                 <td width="25%">_AGE_</td>
             </tr>
             <tr>
@@ -302,8 +297,8 @@
             <p class="formatted-text">OFFENCE_ANALYSIS</p>
         </div>
 
-        <div class="keep-together-section">
-            <table class="margin-top medium">
+        <div>
+            <table class="margin-top medium keep-together-section">
                 <tr class="table-header">
                     <td colspan="4" class="heading">Offender assessment issues</td>
                 </tr>
@@ -333,35 +328,35 @@
                 </tr>
             </table>
             <div class="details-section">
-                <div class="optional-section ISSUE_ACCOMMODATION">
+                <div class="keep-together-section optional-section ISSUE_ACCOMMODATION">
                     <h3>Accommodation</h3>
                     <p class="formatted-text">ISSUE_ACCOMMODATION_DETAILS</p>
                 </div>
-                <div class="optional-section ISSUE_EMPLOYMENT">
+                <div class="keep-together-section optional-section ISSUE_EMPLOYMENT">
                     <h3>Employment, training and education</h3>
                     <p class="formatted-text">ISSUE_EMPLOYMENT_DETAILS</p>
                 </div>
-                <div class="optional-section ISSUE_FINANCE">
+                <div class="keep-together-section optional-section ISSUE_FINANCE">
                     <h3>Finance</h3>
                     <p class="formatted-text">ISSUE_FINANCE_DETAILS</p>
                 </div>
-                <div class="optional-section ISSUE_RELATIONSHIPS">
+                <div class="keep-together-section optional-section ISSUE_RELATIONSHIPS">
                     <h3>Relationships</h3>
                     <p class="formatted-text">ISSUE_RELATIONSHIPS_DETAILS</p>
                 </div>
-                <div class="optional-section ISSUE_SUBSTANCE_MISUSE">
+                <div class="keep-together-section optional-section ISSUE_SUBSTANCE_MISUSE">
                     <h3>Substance misuse</h3>
                     <p class="formatted-text">ISSUE_SUBSTANCE_MISUSE_DETAILS</p>
                 </div>
-                <div class="optional-section ISSUE_HEALTH">
+                <div class="keep-together-section optional-section ISSUE_HEALTH">
                     <h3>Physical &amp; mental health</h3>
                     <p class="formatted-text">ISSUE_HEALTH_DETAILS</p>
                 </div>
-                <div class="optional-section ISSUE_BEHAVIOUR">
+                <div class="keep-together-section optional-section ISSUE_BEHAVIOUR">
                     <h3>Thinking and behaviour</h3>
                     <p class="formatted-text">ISSUE_BEHAVIOUR_DETAILS</p>
                 </div>
-                <div class="optional-section ISSUE_OTHER">
+                <div class="keep-together-section optional-section ISSUE_OTHER">
                     <h3>Other</h3>
                     <p class="formatted-text">ISSUE_OTHER_DETAILS</p>
                 </div>
@@ -370,8 +365,8 @@
 
 
 
-        <div class="keep-together-section">
-            <table class="margin-top medium">
+        <div>
+            <table class="margin-top medium keep-together-section">
                 <tr class="table-header">
                     <td class="heading">Pattern of offending</td>
                 </tr>
@@ -381,25 +376,25 @@
             </div>
         </div>
 
-        <div class="keep-together-section">
-            <table class="margin-top medium">
+        <div>
+            <table class="margin-top medium keep-together-section">
                 <tr class="table-header">
                     <td colspan="2" class="heading">Risk Assessment</td>
                 </tr>
             </table>
-            <div class="sub-section">
+            <div class="sub-section keep-together-section">
                 <h3>Likelihood of re-offending:</h3>
                 <p class="formatted-text">LIKELIHOOD_OF_RE_OFFENDING</p>
             </div>
-            <div class="sub-section">
+            <div class="sub-section keep-together-section">
                 <h3>Risk of serious harm:</h3>
                 <p class="formatted-text">RISK_OF_SERIOUS_HARM</p>
             </div>
-            <div class="sub-section">
+            <div class="sub-section keep-together-section">
                 <h3>Response to previous supervision:</h3>
                 <p class="formatted-text">PREVIOUS_SUPERVISION_RESPONSE</p>
             </div>
-            <div class="sub-section">
+            <div class="sub-section keep-together-section">
                 <h3>Details on previous supervision:</h3>
                 <p class="formatted-text">ADDITIONAL_PREVIOUS_SUPERVISION</p>
             </div>
@@ -449,7 +444,8 @@
                 <tr>
                     <td>Sentencing guidelines</td>
                     <td class="check-padding"><span class="check SENTENCING_GUIDELINES_INFORMATION_SOURCE"></span></td>
-                    <td colspan="2"></td>
+                    <td>Other</td>
+                    <td class="check-padding"><span class="check OTHER_INFORMATION_SOURCE"></span></td>
                 </tr>
             </table>
             <div class="optional-section OTHER_INFORMATION_SOURCE">
