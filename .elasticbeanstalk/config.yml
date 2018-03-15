@@ -1,8 +1,6 @@
 branch-defaults:
   master:
     environment: pdf-generator
-  117_AutoDeploy:
-    environment: pdf-generator
 environment-defaults:
   pdf-generator:
     branch: null
