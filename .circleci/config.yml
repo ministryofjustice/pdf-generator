@@ -29,5 +29,36 @@ jobs:
           command: |
             mkdir -p ./build/artifacts
             mv build/libs/*.jar ./build/artifacts/
+            ls -1 ./build/artifacts/pdfGenerator-*.jar | sed 's/^.*pdfGenerator-\(.*\)\.jar.*$/\1/' > ./build/artifacts/version.txt
+            cp ./build/artifacts/pdfGenerator*.jar ./build/artifacts/pdfGenerator.jar
+      - persist_to_workspace:
+          root: ./build/artifacts/
+          paths:
+            - ./pdfGenerator.jar
+            - ./version.txt
       - store_artifacts:
-          path: ./build/artifacts
+          path: build/artifacts
+          destination: jars
+  deploy:
+    docker:
+      - image: paulodiovani/aws-eb-cli
+    working_directory: ~/app
+    steps:
+      - attach_workspace:
+        at: /workspace
+      - checkout
+      - run:
+        name: Deploy to Elastic Beanstalk
+        command: |
+          eb deploy --label $(cat /workspace/version.txt)
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - deploy:
+        requires:
+            - build
+        filters:
+            branches:
+              only: 117_AutoDeploy
