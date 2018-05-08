@@ -51,7 +51,7 @@ Host: localhost:8080
 	"templateName": "helloWorld",
 	"values": {
 		"SALUTATION": "Mr",
-		"FORENAME:" "John",
+		"FORENAME": "John",
 		"SURNAME": "Smith"
 	}
 }
