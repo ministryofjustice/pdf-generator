@@ -5,29 +5,35 @@ import lombok.extern.slf4j.Slf4j;
 import uk.gov.justice.digital.pdf.Configuration;
 
 import javax.inject.Inject;
+import java.time.Instant;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 public class HealthService {
 
-    private Configuration configuration;
+    private final Map<String, String> allSettings;
 
     @Inject
     public HealthService(Configuration configuration) {
-        this.configuration = configuration;
+
+        allSettings = configuration.allSettings();
     }
 
     public Map<String, Object> process() {
+
         return ImmutableMap.of(
-            "status", "OK",
-            "version", getVersion(),
-            "configuration", this.configuration.allSettings()
+                "status", "OK",
+                "version", getVersion(),
+                "dateTime", Instant.now().toString(),
+                "configuration", allSettings
         );
     }
 
     private String getVersion() {
-        Package aPackage = HealthService.class.getPackage();
-        return aPackage != null && aPackage.getImplementationVersion() != null
-            ? aPackage.getImplementationVersion() : "UNKNOWN";
+
+        return Optional.ofNullable(HealthService.class.getPackage()).
+                flatMap(pkg -> Optional.ofNullable(pkg.getImplementationVersion())).
+                orElse("UNKNOWN");
     }
 }

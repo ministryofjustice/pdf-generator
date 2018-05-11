@@ -18,16 +18,14 @@ class IntegrationTest extends Specification {
 
         then:
         result.status == 200
-        result.data == jsonSlurper.parseText("""
+        result.data.status == "OK"
+        result.data.version == "UNKNOWN"
+        result.data.configuration == jsonSlurper.parseText("""
             {
-                "status": "OK",
-                "version": "UNKNOWN",
-                "configuration": {
-                    "ALFRESCO_URL": "http://localhost:8080/alfresco/service/",
-                    "DEBUG_LOG": "false",
-                    "PORT": "8080",
-                    "ALFRESCO_USER": "alfrescoUser"
-                }
+                "ALFRESCO_URL": "http://localhost:8080/alfresco/service/",
+                "DEBUG_LOG": "false",
+                "PORT": "8080",
+                "ALFRESCO_USER": "alfrescoUser"
             }
         """)
     }
