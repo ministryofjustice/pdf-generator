@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8"/>
+    <title>LICENCE AND NOTICE OF SUPERVISION</title>
+
+    <style type="text/css">
+
+        @page {
+            @bottom-center {
+                content: element(footer);
+            }
+
+            margin-top: 10%;
+            margin-left: 5%;
+            margin-right: 5%;
+            margin-bottom: 10%;
+        }
+
+        div.footer {
+            position: running(footer);
+            text-align: center;
+        }
+
+        div.footer::after {
+            content: 'Page ' counter(page) ' of ' counter(pages);
+        }
+
+        .pagebreak {
+            page-break-before: always;
+        }
+
+        body {
+            padding-left: 1cm;
+            padding-right: 0.5cm;
+            font-family: "nta", Arial, helvetica, sans-serif;
+            font-size: 12px;
+            line-height: 15px;
+        }
+
+        .heading {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .subheading {
+            font-weight: bold;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        small {
+            font-size: 10px;
+        }
+
+        .underline {
+            text-decoration: underline;
+        }
+
+        .pre {
+            white-space: pre-wrap;
+        }
+
+        .entry {
+            font-weight: bold;
+        }
+
+        table {
+            border-spacing: 0;
+            border-collapse: collapse;
+            empty-cells: show;
+        }
+
+        table.wide {
+            width: 100%;
+        }
+
+        tr {
+            line-height: 25px;
+        }
+
+        table.compact tr {
+            line-height: 15px;
+        }
+
+        table.signature {
+            border: 1px solid grey;
+        }
+
+        td {
+            padding-left: 15px;
+            padding-right: 15px
+            vertical-align: text-top;
+            text-align: left;
+        }
+
+        table.lined td {
+            border: 1px solid grey;
+        }
+
+        ol.start {
+            counter-reset: mycounter;
+        }
+
+        ol.start li, ol.continue li {
+            list-style-type: none;
+        }
+
+        ol.start li:before, ol.continue li:before {
+            content: counter(mycounter) ". ";
+            counter-increment: mycounter;
+        }
+
+        ol {
+            padding-left: 5px;
+            width: 95%
+        }
+
+        li {
+            margin-top: 10px;
+            text-align: justify;
+        }
+
+        li:empty {
+            display: none;
+        }
+
+        ol.roman li {
+            padding-left: 20px;
+            margin-left: 20px;
+            list-style-type: lower-roman;
+        }
+
+        ol.roman li:before {
+            content: "";
+            counter-increment: othercounter;
+        }
+
+        img {
+            display: block;
+        }
+
+        .placeholder-image {
+            background: url('data:image/png;base64,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');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            background-origin: content-box;
+            vertical-align: bottom;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<table class="wide">
+    <tr>
+        <td colspan="5" class="center">
+            <span class="heading">LICENCE AND NOTICE OF SUPERVISION</span>
+            <br/>
+            <span class="subheading small">Criminal Justice Act 2003</span>
+        </td>
+    </tr>
+    <tr>
+        <td class="subheading center" colspan="5">
+            EST_PREMISE
+            <br/>
+            EST_PHONE
+        </td>
+    </tr>
+    <tr>
+        <td>Name:</td>
+        <td colspan="3" class="entry">OFF_NAME</td>
+        <td rowspan="4" class="placeholder-image" width="150px"><img width="150px"
+                                                                     src="data:image/jpeg;base64,OFF_PHOTO"></img></td>
+    </tr>
+    <tr>
+        <td>Date of Birth:</td>
+        <td colspan="3" class="entry">OFF_DOB</td>
+    </tr>
+    <tr>
+        <td>NOMS No:</td>
+        <td class="entry">OFF_NOMS</td>
+        <td>CRO No:</td>
+        <td class="entry">OFF_CRO</td>
+    </tr>
+    <tr>
+        <td>Booking No:</td>
+        <td class="entry">OFF_BOOKING</td>
+        <td>PNC Id:</td>
+        <td class="entry">OFF_PNC</td>
+    </tr>
+</table>
+<br/>
+
+
+<ol class="start">
+    <li>Under the provisions of Chapter 6 of the Criminal Justice Act 2003 you are being released on licence followed
+        by a post-sentence supervision period. You are being released on Home Detention Curfew (HDC) following which
+        your licence will continue until the end of your sentence followed by a period of post-sentence supervision. The
+        relevant purposes of each type of supervision are explained in the sections below.
+    </li>
+    <li>Your Home Detention Curfew commences on <span class="entry">SENT_HDCAD</span> and expires on <span
+            class="entry">SENT_CRD</span>
+    </li>
+    <li>Your supervision on licence commences on <span class="entry">SENT_HDCAD</span> and expires on <span
+            class="entry">SENT_LED</span>
+        unless this licence is previously
+        revoked.
+    </li>
+    <li>Your post-sentence supervision period commences on <span class="entry">SENT_LED</span> and expires on
+        <span class="entry">SENT_TUSED</span></li>
+    <li>On release from prison (including, if applicable, any release from detention under the Immigration Act 1971
+        during the currency of your licence, whether or not leave has been granted for you to remain in the United
+        Kingdom), unless otherwise directed by your supervising officer, you must report without delay to:
+    </li>
+
+    <br/>
+    <span class="entry">REPORTING_NAME</span>
+    <br/>
+    <br/>
+    <span class="pre entry">REPORTING_ADDRESS</span>
+
+    <p>At <span class="entry">REPORTING_AT</span> on <span class="entry">REPORTING_ON</span></p>
+</ol>
+
+<div class="footer"></div>
+<div class="pagebreak"></div>
+
+<table class="wide">
+    <tr>
+        <td colspan="5" class="center">
+            <span class="heading">LICENCE AND NOTICE OF SUPERVISION</span>
+            <br/>
+            <span class="subheading small">Criminal Justice Act 2003</span>
+        </td>
+    </tr>
+    <tr>
+        <td class="subheading center" colspan="5">
+            EST_PREMISE
+            <br/>
+            EST_PHONE
+        </td>
+    </tr>
+    <tr>
+        <td>Name:</td>
+        <td colspan="3" class="entry">OFF_NAME</td>
+        <td rowspan="4" class="placeholder-image" width="150px"><img width="150px"
+                                                                     src="data:image/jpeg;base64,OFF_PHOTO"></img></td>
+    </tr>
+    <tr>
+        <td>Date of Birth:</td>
+        <td colspan="3" class="entry">OFF_DOB</td>
+    </tr>
+    <tr>
+        <td>NOMS No:</td>
+        <td class="entry">OFF_NOMS</td>
+        <td>CRO No:</td>
+        <td class="entry">OFF_CRO</td>
+    </tr>
+    <tr>
+        <td>Booking No:</td>
+        <td class="entry">OFF_BOOKING</td>
+        <td>PNC Id:</td>
+        <td class="entry">OFF_PNC</td>
+    </tr>
+</table>
+<br/>
+
+<p class="subheading">Home Detention Curfew</p>
+
+<ol class="continue">
+    <li>You will be subject to a Home Detention Curfew. The objective of the Home Detention Curfew is to help you
+        manage your return into the community.
+    </li>
+    <li>The address(es) to which you are curfewed are:
+        <br/>
+        <br/>
+        <span class="pre entry">CURFEW_ADDRESS</span>
+        <br/>
+        <p>Details of curfew times are shown below at paragraph 9.</p>
+    </li>
+    <li>On the day of your release, you will be subject to curfew at your curfew address from
+        <span class="entry">CURFEW_FIRST_FROM</span>
+        until <span class="entry">CURFEW_FIRST_UNTIL</span>. The contractor will visit you at this address before
+        midnight during
+        this period in order to fit you with the tag. You must show the contractor this copy of the licence to confirm
+        your identity. Your curfew will then run until the curfew finish time the following morning.  On your last day
+        of curfew the contractor will visit you to remove the tag and monitoring equipment. This will take place in the
+        last two hours of your last curfew period; i.e. between 10pm and midnight.
+    </li>
+    <li>After your day of release, you are required to remain at your place of curfew during the following hours:</li>
+    <br/>
+    <table class="compact">
+        <tr>
+            <td>Monday</td>
+            <td>from</td>
+            <td class="entry">CURFEW_MON_FROM</td>
+            <td>Hrs each evening until</td>
+            <td class="entry">CURFEW_MON_UNTIL</td>
+            <td>Hrs the following morning</td>
+        </tr>
+        <tr>
+            <td>Tuesday</td>
+            <td>from</td>
+            <td class="entry">CURFEW_TUE_FROM</td>
+            <td>Hrs each evening until</td>
+            <td class="entry">CURFEW_TUE_UNTIL</td>
+            <td>Hrs the following morning</td>
+        </tr>
+        <tr>
+            <td>Wednesday</td>
+            <td>from</td>
+            <td class="entry">CURFEW_WED_FROM</td>
+            <td>Hrs each evening until</td>
+            <td class="entry">CURFEW_WED_UNTIL</td>
+            <td>Hrs the following morning</td>
+        </tr>
+        <tr>
+            <td>Thursday</td>
+            <td>from</td>
+            <td class="entry">CURFEW_THU_FROM</td>
+            <td>Hrs each evening until</td>
+            <td class="entry">CURFEW_THU_UNTIL</td>
+            <td>Hrs the following morning</td>
+        </tr>
+        <tr>
+            <td>Friday</td>
+            <td>from</td>
+            <td class="entry">CURFEW_FRI_FROM</td>
+            <td>Hrs each evening until</td>
+            <td class="entry">CURFEW_FRI_UNTIL</td>
+            <td>Hrs the following morning</td>
+        </tr>
+        <tr>
+            <td>Saturday</td>
+            <td>from</td>
+            <td class="entry">CURFEW_SAT_FROM</td>
+            <td>Hrs each evening until</td>
+            <td class="entry">CURFEW_SAT_UNTIL</td>
+            <td>Hrs the following morning</td>
+        </tr>
+        <tr>
+            <td>Sunday</td>
+            <td>from</td>
+            <td class="entry">CURFEW_SUN_FROM</td>
+            <td>Hrs each evening until</td>
+            <td class="entry">CURFEW_SUN_UNTIL</td>
+            <td>Hrs the following morning</td>
+        </tr>
+    </table>
+    <br/>
+
+    <li>Your compliance with the conditions of the Home Detention Curfew will be monitored by the electronic
+        monitoring contractor. You must provide the contractor with access to the curfew address to install and check
+        the monitoring equipment and electronic tag. Such visits will be made during your curfew hours but not between
+        midnight and 6.00am. However, the contractor may visit the curfew address between midnight and 6:00am in
+        order to investigate a reported violation.
+    </li>
+</ol>
+
+<div class="footer"></div>
+<div class="pagebreak"></div>
+
+<table class="wide">
+    <tr>
+        <td colspan="5" class="center">
+            <span class="heading">LICENCE AND NOTICE OF SUPERVISION</span>
+            <br/>
+            <span class="subheading small">Criminal Justice Act 2003</span>
+        </td>
+    </tr>
+    <tr>
+        <td class="subheading center" colspan="5">
+            EST_PREMISE
+            <br/>
+            EST_PHONE
+        </td>
+    </tr>
+    <tr>
+        <td>Name:</td>
+        <td colspan="3" class="entry">OFF_NAME</td>
+        <td rowspan="4" class="placeholder-image" width="150px"><img width="150px"
+                                                                     src="data:image/jpeg;base64,OFF_PHOTO"></img></td>
+    </tr>
+    <tr>
+        <td>Date of Birth:</td>
+        <td colspan="3" class="entry">OFF_DOB</td>
+    </tr>
+    <tr>
+        <td>NOMS No:</td>
+        <td class="entry">OFF_NOMS</td>
+        <td>CRO No:</td>
+        <td class="entry">OFF_CRO</td>
+    </tr>
+    <tr>
+        <td>Booking No:</td>
+        <td class="entry">OFF_BOOKING</td>
+        <td>PNC Id:</td>
+        <td class="entry">OFF_PNC</td>
+    </tr>
+</table>
+<br/>
+
+<ol class="continue">
+    <li>The monitoring equipment will usually operate via the mobile cellular network and will only need a dedicated
+        telephone line to be fitted if the mobile signal is poor at the curfew address. You will be responsible for
+        meeting the cost of the small amount of electricity used by the monitoring equipment at your curfew address.
+        It is your responsibility to ensure that there is an electricity supply available during your time on
+        curfew.
+    </li>
+
+    <li>In the event of a dedicated telephone line needing to be installed you must agree to the installation at
+        your curfew address for use by the supplier. The supplier will notify you of a time and a date and you must be
+        present, and provide access to, the curfew address at the notified time to allow installation to take place.
+        The installation will normally take place during standard working hours and is fully paid for by the
+        supplier.
+    </li>
+
+    <li>While on Home Detention Curfew you may be liable to recall to prison if you breach the condition of this
+        licence relating to the curfew.  You will be in breach of this condition if:
+
+        <ol class="roman">
+            <li>You are absent from your curfew address during the specified curfew hours;</li>
+
+            <li>You commit violence against or threaten the contractor or any of his staff with violence;</li>
+
+            <li>You damage or tamper with the monitoring equipment;</li>
+
+            <li>You withdraw your consent to the monitoring arrangements.</li>
+        </ol>
+    </li>
+
+    <br/>
+    <br/>
+
+    <li>In addition, you may be recalled to prison if your whereabouts can no longer be electronically monitored at
+        the specified address.
+    </li>
+
+    <li>The contractor may authorise your absence from your place of curfew in clearly defined circumstances, which
+        you will be informed about by the contractor in writing.  You must contact the contractor in advance of any such
+        absence to seek authorisation where this is possible.  If it is not possible to contact the contractor in
+        advance, you must contact them as soon as possible thereafter. Absence for any other reason other than these
+        clearly defined circumstances will constitute a breach of your curfew condition.
+    </li>
+
+    <li>If you need to seek a permanent change to your curfew conditions (for instance because of the requirements of
+        a new job), you must contact the Prison Service establishment from which you were released.  A contact number is
+        attached at the bottom of this licence.
+    </li>
+</ol>
+
+<div class="footer"></div>
+<div class="pagebreak"></div>
+
+<table class="wide">
+    <tr>
+        <td colspan="5" class="center">
+            <span class="heading">LICENCE AND NOTICE OF SUPERVISION</span>
+            <br/>
+            <span class="subheading small">Criminal Justice Act 2003</span>
+        </td>
+    </tr>
+    <tr>
+        <td class="subheading center" colspan="5">
+            EST_PREMISE
+            <br/>
+            EST_PHONE
+        </td>
+    </tr>
+    <tr>
+        <td>Name:</td>
+        <td colspan="3" class="entry">OFF_NAME</td>
+        <td rowspan="4" class="placeholder-image" width="150px"><img width="150px"
+                                                                     src="data:image/jpeg;base64,OFF_PHOTO"></img></td>
+    </tr>
+    <tr>
+        <td>Date of Birth:</td>
+        <td colspan="3" class="entry">OFF_DOB</td>
+    </tr>
+    <tr>
+        <td>NOMS No:</td>
+        <td class="entry">OFF_NOMS</td>
+        <td>CRO No:</td>
+        <td class="entry">OFF_CRO</td>
+    </tr>
+    <tr>
+        <td>Booking No:</td>
+        <td class="entry">OFF_BOOKING</td>
+        <td>PNC Id:</td>
+        <td class="entry">OFF_PNC</td>
+    </tr>
+</table>
+<br/>
+
+<p class="subheading">Licence Period</p>
+
+<ol class="continue">
+
+    <li>The objectives of the licence period are to (a) protect the public, (b) prevent re-offending and (c) help
+        you to resettle successfully into the community. You must place yourself under the supervision of whichever
+        supervising officer or social worker is nominated for this purpose from time to time.
+    </li>
+
+    <li>During your licence period you must:
+
+
+        <ol class="roman">
+            <li>
+                Be of good behaviour and not behave in a way which undermines the purpose of the licence
+                period;
+            </li>
+
+            <li>Not to commit any offence;</li>
+
+            <li>Keep in touch with the supervising officer in accordance with instructions given by the supervising
+                officer;
+            </li>
+
+            <li>Receive visits from the supervising officer in accordance with instructions given by the supervising
+                officer;
+            </li>
+
+            <li>Reside permanently at an address approved by the supervising officer and obtain the prior permission
+                of
+                the supervising officer for any stay of one or more nights at a different address;
+            </li>
+
+            <li>Not undertake work, or a particular type of work, unless it is approved by the supervising officer
+                and
+                notify the supervising officer in advance of any proposal to undertake work or a particular type of
+                work;
+            </li>
+
+            <li>Not travel outside the United Kingdom, the Channel Islands or the Isle of Man, except with the
+                prior
+                permission of the supervising officer or for the purposes of immigration deportation or removal;
+            </li>
+            <!-- The indent of the following lines is critical because it is rendered as pre-formatted -->
+            <!-- If you auto-format the file it will break the layout -->
+            <!-- Opening li should be one tab in from previous li-->
+                <li class="pre">Additional Conditions:
+                <!-- CONDITIONS should be at start of line -->
+CONDITIONS
+            </li>
+        </ol>
+    </li>
+
+    <li>The Secretary of State may vary or cancel any of the above conditions, in accordance with Section 250(4) of
+        the Criminal Justice Act 2003.
+    </li>
+
+    <li>If you fail to submit yourself to a recall to custody following either a notification of the revocation of
+        your licence, or remain out of contact with Probation Services for a period of six months, you may be liable to
+        face a further charge of being unlawfully at large following recall under section 255ZA of the Criminal Justice
+        Act 2003. This could result in a fine, a sentence of up to two years’ imprisonment, or both.
+    </li>
+
+    <li>If you fail to comply with any requirement of your licence period (set out in paragraphs 17 and 18 above) or
+        if you otherwise pose a risk to the public, you will be liable to have this licence revoked and be recalled to
+        custody until the date on which your licence would have otherwise ended. If you are sent back to prison and are
+        re-released before the end of your licence, you will still be subject to licence conditions until the end of
+        your sentence.
+    </li>
+</ol>
+
+<div class="footer"></div>
+<div class="pagebreak"></div>
+
+<table class="wide">
+    <tr>
+        <td colspan="5" class="center">
+            <span class="heading">LICENCE AND NOTICE OF SUPERVISION</span>
+            <br/>
+            <span class="subheading small">Criminal Justice Act 2003</span>
+        </td>
+    </tr>
+    <tr>
+        <td class="subheading center" colspan="5">
+            EST_PREMISE
+            <br/>
+            EST_PHONE
+        </td>
+    </tr>
+    <tr>
+        <td>Name:</td>
+        <td colspan="3" class="entry">OFF_NAME</td>
+        <td rowspan="4" class="placeholder-image" width="150px"><img width="150px"
+                                                                     src="data:image/jpeg;base64,OFF_PHOTO"></img></td>
+    </tr>
+    <tr>
+        <td>Date of Birth:</td>
+        <td colspan="3" class="entry">OFF_DOB</td>
+    </tr>
+    <tr>
+        <td>NOMS No:</td>
+        <td class="entry">OFF_NOMS</td>
+        <td>CRO No:</td>
+        <td class="entry">OFF_CRO</td>
+    </tr>
+    <tr>
+        <td>Booking No:</td>
+        <td class="entry">OFF_BOOKING</td>
+        <td>PNC Id:</td>
+        <td class="entry">OFF_PNC</td>
+    </tr>
+</table>
+<br/>
+
+<p class="subheading">Post-Sentence Supervision Period</p>
+
+<ol class="continue">
+
+    <li>The objective of your post-sentence supervision period is to encourage your rehabilitation in the community.
+        You must place yourself under the supervision of whichever supervisor is nominated for this purpose from time to
+        time.
+    </li>
+
+    <li>During your post-sentence supervision period you must:
+
+        <ol class="roman">
+
+            <li>Be of good behaviour and not behave in a way that undermines the rehabilitative purpose of the
+                supervision period;
+            </li>
+
+            <li>Not to commit any offence;</li>
+
+            <li>Keep in touch with your supervisor in accordance with instructions given by your supervisor;</li>
+
+            <li>Receive visits from your supervisor in accordance with instructions given by your supervisor;</li>
+
+            <li>Reside permanently at an address approved by your supervisor and obtain the prior permission of the
+                supervisor for any stay of one or more nights at a different address;
+            </li>
+
+            <li>Not undertake work, or a particular type of work, unless it is approved by your supervisor and to
+                notify your supervisor in advance of any proposal to undertake work or a particular type of work;
+            </li>
+
+            <li>Not  travel outside the United Kingdom, the Channel Islands or the Isle of Man, except with the
+                prior permission of your supervisor or in order to comply with a legal obligation (whether or not
+                arising under the law of any part of the United Kingdom and Islands);
+            </li>
+
+            <li>Participate in activities in accordance with any instructions given by your supervisor;</li>
+
+            <li>Additional post-release supervision conditions</li>
+        </ol>
+    </li>
+
+</ol>
+
+<div class="footer"></div>
+<div class="pagebreak"></div>
+
+<table class="wide">
+    <tr>
+        <td colspan="5" class="center">
+            <span class="heading">LICENCE AND NOTICE OF SUPERVISION</span>
+            <br/>
+            <span class="subheading small">Criminal Justice Act 2003</span>
+        </td>
+    </tr>
+    <tr>
+        <td class="subheading center" colspan="5">
+            EST_PREMISE
+            <br/>
+            EST_PHONE
+        </td>
+    </tr>
+    <tr>
+        <td>Name:</td>
+        <td colspan="3" class="entry">OFF_NAME</td>
+        <td rowspan="4" class="placeholder-image" width="150px"><img width="150px"
+                                                                     src="data:image/jpeg;base64,OFF_PHOTO"></img></td>
+    </tr>
+    <tr>
+        <td>Date of Birth:</td>
+        <td colspan="3" class="entry">OFF_DOB</td>
+    </tr>
+    <tr>
+        <td>NOMS No:</td>
+        <td class="entry">OFF_NOMS</td>
+        <td>CRO No:</td>
+        <td class="entry">OFF_CRO</td>
+    </tr>
+    <tr>
+        <td>Booking No:</td>
+        <td class="entry">OFF_BOOKING</td>
+        <td>PNC Id:</td>
+        <td class="entry">OFF_PNC</td>
+    </tr>
+</table>
+<br/>
+
+<ol class="continue">
+    <li>The
+        Secretary of State may vary or cancel any of the above conditions, in accordance with Section 256AB(4), 256D and
+        256E of the Criminal Justice Act 2003.
+    </li>
+
+    <li>If you fail to comply with any requirement of your supervision (set out in paragraphs 22 and 23 above) under
+        section 256AB, 256D and 256E  of the Criminal Justice Act 2003 you will be liable to be summoned to appear
+        before a court. The court may order you to be detained for up to 14 days, or impose further sanctions such as
+        unpaid work or electronic location monitoring.
+    </li>
+
+    <p class="subheading">Expiration Dates</p>
+
+    <li>Your Home Detention Curfew expires on <span class="entry">SENT_CRD</span></li>
+
+    <li>Your licence period expires on <span class="entry">SENT_LED</span></li>
+
+    <li>Your sentence expires on <span class="entry">SENT_SED</span></li>
+
+    <li>Your post-sentence supervision period expires on <span class="entry">SENT_TUSED</span></li>
+
+    <p class="subheading">Contact Points</p>
+
+    <p>Monitoring Supplier: <span class="entry">MONITOR</span></p>
+
+    <p>Releasing establishment: <span class="entry">EST_PHONE</span></p>
+
+</ol>
+
+<div class="footer"></div>
+<div class="pagebreak"></div>
+
+<table class="wide">
+    <tr>
+        <td colspan="5" class="center">
+            <span class="heading">LICENCE AND NOTICE OF SUPERVISION</span>
+            <br/>
+            <span class="subheading small">Criminal Justice Act 2003</span>
+        </td>
+    </tr>
+    <tr>
+        <td class="subheading center" colspan="5">
+            EST_PREMISE
+            <br/>
+            EST_PHONE
+        </td>
+    </tr>
+    <tr>
+        <td>Name:</td>
+        <td colspan="3" class="entry">OFF_NAME</td>
+        <td rowspan="4" class="placeholder-image" width="150px"><img width="150px"
+                                                                     src="data:image/jpeg;base64,OFF_PHOTO"></img></td>
+    </tr>
+    <tr>
+        <td>Date of Birth:</td>
+        <td colspan="3" class="entry">OFF_DOB</td>
+    </tr>
+    <tr>
+        <td>NOMS No:</td>
+        <td class="entry">OFF_NOMS</td>
+        <td>CRO No:</td>
+        <td class="entry">OFF_CRO</td>
+    </tr>
+    <tr>
+        <td>Booking No:</td>
+        <td class="entry">OFF_BOOKING</td>
+        <td>PNC Id:</td>
+        <td class="entry">OFF_PNC</td>
+    </tr>
+</table>
+<br/>
+
+<p class="subheading underline">Explanatory note in respect of your licence</p>
+<p>You are being released under the provisions of Chapter 6 of the Criminal Justice Act 2003.</p>
+
+<table class="lined">
+    <tr>
+        <td width="50px"></td>
+        <td>You are being released subject to the licence period of a 12 months or longer sentence followed by a
+            post-sentence supervision period.
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>You are being released subject to the licence period of an under 12 month sentence followed by a
+            post-sentence supervision period.
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>You are being released subject to the licence period of both a 12 month or longer sentence
+            and one or more under 12 month sentence(s) followed by a post-sentence supervision period.
+            <br/>
+            The licence period of your under 12 month sentence(s) expires on _______
+            <br/>
+            Your under 12 month sentence(s) expires on _______
+            <br/>
+            Your 12 month or over sentence expires on _______  
+        </td>
+    </tr>
+</table>
+
+<p>Your release is also subject to the conditions specified on your licence, all of which have been imposed in
+    accordance with Chapter 6 of the Act.</p>
+
+<table class="signature" width="100%">
+    <tr>
+        <td>Signed:</td>
+        <td>Status:</td>
+    </tr>
+    <tr>
+        <td colspan="2">Date:</td>
+    </tr>
+    <tr>
+        <td colspan="2">for the Secretary of State for Justice</td>
+    </tr>
+    <tr>
+        <td colspan="2">Name: <span class="entry">OFF_NAME</span></td>
+    </tr>
+    <tr>
+        <td colspan="2">Signed:</td>
+    </tr>
+    <tr>
+        <td colspan="2">Date:</td>
+    </tr>
+</table>
+
+
+<div class="footer"></div>
+
+
+</body>
+</html>
