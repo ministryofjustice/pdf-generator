@@ -1,12 +1,12 @@
 branch-defaults:
   master:
-    environment: pdf-generator
+    environment: licences-pdf-generator-stage
 environment-defaults:
   pdf-generator:
     branch: null
     repository: null
 global:
-  application_name: pdf-generator
+  application_name: licences-pdf-generator
   default_ec2_keyname: null
   default_platform: Java 8 running on 64bit Amazon Linux
   default_region: eu-west-2
