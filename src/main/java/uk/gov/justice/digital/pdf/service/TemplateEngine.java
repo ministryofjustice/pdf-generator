@@ -28,7 +28,7 @@ public class TemplateEngine {
                 .stream()
                 .flatMap(TemplateEngine::flattenListsToArrayNotation)
                 .sorted(byEntryKeySize)
-                .forEach(entry -> document.replaceAll(entry.getKey(), escapeXml10(entry.getValue())));
+                .forEach(entry -> document.replaceAll(entry.getKey(), entry.getValue()));
 
         return removeExcessArrayElements(pdfRequest, document.toString());
     }
