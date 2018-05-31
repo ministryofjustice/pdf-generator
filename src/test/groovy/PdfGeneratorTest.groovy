@@ -23,7 +23,7 @@ class PdfGeneratorTest extends Specification {
 
         setup:
         def pdfGenerator = new PdfGenerator(new ResourceRepository())
-        def pdfRequest = new PdfRequest('shortFormatPreSentenceReport', [MAIN_OFFENCE: 'This is "quoted", with <angles> & \' '])
+        def pdfRequest = new PdfRequest('shortFormatPreSentenceReport', [MAIN_OFFENCE: 'This is "quoted", with <p>&amp;</p>'])
 
         when:
         def result = pdfGenerator.process(pdfRequest)
