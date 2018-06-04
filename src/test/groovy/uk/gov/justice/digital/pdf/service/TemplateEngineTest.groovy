@@ -57,4 +57,28 @@ class TemplateEngineTest extends Specification {
         content.contains("<td>arrayothervalue1</td>")
         content.contains("<td>arrayothervalue2</td>")
     }
+
+    def "Escapes non rich text"() {
+        given:
+        PdfRequest request = new PdfRequest('template', ImmutableMap.of("ABC", "<p>html content</p>"));
+
+        when:
+        def content = TemplateEngine.populate(request, new ResourceRepository());
+
+        then:
+        content.contains("<td>&lt;p&gt;html content&lt;/p&gt;</td>")
+    }
+
+    def "Trusts and does not escape rich text"() {
+        given:
+        PdfRequest request = new PdfRequest('template', ImmutableMap.of("ABC", "<!-- RICH_TEXT --><p>html content</p>"));
+
+        when:
+        def content = TemplateEngine.populate(request, new ResourceRepository());
+
+        then:
+        content.contains("<td><!-- RICH_TEXT --><p>html content</p></td>")
+    }
+
+
 }
