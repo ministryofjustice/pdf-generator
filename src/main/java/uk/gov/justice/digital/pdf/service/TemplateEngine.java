@@ -28,7 +28,7 @@ public class TemplateEngine {
                 .stream()
                 .flatMap(TemplateEngine::flattenListsToArrayNotation)
                 .sorted(byEntryKeySize)
-                .forEach(entry -> document.replaceAll(entry.getKey(), escapeXml10(entry.getValue())));
+                .forEach(entry -> document.replaceAll(entry.getKey(), cleanWhenDirty(entry.getValue())));
 
         return removeExcessArrayElements(pdfRequest, document.toString());
     }
@@ -50,5 +50,12 @@ public class TemplateEngine {
                     .mapToObj(index -> immutableEntry(String.format("%s[%d]", entry.getKey(), index), listValues.get(index)));
         }
         return Stream.of(immutableEntry(entry.getKey(), Optional.ofNullable(entry.getValue()).map(Object::toString).orElse("")));
+    }
+
+    private static String cleanWhenDirty(String value) {
+        if (value.startsWith("<!-- RICH_TEXT -->")) { // rich text is already clean
+            return value;
+        }
+        return escapeXml10(value);
     }
 }

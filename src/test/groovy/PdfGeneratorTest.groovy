@@ -32,4 +32,17 @@ class PdfGeneratorTest extends Specification {
         result[0..5] == [37, 80, 68, 70, 45, 49].collect { it.byteValue() }
         result.length > 10000
     }
+    def "PdfGenerator does not process XML characters when rich text"() {
+
+        setup:
+        def pdfGenerator = new PdfGenerator(new ResourceRepository())
+        def pdfRequest = new PdfRequest('shortFormatPreSentenceReport', [MAIN_OFFENCE: '<!-- RICH_TEXT --><p>This is "quoted", with &lt;angles&gt; &amp; \'  </p>'])
+
+        when:
+        def result = pdfGenerator.process(pdfRequest)
+
+        then:
+        result[0..5] == [37, 80, 68, 70, 45, 49].collect { it.byteValue() }
+        result.length > 10000
+    }
 }
