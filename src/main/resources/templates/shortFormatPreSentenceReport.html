@@ -95,10 +95,10 @@
             width: 30px;
         }
 
-        .optional-section.false {
+        .optional-section, .alternative-section.yes {
             display: none;
         }
-        .optional-section.true {
+        .optional-section.true, .optional-section.yes, .alternative-section {
             display: block;
             page-break-inside: avoid;
         }
@@ -364,6 +364,34 @@
         </div>
 
 
+
+        <div>
+            <table class="margin-top medium keep-together-section">
+                <tr class="table-header">
+                    <td class="heading">Experience of trauma</td>
+                </tr>
+            </table>
+            <div class="keep-together-section optional-section EXPERIENCE_TRAUMA">
+                <p class="formatted-text">EXPERIENCE_TRAUMA_DETAILS</p>
+            </div>
+            <div class="keep-together-section alternative-section EXPERIENCE_TRAUMA">
+                <p class="formatted-text">N/A</p>
+            </div>
+        </div>
+
+        <div>
+            <table class="margin-top medium keep-together-section">
+                <tr class="table-header">
+                    <td class="heading">Caring responsibilities</td>
+                </tr>
+            </table>
+            <div class="keep-together-section optional-section CARING_RESPONSIBILITIES">
+                <p class="formatted-text">CARING_RESPONSIBILITIES_DETAILS</p>
+            </div>
+            <div class="keep-together-section alternative-section CARING_RESPONSIBILITIES">
+                <p class="formatted-text">N/A</p>
+            </div>
+        </div>
 
         <div>
             <table class="margin-top medium keep-together-section">
