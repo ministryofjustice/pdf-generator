@@ -191,8 +191,26 @@
         div.footer {
             display: block; text-align: center;
             position: running(footer);
+            font-size: 14px;
         }
-        div#page-number:before {
+
+        .footer-element {
+            margin-left: 16px;
+        }
+
+        .footer .optional-section {
+            display: inline;
+        }
+        .footer .optional-section.DRAFT {
+            display: none;
+        }
+        .footer .alternative-section {
+            display: none;
+        }
+        .footer .alternative-section.DRAFT {
+            display: inline;
+        }
+        span#page-number:before {
             content: counter(page);
         }
         .ql-align-justify {
@@ -207,8 +225,8 @@
             }
             size: A4 portrait;
             margin-top:2cm;
-            margin-left:3cm;
-            margin-right:3cm;
+            margin-left:1.2cm;
+            margin-right:1.2cm;
             margin-bottom:2cm;
         }
     </style>
@@ -219,7 +237,14 @@
         <h3>OFFICIAL</h3>
         <div class="watermark">_WATERMARK_</div>
     </div>
-    <div class='footer'> <div id="page-number"></div></div>
+    <div class='footer'>
+        <span class="footer-element">Page </span><span id="page-number"></span>
+        <span class="footer-element">Report author: REPORT_AUTHOR</span>
+        <span class="footer-element">Date completed:
+            <span class="optional-section _WATERMARK_">REPORT_DATE</span>
+            <span class="alternative-section _WATERMARK_">Draft</span>
+        </span>
+    </div>
     <div class="page">
 
         <table class="first-page-header">
