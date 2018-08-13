@@ -13,6 +13,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static com.google.common.collect.Maps.immutableEntry;
+import static java.lang.String.format;
 import static org.apache.commons.lang3.StringEscapeUtils.escapeXml10;
 
 public class TemplateEngine {
@@ -26,6 +27,7 @@ public class TemplateEngine {
         pdfRequest.getValues()
                 .entrySet()
                 .stream()
+                .flatMap(TemplateEngine::addPseudoPresentElements)
                 .flatMap(TemplateEngine::flattenListsToArrayNotation)
                 .sorted(byEntryKeySize)
                 .forEach(entry -> document.replaceAll(entry.getKey(), cleanWhenDirty(entry.getValue())));
@@ -38,16 +40,25 @@ public class TemplateEngine {
                 .entrySet()
                 .stream()
                 .filter(entry -> entry.getValue() instanceof List)
-                .map(entry -> String.format("%s\\[%s\\]", entry.getKey(), ".*"))
+                .map(entry -> format("%s\\[%s\\]", entry.getKey(), ".*"))
                 .reduce(populatedTemplate, (template, expression) -> template.replaceAll(expression, ""));
     }
+
+    private static Stream<? extends Map.Entry<String, Object>> addPseudoPresentElements(Map.Entry<String, Object> entry) {
+        if (entry.getValue() instanceof String) {
+            return Stream.of(immutableEntry(format("%s_PRESENT", entry.getKey()), ((String) entry.getValue()).length() > 0), entry);
+
+        }
+        return Stream.of(entry);
+    }
+
 
     private static Stream<? extends Map.Entry<String, String>> flattenListsToArrayNotation(Map.Entry<String, Object> entry) {
         if (entry.getValue() instanceof List) {
             @SuppressWarnings("unchecked")
             val listValues = (List<String>) entry.getValue();
             return IntStream.range(0, listValues.size())
-                    .mapToObj(index -> immutableEntry(String.format("%s[%d]", entry.getKey(), index), listValues.get(index)));
+                    .mapToObj(index -> immutableEntry(format("%s[%d]", entry.getKey(), index), listValues.get(index)));
         }
         return Stream.of(immutableEntry(entry.getKey(), Optional.ofNullable(entry.getValue()).map(Object::toString).orElse("")));
     }

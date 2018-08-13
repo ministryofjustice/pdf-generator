@@ -80,5 +80,17 @@ class TemplateEngineTest extends Specification {
         content.contains("<td><!-- RICH_TEXT --><p>html content</p></td>")
     }
 
+    def "Adds pseudo present elements"() {
+        given:
+        PdfRequest request = new PdfRequest('template', ImmutableMap.of("NOT_MISSING_ELEMENT", "value1", "MISSING_ELEMENT", ""));
+
+        when:
+        def content = TemplateEngine.populate(request, new ResourceRepository());
+
+        then:
+        content.contains("<td>present=true</td>")
+        content.contains("<td>not present=false</td>")
+    }
+
 
 }
