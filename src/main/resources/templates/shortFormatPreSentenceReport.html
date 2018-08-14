@@ -86,12 +86,12 @@
             height: 15px;
         }
 
-        .check.true {
+        .check.true, .check.yes {
             background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAABS2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDAgNzkuMTYwNDUxLCAyMDE3LzA1LzA2LTAxOjA4OjIxICAgICAgICAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIi8+CiA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgo8P3hwYWNrZXQgZW5kPSJyIj8+LUNEtwAAAI5JREFUKJGd0LENwyAQRuE/qZnDg9wU3oEZYCB7Mvpz/VJEiW2BccJJVNz3hHgAaHCeo3AYb9s2hnPOCiFoXVeJPyalhKT9DMMPdneWZcHdf4bTNCF3x8yQhJlVgStYSkHzPJ8ujoEeBFCMsVows1sIvJ/dCtxBYP+wXqAFv7gXuIIn3Ar0YIWPATPrQoAXBP/KUW8DFl4AAAAASUVORK5CYII=');
 
         }
 
-        .check.false {
+        .check.false, .check.no {
             width: 30px;
         }
 
@@ -191,8 +191,26 @@
         div.footer {
             display: block; text-align: center;
             position: running(footer);
+            font-size: 14px;
         }
-        div#page-number:before {
+
+        .footer-element {
+            margin-left: 16px;
+        }
+
+        .footer .optional-section {
+            display: inline;
+        }
+        .footer .optional-section.DRAFT {
+            display: none;
+        }
+        .footer .alternative-section {
+            display: none;
+        }
+        .footer .alternative-section.DRAFT {
+            display: inline;
+        }
+        span#page-number:before {
             content: counter(page);
         }
         .ql-align-justify {
@@ -207,8 +225,8 @@
             }
             size: A4 portrait;
             margin-top:2cm;
-            margin-left:3cm;
-            margin-right:3cm;
+            margin-left:1.2cm;
+            margin-right:1.2cm;
             margin-bottom:2cm;
         }
     </style>
@@ -219,7 +237,14 @@
         <h3>OFFICIAL</h3>
         <div class="watermark">_WATERMARK_</div>
     </div>
-    <div class='footer'> <div id="page-number"></div></div>
+    <div class='footer'>
+        <span class="footer-element">Page </span><span id="page-number"></span>
+        <span class="footer-element">Report author: REPORT_AUTHOR</span>
+        <span class="footer-element">Date completed:
+            <span class="optional-section _WATERMARK_">REPORT_DATE</span>
+            <span class="alternative-section _WATERMARK_">Draft</span>
+        </span>
+    </div>
     <div class="page">
 
         <table class="first-page-header">
@@ -300,6 +325,11 @@
             <p class="formatted-text">OFFENCE_ANALYSIS</p>
         </div>
 
+        <div class="details-section optional-section PATTERN_OF_OFFENDING_PRESENT">
+            <h3>Pattern of offending:</h3>
+            <p class="formatted-text">PATTERN_OF_OFFENDING</p>
+        </div>
+
         <div>
             <table class="margin-top medium keep-together-section">
                 <tr class="table-header">
@@ -326,6 +356,12 @@
                 <tr>
                     <td>Thinking and Behaviour</td>
                     <td class="check-padding"><span class="check ISSUE_BEHAVIOUR"></span></td>
+                    <td>Experience of trauma</td>
+                    <td class="check-padding"><span class="check EXPERIENCE_TRAUMA"></span></td>
+                </tr>
+                <tr>
+                    <td>Caring responsibilities</td>
+                    <td class="check-padding"><span class="check CARING_RESPONSIBILITIES"></span></td>
                     <td>Other</td>
                     <td class="check-padding"><span class="check ISSUE_OTHER"></span></td>
                 </tr>
@@ -359,6 +395,14 @@
                     <h3>Thinking and behaviour</h3>
                     <p class="formatted-text">ISSUE_BEHAVIOUR_DETAILS</p>
                 </div>
+                <div class="keep-together-section optional-section EXPERIENCE_TRAUMA">
+                    <h3>Experience of trauma</h3>
+                    <p class="formatted-text">EXPERIENCE_TRAUMA_DETAILS</p>
+                </div>
+                <div class="keep-together-section optional-section CARING_RESPONSIBILITIES">
+                    <h3>Caring responsibilities</h3>
+                    <p class="formatted-text">CARING_RESPONSIBILITIES_DETAILS</p>
+                </div>
                 <div class="keep-together-section optional-section ISSUE_OTHER">
                     <h3>Other</h3>
                     <p class="formatted-text">ISSUE_OTHER_DETAILS</p>
@@ -366,46 +410,6 @@
             </div>
         </div>
 
-
-
-        <div>
-            <table class="margin-top medium keep-together-section">
-                <tr class="table-header">
-                    <td class="heading">Experience of trauma</td>
-                </tr>
-            </table>
-            <div class="keep-together-section optional-section EXPERIENCE_TRAUMA">
-                <p class="formatted-text">EXPERIENCE_TRAUMA_DETAILS</p>
-            </div>
-            <div class="keep-together-section alternative-section EXPERIENCE_TRAUMA">
-                <p class="formatted-text">N/A</p>
-            </div>
-        </div>
-
-        <div>
-            <table class="margin-top medium keep-together-section">
-                <tr class="table-header">
-                    <td class="heading">Caring responsibilities</td>
-                </tr>
-            </table>
-            <div class="keep-together-section optional-section CARING_RESPONSIBILITIES">
-                <p class="formatted-text">CARING_RESPONSIBILITIES_DETAILS</p>
-            </div>
-            <div class="keep-together-section alternative-section CARING_RESPONSIBILITIES">
-                <p class="formatted-text">N/A</p>
-            </div>
-        </div>
-
-        <div>
-            <table class="margin-top medium keep-together-section">
-                <tr class="table-header">
-                    <td class="heading">Pattern of offending</td>
-                </tr>
-            </table>
-            <div class="sub-section">
-                <p class="formatted-text">PATTERN_OF_OFFENDING</p>
-            </div>
-        </div>
 
         <div>
             <table class="margin-top medium keep-together-section">
