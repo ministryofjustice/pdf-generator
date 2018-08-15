@@ -64,6 +64,36 @@ jobs:
                   command: |
                     eb deploy pdf-generator-smoke-test  --label $(cat /workspace/version.txt)
 
+    smoketest:
+      docker:
+      - image: circleci/openjdk:8-node-browsers
+      working_directory: ~/app
+      steps:
+      - run:
+          name: Checkout smoke test
+          command: |
+            git clone https://github.com/noms-digital-studio/ndelius-new-tech-smoke-test.git .
+            git checkout "$CIRCLE_BRANCH" || true
+      - run:
+          name: Build and run test
+          command: |
+            gradle test  --tests uk.gov.justice.digital.hmpps.delius.*.*_FullJourney
+      - store_test_results:
+          path: ./build/test-results/
+      - store_test_results:
+          path: ./build/geb-reports/
+      - store_test_results:
+          path: ./build/reports/
+      - store_artifacts:
+          path: ./build/test-results/
+          destination: reports
+      - store_artifacts:
+          path: ./build/geb-reports/
+          destination: reports
+      - store_artifacts:
+          path: ./build/reports/
+          destination: reports
+
 workflows:
     version: 2
     build-deploy:
@@ -72,6 +102,9 @@ workflows:
             - deploysmoketest:
                 requires:
                     - build
+            - smoketest:
+                requires:
+                  - deploysmoketest
             - deploy:
                 requires:
                     - build
