@@ -100,7 +100,6 @@
         }
         .optional-section.true, .optional-section.yes, .alternative-section {
             display: block;
-            page-break-inside: avoid;
         }
         .table-header {
             background: #EAEAEA;
@@ -216,6 +215,9 @@
         .ql-align-justify {
             text-align: justify;
         }
+        tr.no-border {
+            border: none;
+        }
         @page {
             @top-center {
                 content: element(header)
@@ -313,13 +315,11 @@
                     <p class="formatted-text">OTHER_OFFENCE</p>
                 </td>
             </tr>
-            <tr>
-                <td>
-                    <h3 class="heading">Summary of the offence:</h3>
-                    <p class="formatted-text">OFFENCE_SUMMARY</p>
-                </td>
-            </tr>
         </table>
+        <div class="details-section">
+            <h3>Summary of the offence:</h3>
+            <p class="formatted-text">OFFENCE_SUMMARY</p>
+        </div>
         <div class="details-section">
             <h3>Offence Analysis:</h3>
             <p class="formatted-text">OFFENCE_ANALYSIS</p>
@@ -367,43 +367,43 @@
                 </tr>
             </table>
             <div class="details-section">
-                <div class="keep-together-section optional-section ISSUE_ACCOMMODATION">
+                <div class="optional-section ISSUE_ACCOMMODATION_DETAILS_PRESENT">
                     <h3>Accommodation</h3>
                     <p class="formatted-text">ISSUE_ACCOMMODATION_DETAILS</p>
                 </div>
-                <div class="keep-together-section optional-section ISSUE_EMPLOYMENT">
+                <div class="optional-section ISSUE_EMPLOYMENT_DETAILS_PRESENT">
                     <h3>Employment, training and education</h3>
                     <p class="formatted-text">ISSUE_EMPLOYMENT_DETAILS</p>
                 </div>
-                <div class="keep-together-section optional-section ISSUE_FINANCE">
+                <div class="optional-section ISSUE_FINANCE_DETAILS_PRESENT">
                     <h3>Finance</h3>
                     <p class="formatted-text">ISSUE_FINANCE_DETAILS</p>
                 </div>
-                <div class="keep-together-section optional-section ISSUE_RELATIONSHIPS">
+                <div class="optional-section ISSUE_RELATIONSHIPS_DETAILS_PRESENT">
                     <h3>Relationships</h3>
                     <p class="formatted-text">ISSUE_RELATIONSHIPS_DETAILS</p>
                 </div>
-                <div class="keep-together-section optional-section ISSUE_SUBSTANCE_MISUSE">
+                <div class="optional-section ISSUE_SUBSTANCE_MISUSE_DETAILS_PRESENT">
                     <h3>Substance misuse</h3>
                     <p class="formatted-text">ISSUE_SUBSTANCE_MISUSE_DETAILS</p>
                 </div>
-                <div class="keep-together-section optional-section ISSUE_HEALTH">
+                <div class="optional-section ISSUE_HEALTH_DETAILS_PRESENT">
                     <h3>Physical &amp; mental health</h3>
                     <p class="formatted-text">ISSUE_HEALTH_DETAILS</p>
                 </div>
-                <div class="keep-together-section optional-section ISSUE_BEHAVIOUR">
+                <div class="optional-section ISSUE_BEHAVIOUR_DETAILS_PRESENT">
                     <h3>Thinking and behaviour</h3>
                     <p class="formatted-text">ISSUE_BEHAVIOUR_DETAILS</p>
                 </div>
-                <div class="keep-together-section optional-section EXPERIENCE_TRAUMA">
+                <div class="optional-section EXPERIENCE_TRAUMA_DETAILS_PRESENT">
                     <h3>Experience of trauma</h3>
                     <p class="formatted-text">EXPERIENCE_TRAUMA_DETAILS</p>
                 </div>
-                <div class="keep-together-section optional-section CARING_RESPONSIBILITIES">
+                <div class="optional-section CARING_RESPONSIBILITIES_DETAILS_PRESENT">
                     <h3>Caring responsibilities</h3>
                     <p class="formatted-text">CARING_RESPONSIBILITIES_DETAILS</p>
                 </div>
-                <div class="keep-together-section optional-section ISSUE_OTHER">
+                <div class="optional-section ISSUE_OTHER_DETAILS_PRESENT">
                     <h3>Other</h3>
                     <p class="formatted-text">ISSUE_OTHER_DETAILS</p>
                 </div>
@@ -412,24 +412,24 @@
 
 
         <div>
-            <table class="margin-top medium keep-together-section">
+            <table class="margin-top medium">
                 <tr class="table-header">
                     <td colspan="2" class="heading">Risk Assessment</td>
                 </tr>
             </table>
-            <div class="sub-section keep-together-section">
+            <div class="sub-section">
                 <h3>Likelihood of re-offending:</h3>
                 <p class="formatted-text">LIKELIHOOD_OF_RE_OFFENDING</p>
             </div>
-            <div class="sub-section keep-together-section">
+            <div class="sub-section">
                 <h3>Risk of serious harm:</h3>
                 <p class="formatted-text">RISK_OF_SERIOUS_HARM</p>
             </div>
-            <div class="sub-section keep-together-section">
+            <div class="sub-section">
                 <h3>Response to previous supervision:</h3>
                 <p class="formatted-text">PREVIOUS_SUPERVISION_RESPONSE</p>
             </div>
-            <div class="sub-section keep-together-section">
+            <div class="sub-section optional-section ADDITIONAL_PREVIOUS_SUPERVISION_PRESENT">
                 <h3>Details on previous supervision:</h3>
                 <p class="formatted-text">ADDITIONAL_PREVIOUS_SUPERVISION</p>
             </div>
@@ -509,45 +509,42 @@
         </table>
 
 
-
-        <div class="keep-together-section">
-            <table class="margin-top medium">
-                <tr class="table-header">
-                    <td colspan="2" class="heading">Completion details</td>
-                </tr>
-                <tr>
-                    <td width="40%" class="heading">Report Author:</td>
-                    <td width="60%">REPORT_AUTHOR</td>
-                </tr>
-                <tr>
-                    <td width="40%" class="heading">Office:</td>
-                    <td width="60%">OFFICE</td>
-                </tr>
-                <tr>
-                    <td width="40%" class="heading">Court office phone number:</td>
-                    <td width="60%">COURT_OFFICE_PHONE_NUMBER</td>
-                </tr>
-                <tr>
-                    <td width="40%" class="heading">Signature:</td>
-                    <td width="60%">REPORT_AUTHOR</td>
-                </tr>
-                <tr>
-                    <td width="40%" class="heading">Counter signature*:</td>
-                    <td width="60%">COUNTER_SIGNATURE</td>
-                </tr>
-                <tr>
-                    <td width="40%" class="heading">Start date:</td>
-                    <td width="60%">START_DATE</td>
-                </tr>
-                <tr>
-                    <td width="40%" class="heading">Completion date:</td>
-                    <td width="60%">REPORT_DATE</td>
-                </tr>
-            </table>
-            <p>
-                * (if required)
-            </p>
-        </div>
+        <table class="margin-top medium keep-together-section">
+            <tr class="table-header">
+                <td colspan="2" class="heading">Completion details</td>
+            </tr>
+            <tr>
+                <td width="40%" class="heading">Report Author:</td>
+                <td width="60%">REPORT_AUTHOR</td>
+            </tr>
+            <tr>
+                <td width="40%" class="heading">Office:</td>
+                <td width="60%">OFFICE</td>
+            </tr>
+            <tr>
+                <td width="40%" class="heading">Court office phone number:</td>
+                <td width="60%">COURT_OFFICE_PHONE_NUMBER</td>
+            </tr>
+            <tr>
+                <td width="40%" class="heading">Signature:</td>
+                <td width="60%">REPORT_AUTHOR</td>
+            </tr>
+            <tr>
+                <td width="40%" class="heading">Counter signature*:</td>
+                <td width="60%">COUNTER_SIGNATURE</td>
+            </tr>
+            <tr>
+                <td width="40%" class="heading">Start date:</td>
+                <td width="60%">START_DATE</td>
+            </tr>
+            <tr>
+                <td width="40%" class="heading">Completion date:</td>
+                <td width="60%">REPORT_DATE</td>
+            </tr>
+            <tr>
+                <td class="no-border" colspan="2">* (if required)</td>
+            </tr>
+        </table>
     </div>
 
 </body>
