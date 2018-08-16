@@ -143,15 +143,24 @@
         .cell-top {
             vertical-align: top;
         }
-        h2 {
+        h1 {
             font-size: 18px;
+        }
+        h2 {
+            font-size: 16px;
+            page-break-after: avoid;
+            background: #EAEAEA;
+            border: black 1px solid;
+            padding: 4px;
+            margin-top: 0.8cm;
         }
 
         h3 {
             margin-top: 4px;
-            margin-bottom: 12px;
+            margin-bottom: 5px;
             font-size: 16px;
-            paddinng-bottom: 0;
+            padding-bottom: 0;
+            page-break-after: avoid;
         }
 
         p {
@@ -177,10 +186,7 @@
             page-break-inside: avoid;
         }
         .sub-section {
-            margin-top: 12px;
-        }
-        .sub-section h3 {
-            margin-bottom: 4px;
+            margin-top: 0.4cm;
         }
         div.header {
             display: block; text-align: center;
@@ -252,7 +258,7 @@
         <table class="first-page-header">
             <tr>
                 <td class="no-border">
-                    <h1><span class="organisation-logo"><span>HM Prison &amp;<br/>Probation Service</span></span></h1>
+                    <span class="organisation-logo"><span>HM Prison &amp;<br/>Probation Service</span></span>
                 </td>
                 <td class="no-border bottom" align="right">
                     <div class="probabtion-logo"></div>
@@ -260,7 +266,7 @@
             </tr>
         </table>
 
-        <h2 class="center">Short Format Pre-Sentence Report</h2>
+        <h1 class="center">Short Format Pre-Sentence Report</h1>
 
         <p>This is a Pre-Sentence Report as defined in Section 158 of the Criminal Justice Act 2003.</p>
 
@@ -367,43 +373,43 @@
                 </tr>
             </table>
             <div class="details-section">
-                <div class="optional-section ISSUE_ACCOMMODATION_DETAILS_PRESENT">
+                <div class="sub-section optional-section ISSUE_ACCOMMODATION_DETAILS_PRESENT">
                     <h3>Accommodation</h3>
                     <p class="formatted-text">ISSUE_ACCOMMODATION_DETAILS</p>
                 </div>
-                <div class="optional-section ISSUE_EMPLOYMENT_DETAILS_PRESENT">
+                <div class="sub-section optional-section ISSUE_EMPLOYMENT_DETAILS_PRESENT">
                     <h3>Employment, training and education</h3>
                     <p class="formatted-text">ISSUE_EMPLOYMENT_DETAILS</p>
                 </div>
-                <div class="optional-section ISSUE_FINANCE_DETAILS_PRESENT">
+                <div class="sub-section optional-section ISSUE_FINANCE_DETAILS_PRESENT">
                     <h3>Finance</h3>
                     <p class="formatted-text">ISSUE_FINANCE_DETAILS</p>
                 </div>
-                <div class="optional-section ISSUE_RELATIONSHIPS_DETAILS_PRESENT">
+                <div class="sub-section optional-section ISSUE_RELATIONSHIPS_DETAILS_PRESENT">
                     <h3>Relationships</h3>
                     <p class="formatted-text">ISSUE_RELATIONSHIPS_DETAILS</p>
                 </div>
-                <div class="optional-section ISSUE_SUBSTANCE_MISUSE_DETAILS_PRESENT">
+                <div class="sub-section optional-section ISSUE_SUBSTANCE_MISUSE_DETAILS_PRESENT">
                     <h3>Substance misuse</h3>
                     <p class="formatted-text">ISSUE_SUBSTANCE_MISUSE_DETAILS</p>
                 </div>
-                <div class="optional-section ISSUE_HEALTH_DETAILS_PRESENT">
+                <div class="sub-section optional-section ISSUE_HEALTH_DETAILS_PRESENT">
                     <h3>Physical &amp; mental health</h3>
                     <p class="formatted-text">ISSUE_HEALTH_DETAILS</p>
                 </div>
-                <div class="optional-section ISSUE_BEHAVIOUR_DETAILS_PRESENT">
+                <div class="sub-section optional-section ISSUE_BEHAVIOUR_DETAILS_PRESENT">
                     <h3>Thinking and behaviour</h3>
                     <p class="formatted-text">ISSUE_BEHAVIOUR_DETAILS</p>
                 </div>
-                <div class="optional-section EXPERIENCE_TRAUMA_DETAILS_PRESENT">
+                <div class="sub-section optional-section EXPERIENCE_TRAUMA_DETAILS_PRESENT">
                     <h3>Experience of trauma</h3>
                     <p class="formatted-text">EXPERIENCE_TRAUMA_DETAILS</p>
                 </div>
-                <div class="optional-section CARING_RESPONSIBILITIES_DETAILS_PRESENT">
+                <div class="sub-section optional-section CARING_RESPONSIBILITIES_DETAILS_PRESENT">
                     <h3>Caring responsibilities</h3>
                     <p class="formatted-text">CARING_RESPONSIBILITIES_DETAILS</p>
                 </div>
-                <div class="optional-section ISSUE_OTHER_DETAILS_PRESENT">
+                <div class="sub-section optional-section ISSUE_OTHER_DETAILS_PRESENT">
                     <h3>Other</h3>
                     <p class="formatted-text">ISSUE_OTHER_DETAILS</p>
                 </div>
@@ -412,11 +418,7 @@
 
 
         <div>
-            <table class="margin-top medium">
-                <tr class="table-header">
-                    <td colspan="2" class="heading">Risk Assessment</td>
-                </tr>
-            </table>
+            <h2>Risk Assessment</h2>
             <div class="sub-section">
                 <h3>Likelihood of re-offending:</h3>
                 <p class="formatted-text">LIKELIHOOD_OF_RE_OFFENDING</p>
@@ -435,11 +437,7 @@
             </div>
         </div>
 
-        <table class="margin-top medium">
-            <tr class="table-header">
-                <td class="heading">Proposed sentence (including length and any sentence components)</td>
-            </tr>
-        </table>
+        <h2>Proposed sentence (including length and any sentence components)</h2>
         <div class="sub-section">
             <p class="formatted-text">PROPOSAL</p>
         </div>
