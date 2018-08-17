@@ -4,6 +4,7 @@ import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.text.PDFTextStripper
 import spark.Spark
 import spock.lang.Specification
+import spock.lang.Unroll
 import uk.gov.justice.digital.pdf.Configuration
 import uk.gov.justice.digital.pdf.Server
 
@@ -116,25 +117,40 @@ class ShortFormatPreSentenceReportTest extends Specification {
         !content.contains("Details on previous supervision:")
     }
 
-    def "An offender assessment detail appear when present and ticked"() {
+    @Unroll('#issueTitle issue assessment detail appear when present and ticked')
+    def "An issue assessment detail appear when present and ticked"(issueTitle, issue, details) {
 
         when:
+        String issueDetailText = "<!-- RICH_TEXT --><p>${issueTitle}</p>"
         def result = new RESTClient('http://localhost:8080/').post(
                 path: 'generate',
                 requestContentType: JSON,
                 body: [templateName: 'shortFormatPreSentenceReport',
                        values: [
-                                ISSUE_ACCOMMODATION_DETAILS: '<!-- RICH_TEXT --><p>Accommodation details</p>',
-                                ISSUE_ACCOMMODATION: true
+                               (details): issueDetailText,
+                               (issue): true
                        ]]
         )
 
         then:
         def content = pageText result.data
-        content.findAll("Accommodation").size() == 3 // tickbox title, section title and detail in section
+        content.findAll(issueTitle).size() == 3 // tickbox title, section title and detail in section
+
+        where:
+        issueTitle      | issue                     | details
+        'Accommodation' | 'ISSUE_ACCOMMODATION'     | 'ISSUE_ACCOMMODATION_DETAILS'
+        'Employment'    | 'ISSUE_EMPLOYMENT'        | 'ISSUE_EMPLOYMENT_DETAILS'
+        'Finance'       | 'ISSUE_FINANCE'           | 'ISSUE_FINANCE_DETAILS'
+        'Relationships' | 'ISSUE_RELATIONSHIPS'     | 'ISSUE_RELATIONSHIPS_DETAILS'
+        'Substance'     | 'ISSUE_SUBSTANCE_MISUSE'  | 'ISSUE_SUBSTANCE_MISUSE_DETAILS'
+        'Physical'      | 'ISSUE_HEALTH'            | 'ISSUE_HEALTH_DETAILS'
+        'Thinking'      | 'ISSUE_BEHAVIOUR'         | 'ISSUE_BEHAVIOUR_DETAILS'
+
     }
 
-    def "An offender assessment detail does not appear when not present but ticked"() {
+
+    @Unroll('#issueTitle assessment detail does not appear when not present but ticked')
+    def "An issue assessment detail does not appear when not present but ticked"(issueTitle, issue, details) {
 
         when:
         def result = new RESTClient('http://localhost:8080/').post(
@@ -142,32 +158,85 @@ class ShortFormatPreSentenceReportTest extends Specification {
                 requestContentType: JSON,
                 body: [templateName: 'shortFormatPreSentenceReport',
                        values: [
-                                ISSUE_ACCOMMODATION_DETAILS: '',
-                                ISSUE_ACCOMMODATION: true
+                               (details): '',
+                               (issue): true
                        ]]
         )
 
         then:
         def content = pageText result.data
-        content.findAll("Accommodation").size() == 1 // tickbox title only
+        content.findAll(issueTitle).size() == 1 // tickbox title only
+
+        where:
+        issueTitle      | issue                     | details
+        'Accommodation' | 'ISSUE_ACCOMMODATION'     | 'ISSUE_ACCOMMODATION_DETAILS'
+        'Employment'    | 'ISSUE_EMPLOYMENT'        | 'ISSUE_EMPLOYMENT_DETAILS'
+        'Finance'       | 'ISSUE_FINANCE'           | 'ISSUE_FINANCE_DETAILS'
+        'Relationships' | 'ISSUE_RELATIONSHIPS'     | 'ISSUE_RELATIONSHIPS_DETAILS'
+        'Substance'     | 'ISSUE_SUBSTANCE_MISUSE'  | 'ISSUE_SUBSTANCE_MISUSE_DETAILS'
+        'Physical'      | 'ISSUE_HEALTH'            | 'ISSUE_HEALTH_DETAILS'
+        'Thinking'      | 'ISSUE_BEHAVIOUR'         | 'ISSUE_BEHAVIOUR_DETAILS'
+
+    }
+    @Unroll('#issueTitle assessment detail does not appear when not present and not ticked')
+    def "An issue assessment detail does not appear when not present and not ticked"(issueTitle, issue, details) {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'shortFormatPreSentenceReport',
+                       values: [
+                               (details): '',
+                               (issue): false
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.findAll(issueTitle).size() == 1 // tickbox title only
+
+        where:
+        issueTitle      | issue                     | details
+        'Accommodation' | 'ISSUE_ACCOMMODATION'     | 'ISSUE_ACCOMMODATION_DETAILS'
+        'Employment'    | 'ISSUE_EMPLOYMENT'        | 'ISSUE_EMPLOYMENT_DETAILS'
+        'Finance'       | 'ISSUE_FINANCE'           | 'ISSUE_FINANCE_DETAILS'
+        'Relationships' | 'ISSUE_RELATIONSHIPS'     | 'ISSUE_RELATIONSHIPS_DETAILS'
+        'Substance'     | 'ISSUE_SUBSTANCE_MISUSE'  | 'ISSUE_SUBSTANCE_MISUSE_DETAILS'
+        'Physical'      | 'ISSUE_HEALTH'            | 'ISSUE_HEALTH_DETAILS'
+        'Thinking'      | 'ISSUE_BEHAVIOUR'         | 'ISSUE_BEHAVIOUR_DETAILS'
+
     }
 
-    def "An offender assessment detail does not appear if present but not ticked"() {
+    @Unroll('#issueTitle issue assessment detail does not appear when present but not ticked')
+    def "An offender assessment detail does not appear if present but not ticked"(issueTitle, issue, details) {
 
         when:
+        String issueDetailText = "<!-- RICH_TEXT --><p>${issueTitle}</p>"
         def result = new RESTClient('http://localhost:8080/').post(
                 path: 'generate',
                 requestContentType: JSON,
                 body: [templateName: 'shortFormatPreSentenceReport',
                        values: [
-                                ISSUE_ACCOMMODATION_DETAILS: '<!-- RICH_TEXT --><p>Accommodation details</p>',
-                                ISSUE_ACCOMMODATION: false
+                               (details): issueDetailText,
+                               (issue): false
                        ]]
         )
 
         then:
         def content = pageText result.data
-        content.findAll("Accommodation").size() == 1 // tickbox title only
+        content.findAll(issueTitle).size() == 1 // tickbox title only
+
+        where:
+        issueTitle      | issue                     | details
+        'Accommodation' | 'ISSUE_ACCOMMODATION'     | 'ISSUE_ACCOMMODATION_DETAILS'
+        'Employment'    | 'ISSUE_EMPLOYMENT'        | 'ISSUE_EMPLOYMENT_DETAILS'
+        'Finance'       | 'ISSUE_FINANCE'           | 'ISSUE_FINANCE_DETAILS'
+        'Relationships' | 'ISSUE_RELATIONSHIPS'     | 'ISSUE_RELATIONSHIPS_DETAILS'
+        'Substance'     | 'ISSUE_SUBSTANCE_MISUSE'  | 'ISSUE_SUBSTANCE_MISUSE_DETAILS'
+        'Physical'      | 'ISSUE_HEALTH'            | 'ISSUE_HEALTH_DETAILS'
+        'Thinking'      | 'ISSUE_BEHAVIOUR'         | 'ISSUE_BEHAVIOUR_DETAILS'
+
     }
 
     def "Experience of trauma detail appear when present and checked"() {
@@ -364,7 +433,7 @@ class ShortFormatPreSentenceReportTest extends Specification {
         Thread.sleep 3500
     }
 
-    def pageText(List<Integer> data) {
+    def pageText(data) {
         def document = toDocument(data)
 
         try {
@@ -375,7 +444,7 @@ class ShortFormatPreSentenceReportTest extends Specification {
         }
     }
 
-    def toDocument(List<Integer> data) {
+    def toDocument(data) {
         PDDocument.load(new ByteArrayInputStream(ArrayUtils.toPrimitive(data.collect { it.byteValue() }.toArray(new Byte[0]))))
     }
 }
