@@ -16,7 +16,11 @@ class ShortFormatPreSentenceReportTest extends Specification {
         def result = new RESTClient('http://localhost:8080/').post(
                 path: 'generate',
                 requestContentType: JSON,
-                body: [templateName: 'shortFormatPreSentenceReport', values: [_WATERMARK_: '', REPORT_AUTHOR: 'John Smith', REPORT_DATE: '22/08/2018']]
+                body: [templateName: 'shortFormatPreSentenceReport',
+                       values: [
+                               _WATERMARK_: '', REPORT_AUTHOR:
+                               'John Smith', REPORT_DATE: '22/08/2018'
+                       ]]
         )
 
         then:
@@ -30,7 +34,11 @@ class ShortFormatPreSentenceReportTest extends Specification {
         def result = new RESTClient('http://localhost:8080/').post(
                 path: 'generate',
                 requestContentType: JSON,
-                body: [templateName: 'shortFormatPreSentenceReport', values: [_WATERMARK_: 'DRAFT', REPORT_AUTHOR: '', REPORT_DATE: '22/08/2018']]
+                body: [templateName: 'shortFormatPreSentenceReport',
+                       values: [
+                               _WATERMARK_: 'DRAFT',
+                               REPORT_AUTHOR: '', REPORT_DATE: '22/08/2018'
+                       ]]
         )
 
         then:
@@ -44,7 +52,10 @@ class ShortFormatPreSentenceReportTest extends Specification {
         def result = new RESTClient('http://localhost:8080/').post(
                 path: 'generate',
                 requestContentType: JSON,
-                body: [templateName: 'shortFormatPreSentenceReport', values: [_WATERMARK_: '', PATTERN_OF_OFFENDING: '<!-- RICH_TEXT --><p>There is a pattern of offending</p>']]
+                body: [templateName: 'shortFormatPreSentenceReport',
+                       values: [
+                               PATTERN_OF_OFFENDING: '<!-- RICH_TEXT --><p>There is a pattern of offending</p>'
+                       ]]
         )
 
         then:
@@ -59,13 +70,287 @@ class ShortFormatPreSentenceReportTest extends Specification {
         def result = new RESTClient('http://localhost:8080/').post(
                 path: 'generate',
                 requestContentType: JSON,
-                body: [templateName: 'shortFormatPreSentenceReport', values: [_WATERMARK_: '', PATTERN_OF_OFFENDING: '']]
+                body: [templateName: 'shortFormatPreSentenceReport',
+                       values: [
+                               PATTERN_OF_OFFENDING: ''
+                       ]]
         )
 
         then:
         def content = pageText result.data
         !content.contains("Pattern of offending:")
     }
+
+    def "Details on previous supervision section appears when present"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'shortFormatPreSentenceReport',
+                       values: [
+                               ADDITIONAL_PREVIOUS_SUPERVISION: '<!-- RICH_TEXT --><p>Here are additional details to previous supervision</p>'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Details on previous supervision:"
+        content.contains "Here are additional details to previous supervision"
+    }
+
+    def "No Details on previous supervision section appears when not present"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'shortFormatPreSentenceReport',
+                       values: [
+                               ADDITIONAL_PREVIOUS_SUPERVISION: ''
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        !content.contains("Details on previous supervision:")
+    }
+
+    def "An offender assessment detail appear when present and ticked"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'shortFormatPreSentenceReport',
+                       values: [
+                                ISSUE_ACCOMMODATION_DETAILS: '<!-- RICH_TEXT --><p>Accommodation details</p>',
+                                ISSUE_ACCOMMODATION: true
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.findAll("Accommodation").size() == 3 // tickbox title, section title and detail in section
+    }
+
+    def "An offender assessment detail does not appear when not present but ticked"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'shortFormatPreSentenceReport',
+                       values: [
+                                ISSUE_ACCOMMODATION_DETAILS: '',
+                                ISSUE_ACCOMMODATION: true
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.findAll("Accommodation").size() == 1 // tickbox title only
+    }
+
+    def "An offender assessment detail does not appear if present but not ticked"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'shortFormatPreSentenceReport',
+                       values: [
+                                ISSUE_ACCOMMODATION_DETAILS: '<!-- RICH_TEXT --><p>Accommodation details</p>',
+                                ISSUE_ACCOMMODATION: false
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.findAll("Accommodation").size() == 1 // tickbox title only
+    }
+
+    def "Experience of trauma detail appear when present and checked"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'shortFormatPreSentenceReport',
+                       values: [
+                                EXPERIENCE_TRAUMA_DETAILS: '<!-- RICH_TEXT --><p>Experience of trauma</p>',
+                                EXPERIENCE_TRAUMA: 'yes'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.findAll("Experience of trauma").size() == 3 // tickbox title, section title and detail in section
+    }
+
+    def "Experience of trauma detail does not appear when not present but checked"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'shortFormatPreSentenceReport',
+                       values: [
+                                EXPERIENCE_TRAUMA_DETAILS: '',
+                                EXPERIENCE_TRAUMA: 'no'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.findAll("Experience of trauma").size() == 1 // tickbox title only
+    }
+
+    def "Experience of trauma detail does not appear if present but not checked"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'shortFormatPreSentenceReport',
+                       values: [
+                                EXPERIENCE_TRAUMA_DETAILS: '<!-- RICH_TEXT --><p>Experience of trauma</p>',
+                                EXPERIENCE_TRAUMA: 'no'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.findAll("Experience of trauma").size() == 1 // tickbox title only
+    }
+
+    def "Caring responsibilities detail appear when present and checked"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'shortFormatPreSentenceReport',
+                       values: [
+                                CARING_RESPONSIBILITIES_DETAILS: '<!-- RICH_TEXT --><p>Caring responsibilities</p>',
+                                CARING_RESPONSIBILITIES: 'yes'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.findAll("Caring responsibilities").size() == 3 // tickbox title, section title and detail in section
+    }
+
+    def "Caring responsibilities  detail does not appear when not present but checked"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'shortFormatPreSentenceReport',
+                       values: [
+                                CARING_RESPONSIBILITIES_DETAILS: '',
+                                CARING_RESPONSIBILITIES: 'no'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.findAll("Caring responsibilities").size() == 1 // tickbox title only
+    }
+
+    def "Caring responsibilities  detail does not appear if present but not checked"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'shortFormatPreSentenceReport',
+                       values: [
+                                CARING_RESPONSIBILITIES_DETAILS: '<!-- RICH_TEXT --><p>Caring responsibilities</p>',
+                                CARING_RESPONSIBILITIES: 'no'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.findAll("Caring responsibilities").size() == 1 // tickbox title only
+    }
+
+    def "Other sources of information section appears when present and ticked"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'shortFormatPreSentenceReport',
+                       values: [
+                               OTHER_INFORMATION_DETAILS: '<!-- RICH_TEXT --><p>Here are other source of information</p>',
+                               OTHER_INFORMATION_SOURCE: true
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Other sources of information:"
+        content.contains "Here are other source of information"
+    }
+
+    def "No Other sources of information section appears when not present and not ticked"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'shortFormatPreSentenceReport',
+                       values: [
+                               OTHER_INFORMATION_DETAILS: '',
+                               OTHER_INFORMATION_SOURCE: false
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        !content.contains("Other sources of information:")
+    }
+
+    def "No Other sources of information section appears when not present and ticked"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'shortFormatPreSentenceReport',
+                       values: [
+                               OTHER_INFORMATION_DETAILS: '',
+                               OTHER_INFORMATION_SOURCE: true
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        !content.contains("Other sources of information:")
+    }
+
+    def "No Other sources of information section appears when present but not ticked"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'shortFormatPreSentenceReport',
+                       values: [
+                               OTHER_INFORMATION_DETAILS: '<!-- RICH_TEXT --><p>Here are other source of information</p>',
+                               OTHER_INFORMATION_SOURCE: false
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        !content.contains("Other sources of information:")
+    }
+
 
     def setupSpec() {
 
