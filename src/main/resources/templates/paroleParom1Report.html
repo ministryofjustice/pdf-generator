@@ -7,6 +7,9 @@
     <title> Parole Assessment Report Offence Manager (PAROM 1) </title>
 
     <style type="text/css">
+        p {
+            orphans: 1; /* workaround for bug described by https://stackoverflow.com/questions/9499519/itext-2-flying-saucer-how-to-avoid-that-the-images-appears-broken-between-two */
+        }
         body {
             font-family: "nta", Arial, helvetica, sans-serif;
             font-size: 16px;
@@ -68,16 +71,32 @@
         }
         h1 {
             font-size: 24px;
-            font-weight: 300;
+            font-weight: 600;
         }
         h2 {
             font-size: 20px;
+            page-break-after: avoid;
+            margin-top: 0.8cm;
+            margin-bottom: 0.2cm;
         }
         h3 {
             font-size: 16px;
-            margin-bottom: 0;
+            page-break-after: avoid;
+            margin-top: 0.8cm;
+            margin-bottom: 0.2cm;
         }
-
+        .footer .optional-section {
+            display: inline;
+        }
+        .footer .optional-section.DRAFT {
+            display: none;
+        }
+        .footer .alternative-section {
+            display: none;
+        }
+        .footer .alternative-section.DRAFT {
+            display: inline;
+        }
 
         div.header {
             display: block; text-align: center;
@@ -88,21 +107,16 @@
             display: block; text-align: center;
             position: running(footer);
         }
-        div#page-number:before {
+        span#page-number:before {
             content: counter(page);
         }
         .ql-align-justify {
             text-align: justify;
         }
         .sub-section {
-            margin-top: 4px;
-            margin-bottom: 4px;
+            margin-top: 0.2cm;
         }
-        .sub-section  p {
-            margin-top: 2px;
-            margin-bottom: 2px;
-        }
-        .keep-together-section {
+        table {
             page-break-inside: avoid;
         }
         @page {
@@ -126,7 +140,14 @@
         <h3>OFFICIAL</h3>
         <div class="watermark">_WATERMARK_</div>
     </div>
-    <div class='footer'> <div id="page-number"></div></div>
+    <div class='footer'>
+        <span class="footer-element">Page </span><span id="page-number"></span>
+        <span class="footer-element">Report author: </span>
+        <span class="footer-element">Date completed:
+            <span class="optional-section _WATERMARK_"></span>
+            <span class="alternative-section _WATERMARK_">Draft</span>
+        </span>
+    </div>
     <div class="page">
 
         <table class="first-page-header">
@@ -143,16 +164,20 @@
         <h1 class="center">Parole Assessment Report Offender Manager (PAROM 1)</h1>
     </div>
 
-    <div class="keep-together-section">
-        <h2>Interventions</h2>
-        <h3>Interventions completed</h3>
-        <div class="sub-section">
-            <p class="formatted-text">INTERVENTIONS_DETAIL</p>
-        </div>
-        <h3>Interventions summary</h3>
-        <div class="sub-section">
-            <p class="formatted-text">INTERVENTIONS_SUMMARY</p>
-        </div>
+    <h2>Interventions</h2>
+    <div class="sub-section">
+        INTERVENTIONS_DETAIL
+    </div>
+    <h2>Interventions analysis</h2>
+    <div class="sub-section">
+        INTERVENTIONS_SUMMARY
+    </div>
+
+    <h2>Offender manager: prisoner contact</h2>
+    <div class="sub-section">
+        PRISONER_CONTACT_DETAIL
+        PRISONER_CONTACT_FAMILY_DETAIL
+        PRISONER_CONTACT_AGENCIES_DETAIL
     </div>
 
 </body>
