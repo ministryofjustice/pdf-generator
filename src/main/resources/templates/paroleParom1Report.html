@@ -98,6 +98,12 @@
             display: inline;
         }
 
+        .optional-section, .alternative-section {
+            display: none;
+        }
+        .optional-section.yes, .alternative-section.no {
+            display: block;
+        }
         div.header {
             display: block; text-align: center;
             position: running(header);
@@ -164,6 +170,21 @@
         <h1 class="center">Parole Assessment Report Offender Manager (PAROM 1)</h1>
     </div>
 
+    <h2>Offender manager: prisoner contact</h2>
+    <div class="sub-section">
+        PRISONER_CONTACT_DETAIL
+        PRISONER_CONTACT_FAMILY_DETAIL
+        PRISONER_CONTACT_AGENCIES_DETAIL
+    </div>
+
+    <h2>Offender Personality Disorder (OPD) pathway consideration</h2>
+    <div class="sub-section optional-section CONSIDERED_FOR_OPD_PATHWAY_SERVICES">
+        The prisoner has met the OPD screening criteria and has been considered for OPD pathway services.
+    </div>
+    <div class="sub-section alternative-section CONSIDERED_FOR_OPD_PATHWAY_SERVICES">
+        The prisoner has not met the OPD screening criteria and has not been considered for OPD pathway services.
+    </div>
+
     <h2>Interventions</h2>
     <div class="sub-section">
         INTERVENTIONS_DETAIL
@@ -173,12 +194,6 @@
         INTERVENTIONS_SUMMARY
     </div>
 
-    <h2>Offender manager: prisoner contact</h2>
-    <div class="sub-section">
-        PRISONER_CONTACT_DETAIL
-        PRISONER_CONTACT_FAMILY_DETAIL
-        PRISONER_CONTACT_AGENCIES_DETAIL
-    </div>
 
 </body>
 </html>

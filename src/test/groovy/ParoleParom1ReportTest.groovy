@@ -52,6 +52,63 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Here is prisoner agencies detail"
     }
 
+    def "Delius user does not select an option within the OPD Pathway UI"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               CONSIDERED_FOR_OPD_PATHWAY_SERVICES: ''
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Offender Personality Disorder (OPD) pathway consideration"
+        !content.contains("The prisoner has met the OPD screening criteria")
+        !content.contains("The prisoner has not met the OPD screening criteria")
+    }
+
+    def "Delius user wants to view the Yes option that they have selected in the OPD Pathway UI on the Parole Report PDF"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               CONSIDERED_FOR_OPD_PATHWAY_SERVICES: 'yes'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Offender Personality Disorder (OPD) pathway consideration"
+        content.contains "The prisoner has met the OPD screening criteria"
+        !content.contains("The prisoner has not met the OPD screening criteria")
+    }
+    def "Delius user wants to view the No option that they have selected in the OPD Pathway UI on the Parole Report PDF"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               CONSIDERED_FOR_OPD_PATHWAY_SERVICES: 'no'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Offender Personality Disorder (OPD) pathway consideration"
+        content.contains "The prisoner has not met the OPD screening criteria"
+        !content.contains("The prisoner has met the OPD screening criteria")
+    }
+
+
 
     def setupSpec() {
 
