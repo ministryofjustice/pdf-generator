@@ -108,6 +108,26 @@ class ParoleParom1ReportTest extends Specification {
         !content.contains("The prisoner has met the OPD screening criteria")
     }
 
+    def "Delius user wants to view the text that they entered in the Behaviour in prison fields on the Parole Report PDF"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               BEHAVIOUR_DETAIL: '<!-- RICH_TEXT --><p>Here is behaviour in prison detail</p>',
+                               ROTL_SUMMARY: '<!-- RICH_TEXT --><p>Here is RoTL summary detail</p>'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Behaviour in prison"
+        content.contains "Here is behaviour in prison detail"
+        content.contains "Release on Temporary Licence (RoTL)"
+        content.contains "Here is RoTL summary detail"
+    }
 
 
     def setupSpec() {
