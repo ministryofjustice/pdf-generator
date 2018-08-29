@@ -129,6 +129,69 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Here is RoTL summary detail"
     }
 
+    def "Delius user wants to view the text that they entered in the Offender manager: \"Victims\" UI on the Parole Report PD - with Yes"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               VICTIMS_IMPACT_DETAILS: '<!-- RICH_TEXT --><p>Here is victim impact details</p>',
+                               VICTIMS_VLO_CONTACT_DATE: '31/08/2018',
+                               VICTIMS_ENGAGED_IN_VCS: 'yes',
+                               VICTIMS_SUBMIT_VPS: 'yes'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Impact on the victim"
+        content.contains "Here is victim impact details"
+        content.contains "Victim Liaison Officer (VLO) contacted 31/08/2018"
+        content.contains "Victim Contact Scheme (VCS) engagement Yes"
+        content.contains "Victim Personal Statement (VPS) Yes"
+    }
+    def "Delius user wants to view the text that they entered in the Offender manager: \"Victims\" UI on the Parole Report PD - with No"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               VICTIMS_IMPACT_DETAILS: '<!-- RICH_TEXT --><p>Here is victim impact details</p>',
+                               VICTIMS_VLO_CONTACT_DATE: '31/08/2018',
+                               VICTIMS_ENGAGED_IN_VCS: 'no',
+                               VICTIMS_SUBMIT_VPS: 'no'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Impact on the victim"
+        content.contains "Here is victim impact details"
+        content.contains "Victim Liaison Officer (VLO) contacted 31/08/2018"
+        content.contains "Victim Contact Scheme (VCS) engagement No"
+        content.contains "Victim Personal Statement (VPS) No"
+    }
+    def "Delius user wants to view the text that they entered in the Offender manager: \"Victims\" UI on the Parole Report PD - with Don't know"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               VICTIMS_SUBMIT_VPS: 'unknown'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Victim Personal Statement (VPS) Don't know"
+    }
+
     def "Delius user wants to view the text that they entered in the Current sentence plan and response fields on the Parole Report PDF"() {
 
         when:

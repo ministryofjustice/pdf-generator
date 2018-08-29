@@ -98,10 +98,10 @@
             display: inline;
         }
 
-        .optional-section, .alternative-section {
+        .optional-section, .alternative-section, .unknown-section {
             display: none;
         }
-        .optional-section.yes, .alternative-section.no {
+        .optional-section.yes, .alternative-section.no, .unknown-section.unknown {
             display: block;
         }
         div.header {
@@ -123,8 +123,29 @@
             margin-top: 0.2cm;
         }
         table {
+            width: 100%;
+            border-spacing: 0;
+            border-collapse: collapse;
+            empty-cells: show;
             page-break-inside: avoid;
         }
+        tr {
+            margin: 0;
+        }
+        td {
+            margin: 0;
+            padding: 4px;
+            border: black 1px solid;
+            vertical-align: text-top;
+        }
+        .table-header {
+            background: #EAEAEA;
+            font-size: 20px;
+        }
+        .heading {
+            font-weight: bold;
+        }
+
         @page {
             @top-center {
                 content: element(header)
@@ -176,6 +197,35 @@
         PRISONER_CONTACT_FAMILY_DETAIL
         PRISONER_CONTACT_AGENCIES_DETAIL
     </div>
+
+    <h2>Impact on the victim</h2>
+    <div class="sub-section">
+        VICTIMS_IMPACT_DETAILS
+    </div>
+    <table class="margin-top medium">
+        <tr class="table-header">
+            <td colspan="2" class="heading">Victims</td>
+        </tr>
+        <tr>
+            <td class="heading">Victim Liaison Officer (VLO) contacted</td>
+            <td >VICTIMS_VLO_CONTACT_DATE</td>
+        </tr>
+        <tr>
+            <td class="heading">Victim Contact Scheme (VCS) engagement</td>
+            <td>
+               <span class="optional-section VICTIMS_ENGAGED_IN_VCS">Yes</span>
+               <span class="alternative-section VICTIMS_ENGAGED_IN_VCS">No</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="heading">Victim Personal Statement (VPS)</td>
+            <td>
+                <span class="optional-section VICTIMS_SUBMIT_VPS">Yes</span>
+                <span class="alternative-section VICTIMS_SUBMIT_VPS">No</span>
+                <span class="unknown-section VICTIMS_SUBMIT_VPS">Don't know</span>
+            </td>
+        </tr>
+    </table>
 
     <h2>Offender Personality Disorder (OPD) pathway consideration</h2>
     <div class="sub-section optional-section CONSIDERED_FOR_OPD_PATHWAY_SERVICES">
