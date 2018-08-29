@@ -192,6 +192,24 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Victim Personal Statement (VPS) Don't know"
     }
 
+    def "Delius user wants to view the text that they entered in the Current sentence plan and response fields on the Parole Report PDF"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               SENTENCE_PLAN: '<!-- RICH_TEXT --><p>Here is current sentence plan detail</p>'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Current sentence plan and response"
+        content.contains "Here is current sentence plan detail"
+    }
+
 
     def setupSpec() {
 
