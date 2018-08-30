@@ -13,6 +13,7 @@
         body {
             font-family: "nta", Arial, helvetica, sans-serif;
             font-size: 16px;
+            counter-reset: sectionnum subsectionnum paragraphnum;
         }
 
         table {
@@ -20,6 +21,8 @@
             border-spacing: 0;
             border-collapse: collapse;
             empty-cells: show;
+            page-break-inside: avoid;
+            border-top: none;
         }
 
         tr {
@@ -104,10 +107,6 @@
         .optional-section.true, .optional-section.true-true, .optional-section.true-yes, .optional-section.yes, .alternative-section {
             display: block;
         }
-        .table-header {
-            background: #EAEAEA;
-        }
-
         .heading {
             font-weight: bold;
         }
@@ -156,15 +155,41 @@
             border: black 1px solid;
             padding: 4px;
             margin-top: 0.8cm;
+            counter-reset: subsectionnum;
+        }
+        .table-heading {
+            margin-bottom: 0;
+            border-bottom: none;
+            margin-left: -0.5px;
+            margin-right: -0.5px;
         }
 
-        h3 {
+        h3, .official {
             margin-top: 4px;
             margin-bottom: 5px;
             font-size: 16px;
             padding-bottom: 0;
             page-break-after: avoid;
         }
+
+        h3 {
+            counter-reset: paragraphnum;
+        }
+
+        h2:before {
+            counter-increment: sectionnum;
+            content: counter(sectionnum) ". ";
+        }
+
+        h3:before {
+            counter-increment: subsectionnum;
+            content: counter(sectionnum) "." counter(subsectionnum) ". ";
+        }
+        .numbered p:before {
+            counter-increment: paragraphnum;
+            content: counter(sectionnum) "." counter(subsectionnum) "." counter(paragraphnum) ". ";
+        }
+
 
         p {
             margin-top: 4px;
@@ -227,6 +252,7 @@
         tr.no-border {
             border: none;
         }
+
         @page {
             @top-center {
                 content: element(header)
@@ -245,7 +271,7 @@
 </head>
 <body>
     <div class='header'>
-        <h3>OFFICIAL</h3>
+        <div class="official">OFFICIAL</div>
         <div class="watermark">_WATERMARK_</div>
     </div>
     <div class='footer'>
@@ -273,10 +299,8 @@
 
         <p>This is a Pre-Sentence Report as defined in Section 158 of the Criminal Justice Act 2003.</p>
 
-        <table class="margin-top medium keep-together-section">
-            <tr class="table-header">
-                <td colspan="4" class="heading">Offender details</td>
-            </tr>
+        <h2 class="table-heading">Offender details</h2>
+        <table>
             <tr>
                 <td width="25%" class="heading">Name:</td>
                 <td colspan="3">_NAME_</td>
@@ -308,10 +332,8 @@
             </tr>
         </table>
 
-        <table class="margin-top medium keep-together-section">
-            <tr class="table-header">
-                <td class="heading">Offence details</td>
-            </tr>
+        <h2 class="table-heading">Offence details</h2>
+        <table>
             <tr>
                 <td>
                     <h3 class="heading">Main offence and date:</h3>
@@ -326,24 +348,22 @@
             </tr>
         </table>
         <div class="details-section">
-            <h3>Summary of the offence:</h3>
+            <h2>Summary of the offence:</h2>
             <p class="formatted-text">OFFENCE_SUMMARY</p>
         </div>
         <div class="details-section">
-            <h3>Offence Analysis:</h3>
+            <h2>Offence Analysis:</h2>
             <p class="formatted-text">OFFENCE_ANALYSIS</p>
         </div>
 
         <div class="details-section optional-section PATTERN_OF_OFFENDING_PRESENT">
-            <h3>Pattern of offending:</h3>
+            <h2>Pattern of offending:</h2>
             <p class="formatted-text">PATTERN_OF_OFFENDING</p>
         </div>
 
         <div>
-            <table class="margin-top medium keep-together-section">
-                <tr class="table-header">
-                    <td colspan="4" class="heading">Offender assessment issues</td>
-                </tr>
+            <h2 class="table-heading">Offender assessment issues</h2>
+            <table>
                 <tr>
                     <td width="40%">Accommodation</td>
                     <td width="10%" class="check-padding"><span class="check ISSUE_ACCOMMODATION"></span></td>
@@ -420,24 +440,22 @@
         </div>
 
 
-        <div>
-            <h2>Risk Assessment</h2>
-            <div class="sub-section">
-                <h3>Likelihood of re-offending:</h3>
-                <p class="formatted-text">LIKELIHOOD_OF_RE_OFFENDING</p>
-            </div>
-            <div class="sub-section">
-                <h3>Risk of serious harm:</h3>
-                <p class="formatted-text">RISK_OF_SERIOUS_HARM</p>
-            </div>
-            <div class="sub-section">
-                <h3>Response to previous supervision:</h3>
-                <p class="formatted-text">PREVIOUS_SUPERVISION_RESPONSE</p>
-            </div>
-            <div class="sub-section optional-section ADDITIONAL_PREVIOUS_SUPERVISION_PRESENT">
-                <h3>Details on previous supervision:</h3>
-                <p class="formatted-text">ADDITIONAL_PREVIOUS_SUPERVISION</p>
-            </div>
+        <h2>Risk Assessment</h2>
+        <div class="sub-section">
+            <h3>Likelihood of re-offending:</h3>
+            <p class="formatted-text">LIKELIHOOD_OF_RE_OFFENDING</p>
+        </div>
+        <div class="sub-section">
+            <h3>Risk of serious harm:</h3>
+            <p class="formatted-text">RISK_OF_SERIOUS_HARM</p>
+        </div>
+        <div class="sub-section">
+            <h3>Response to previous supervision:</h3>
+            <p class="formatted-text">PREVIOUS_SUPERVISION_RESPONSE</p>
+        </div>
+        <div class="sub-section optional-section ADDITIONAL_PREVIOUS_SUPERVISION_PRESENT">
+            <h3>Details on previous supervision:</h3>
+            <p class="formatted-text">ADDITIONAL_PREVIOUS_SUPERVISION</p>
         </div>
 
         <h2>Proposed sentence (including length and any sentence components)</h2>
@@ -447,10 +465,8 @@
 
 
         <div class="keep-together-section">
-            <table class="margin-top medium">
-                <tr class="table-header">
-                    <td colspan="4" class="heading">Sources of Information</td>
-                </tr>
+            <h2 class="table-heading">Sources of Information</h2>
+            <table>
                 <tr>
                     <td width="40%">Interview</td>
                     <td width="10%" class="check-padding"><span class="check INTERVIEW_INFORMATION_SOURCE"></span></td>
@@ -489,10 +505,8 @@
         </div>
 
 
-        <table class="margin-top medium keep-together-section">
-            <tr class="table-header">
-                <td colspan="2" class="heading">Sentencing Court Details</td>
-            </tr>
+        <h2 class="table-heading">Sentencing Court Details</h2>
+        <table>
             <tr>
                 <td width="25%" class="heading">Court:</td>
                 <td width="75%">_COURT_</td>
@@ -508,10 +522,8 @@
         </table>
 
 
-        <table class="margin-top medium keep-together-section">
-            <tr class="table-header">
-                <td colspan="2" class="heading">Completion details</td>
-            </tr>
+        <h2 class="table-heading">Completion details</h2>
+        <table>
             <tr>
                 <td width="40%" class="heading">Report Author:</td>
                 <td width="60%">REPORT_AUTHOR</td>
