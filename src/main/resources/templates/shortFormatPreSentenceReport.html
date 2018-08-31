@@ -13,7 +13,7 @@
         body {
             font-family: "nta", Arial, helvetica, sans-serif;
             font-size: 16px;
-            counter-reset: sectionnum subsectionnum paragraphnum-2  paragraphnum-3 list-numbered-2;
+            counter-reset: sectionnum subsectionnum paragraphnum-2 paragraphnum-3 list-numbered-2;
         }
 
         table {
@@ -155,7 +155,11 @@
             border: black 1px solid;
             padding: 4px;
             margin-top: 0.8cm;
-            counter-reset: subsectionnum paragraphnum-2 list-numbered-2;
+            counter-reset: subsectionnum;
+        }
+
+        .details-section {
+            counter-reset: paragraphnum-2;
         }
         .table-heading {
             margin-bottom: 0;
@@ -173,7 +177,14 @@
         }
 
         h3 {
-            counter-reset: paragraphnum-3 list-numbered-3;
+            counter-reset: paragraphnum-3;
+        }
+
+        .list-numbered-2 {
+            counter-reset: list-numbered-2;
+        }
+        .list-numbered-3 {
+            counter-reset: list-numbered-3;
         }
 
         .NUMBERING_BASIC h2:before,
