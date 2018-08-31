@@ -13,7 +13,7 @@
         body {
             font-family: "nta", Arial, helvetica, sans-serif;
             font-size: 16px;
-            counter-reset: sectionnum subsectionnum paragraphnum;
+            counter-reset: sectionnum subsectionnum paragraphnum-2  paragraphnum-3 list-numbered-2;
         }
 
         table {
@@ -155,7 +155,7 @@
             border: black 1px solid;
             padding: 4px;
             margin-top: 0.8cm;
-            counter-reset: subsectionnum;
+            counter-reset: subsectionnum paragraphnum-2 list-numbered-2;
         }
         .table-heading {
             margin-bottom: 0;
@@ -173,7 +173,7 @@
         }
 
         h3 {
-            counter-reset: paragraphnum;
+            counter-reset: paragraphnum-3 list-numbered-3;
         }
 
         h2:before {
@@ -185,12 +185,32 @@
             counter-increment: subsectionnum;
             content: counter(sectionnum) "." counter(subsectionnum) ". ";
         }
-        .numbered p:before {
-            counter-increment: paragraphnum;
-            content: counter(sectionnum) "." counter(subsectionnum) "." counter(paragraphnum) ". ";
+        .numbered-3 p:before {
+            counter-increment: paragraphnum-3;
+            content: counter(sectionnum) "." counter(subsectionnum) "." counter(paragraphnum-3) ". ";
+        }
+        .numbered-2 p:before {
+            counter-increment: paragraphnum-2;
+            content: counter(sectionnum) "." counter(paragraphnum-2) ". ";
         }
 
+        .list-numbered-2 ol, .list-numbered-3 ol {
+            list-style: none;
+            margin-left: 0;
+            padding-left: 0;
+        }
+        .list-numbered-2 ol li, .list-numbered-3 ol li {
+            margin-bottom: 8px;
+        }
 
+        .list-numbered-2 ol li:before {
+            counter-increment: list-numbered-2;
+            content: counter(sectionnum) "." counter(list-numbered-2) ". ";
+        }
+        .list-numbered-3 ol li:before {
+            counter-increment: list-numbered-3;
+            content: counter(sectionnum) "." counter(subsectionnum) "." counter(list-numbered-3) ". ";
+        }
         p {
             margin-top: 4px;
             margin-bottom: 8px;
@@ -337,28 +357,28 @@
             <tr>
                 <td>
                     <h3 class="heading">Main offence and date:</h3>
-                    <p class="formatted-text">MAIN_OFFENCE</p>
+                    <p class="formatted-text numbered-3">MAIN_OFFENCE</p>
                 </td>
             </tr>
             <tr>
                 <td>
                     <h3 class="heading">Other offences and dates:</h3>
-                    <p class="formatted-text">OTHER_OFFENCE</p>
+                    <p class="formatted-text numbered-3">OTHER_OFFENCE</p>
                 </td>
             </tr>
         </table>
         <div class="details-section">
             <h2>Summary of the offence:</h2>
-            <p class="formatted-text">OFFENCE_SUMMARY</p>
+            <p class="formatted-text numbered-2">OFFENCE_SUMMARY</p>
         </div>
         <div class="details-section">
             <h2>Offence Analysis:</h2>
-            <p class="formatted-text">OFFENCE_ANALYSIS</p>
+            <p class="formatted-text list-numbered-2">OFFENCE_ANALYSIS</p>
         </div>
 
         <div class="details-section optional-section PATTERN_OF_OFFENDING_PRESENT">
             <h2>Pattern of offending:</h2>
-            <p class="formatted-text">PATTERN_OF_OFFENDING</p>
+            <p class="formatted-text list-numbered-2">PATTERN_OF_OFFENDING</p>
         </div>
 
         <div>
@@ -398,43 +418,43 @@
             <div class="details-section">
                 <div class="sub-section optional-section ISSUE_ACCOMMODATION_DETAILS_PRESENT-ISSUE_ACCOMMODATION">
                     <h3>Accommodation</h3>
-                    <p class="formatted-text">ISSUE_ACCOMMODATION_DETAILS</p>
+                    <p class="formatted-text list-numbered-3">ISSUE_ACCOMMODATION_DETAILS</p>
                 </div>
                 <div class="sub-section optional-section ISSUE_EMPLOYMENT_DETAILS_PRESENT-ISSUE_EMPLOYMENT">
                     <h3>Employment, training and education</h3>
-                    <p class="formatted-text">ISSUE_EMPLOYMENT_DETAILS</p>
+                    <p class="formatted-text list-numbered-3">ISSUE_EMPLOYMENT_DETAILS</p>
                 </div>
                 <div class="sub-section optional-section ISSUE_FINANCE_DETAILS_PRESENT-ISSUE_FINANCE">
                     <h3>Finance</h3>
-                    <p class="formatted-text">ISSUE_FINANCE_DETAILS</p>
+                    <p class="formatted-text list-numbered-3">ISSUE_FINANCE_DETAILS</p>
                 </div>
                 <div class="sub-section optional-section ISSUE_RELATIONSHIPS_DETAILS_PRESENT-ISSUE_RELATIONSHIPS">
                     <h3>Relationships</h3>
-                    <p class="formatted-text">ISSUE_RELATIONSHIPS_DETAILS</p>
+                    <p class="formatted-text list-numbered-3">ISSUE_RELATIONSHIPS_DETAILS</p>
                 </div>
                 <div class="sub-section optional-section ISSUE_SUBSTANCE_MISUSE_DETAILS_PRESENT-ISSUE_SUBSTANCE_MISUSE">
                     <h3>Substance misuse</h3>
-                    <p class="formatted-text">ISSUE_SUBSTANCE_MISUSE_DETAILS</p>
+                    <p class="formatted-text list-numbered-3">ISSUE_SUBSTANCE_MISUSE_DETAILS</p>
                 </div>
                 <div class="sub-section optional-section ISSUE_HEALTH_DETAILS_PRESENT-ISSUE_HEALTH">
                     <h3>Physical &amp; mental health</h3>
-                    <p class="formatted-text">ISSUE_HEALTH_DETAILS</p>
+                    <p class="formatted-text list-numbered-3">ISSUE_HEALTH_DETAILS</p>
                 </div>
                 <div class="sub-section optional-section ISSUE_BEHAVIOUR_DETAILS_PRESENT-ISSUE_BEHAVIOUR">
                     <h3>Thinking and behaviour</h3>
-                    <p class="formatted-text">ISSUE_BEHAVIOUR_DETAILS</p>
+                    <p class="formatted-text list-numbered-3">ISSUE_BEHAVIOUR_DETAILS</p>
                 </div>
                 <div class="sub-section optional-section EXPERIENCE_TRAUMA_DETAILS_PRESENT-EXPERIENCE_TRAUMA">
                     <h3>Experience of trauma</h3>
-                    <p class="formatted-text">EXPERIENCE_TRAUMA_DETAILS</p>
+                    <p class="formatted-text list-numbered-3">EXPERIENCE_TRAUMA_DETAILS</p>
                 </div>
                 <div class="sub-section optional-section CARING_RESPONSIBILITIES_DETAILS_PRESENT-CARING_RESPONSIBILITIES">
                     <h3>Caring responsibilities</h3>
-                    <p class="formatted-text">CARING_RESPONSIBILITIES_DETAILS</p>
+                    <p class="formatted-text list-numbered-3">CARING_RESPONSIBILITIES_DETAILS</p>
                 </div>
                 <div class="sub-section optional-section ISSUE_OTHER_DETAILS_PRESENT-ISSUE_OTHER">
                     <h3>Other</h3>
-                    <p class="formatted-text">ISSUE_OTHER_DETAILS</p>
+                    <p class="formatted-text list-numbered-3">ISSUE_OTHER_DETAILS</p>
                 </div>
             </div>
         </div>
