@@ -151,6 +151,7 @@
         h2 {
             font-size: 16px;
             page-break-after: avoid;
+            page-break-inside: avoid;
             background: #EAEAEA;
             border: black 1px solid;
             padding: 4px;
@@ -189,8 +190,7 @@
 
         .NUMBERING_BASIC h2:before,
         .NUMBERING_LISTS h2:before,
-        .NUMBERING_AUTO h2:before
-        {
+        .NUMBERING_AUTO h2:before {
             counter-increment: sectionnum;
             content: counter(sectionnum) ". ";
         }
@@ -202,11 +202,13 @@
             counter-increment: subsectionnum;
             content: counter(sectionnum) "." counter(subsectionnum) ". ";
         }
-        .NUMBERING_AUTO .numbered-3 p:before {
+        .NUMBERING_AUTO .numbered-3 p:before,
+        .NUMBERING_AUTO .list-numbered-3 ol li:before {
             counter-increment: paragraphnum-3;
             content: counter(sectionnum) "." counter(subsectionnum) "." counter(paragraphnum-3) ". ";
         }
-        .NUMBERING_AUTO .numbered-2 p:before {
+        .NUMBERING_AUTO .numbered-2 p:before,
+        .NUMBERING_AUTO .list-numbered-2 ol li:before {
             counter-increment: paragraphnum-2;
             content: counter(sectionnum) "." counter(paragraphnum-2) ". ";
         }
@@ -226,13 +228,11 @@
             margin-bottom: 8px;
         }
 
-        .NUMBERING_LISTS .list-numbered-2 ol li:before,
-        .NUMBERING_AUTO .list-numbered-2 ol li:before {
+        .NUMBERING_LISTS .list-numbered-2 ol li:before {
             counter-increment: list-numbered-2;
             content: counter(sectionnum) "." counter(list-numbered-2) ". ";
         }
-        .NUMBERING_LISTS .list-numbered-3 ol li:before,
-        .NUMBERING_AUTO .list-numbered-3 ol li:before {
+        .NUMBERING_LISTS .list-numbered-3 ol li:before {
             counter-increment: list-numbered-3;
             content: counter(sectionnum) "." counter(subsectionnum) "." counter(list-numbered-3) ". ";
         }
