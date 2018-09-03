@@ -275,8 +275,8 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Likelihood of further offending"
         content.contains "Here is likelihood of further offending detail"
 
-        !content.contains "Absconding risk"
-        !content.contains "Here is risk of absconding detail"
+        !content.contains("Absconding risk")
+        !content.contains("Here is risk of absconding detail")
     }
 
 
