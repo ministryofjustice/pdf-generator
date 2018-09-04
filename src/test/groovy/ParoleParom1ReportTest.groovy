@@ -210,6 +210,75 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Here is current sentence plan detail"
     }
 
+    def "Delius user wants to view the text that they entered in the RoSH analysis fields on the Parole Report PDF with risk of absconding"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               NATURE_OF_RISK: '<!-- RICH_TEXT --><p>Here is nature of risk detail</p>',
+                               INCREASE_FACTORS: '<!-- RICH_TEXT --><p>Here is increase risk factors detail</p>',
+                               DECREASE_FACTORS: '<!-- RICH_TEXT --><p>Here is decrease risk factors detail</p>',
+                               LIKELIHOOD_FURTHER_OFFENDING: '<!-- RICH_TEXT --><p>Here is likelihood of further offending detail</p>',
+                               RISK_OF_ABSCONDING: 'yes',
+                               RISK_OF_ABSCONDING_DETAILS: '<!-- RICH_TEXT --><p>Here is risk of absconding detail</p>',
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Risk of serious harm analysis"
+        content.contains "Here is nature of risk detail"
+
+        content.contains "Factors likely to increase the risk of serious harm"
+        content.contains "Here is increase risk factors detail"
+
+        content.contains "Factors likely to decrease the risk of serious harm"
+        content.contains "Here is decrease risk factors detail"
+
+        content.contains "Likelihood of further offending"
+        content.contains "Here is likelihood of further offending detail"
+
+        content.contains "Absconding risk"
+        content.contains "Here is risk of absconding detail"
+    }
+
+    def "Delius user wants to view the text that they entered in the RoSH analysis fields on the Parole Report PDF with NO risk of absconding"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               NATURE_OF_RISK: '<!-- RICH_TEXT --><p>Here is nature of risk detail</p>',
+                               INCREASE_FACTORS: '<!-- RICH_TEXT --><p>Here is increase risk factors detail</p>',
+                               DECREASE_FACTORS: '<!-- RICH_TEXT --><p>Here is decrease risk factors detail</p>',
+                               LIKELIHOOD_FURTHER_OFFENDING: '<!-- RICH_TEXT --><p>Here is likelihood of further offending detail</p>',
+                               RISK_OF_ABSCONDING: 'no'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Risk of serious harm analysis"
+        content.contains "Here is nature of risk detail"
+
+        content.contains "Factors likely to increase the risk of serious harm"
+        content.contains "Here is increase risk factors detail"
+
+        content.contains "Factors likely to decrease the risk of serious harm"
+        content.contains "Here is decrease risk factors detail"
+
+        content.contains "Likelihood of further offending"
+        content.contains "Here is likelihood of further offending detail"
+
+        !content.contains("Absconding risk")
+        !content.contains("Here is risk of absconding detail")
+    }
+
 
     def setupSpec() {
 
