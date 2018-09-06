@@ -279,6 +279,53 @@ class ParoleParom1ReportTest extends Specification {
         !content.contains("Here is risk of absconding detail")
     }
 
+    def "Delius user wants to view the text that they entered in the Risk Management Plan (RMP) fields on the Parole Report PDF with risk of absconding"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               AGENCIES: '<!-- RICH_TEXT --><p>Here is agencies detail</p>',
+                               SUPPORT: '<!-- RICH_TEXT --><p>Here is support detail</p>',
+                               CONTROL: '<!-- RICH_TEXT --><p>Here is control detail</p>',
+                               RISK_MEASURES: '<!-- RICH_TEXT --><p>Here is risk measures detail</p>',
+                               AGENCY_ACTIONS: '<!-- RICH_TEXT --><p>Here is agency actions detail</p>',
+                               ADDITIONAL_CONDITIONS: '<!-- RICH_TEXT --><p>Here is additional conditions detail</p>',
+                               LEVEL_OF_CONTACT: '<!-- RICH_TEXT --><p>Here is level of contact detail</p>',
+                               CONTINGENCY_PLAN: '<!-- RICH_TEXT --><p>Here is contingency plan detail</p>'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Release risk management plan (RMP)"
+
+        content.contains "Agencies"
+        content.contains "Here is agencies detail"
+
+        content.contains "Support"
+        content.contains "Here is support detail"
+
+        content.contains "Control"
+        content.contains "Here is control detail"
+
+        content.contains "Added measures for specific risks"
+        content.contains "Here is risk measures detail"
+
+        content.contains "Agency actions"
+        content.contains "Here is agency actions detail"
+
+        content.contains "Additional conditions or requirement"
+        content.contains "Here is additional conditions detail"
+
+        content.contains "Level of contact"
+        content.contains "Here is level of contact detail"
+
+        content.contains "Contingency plan"
+        content.contains "Here is contingency plan detail"
+    }
 
     def setupSpec() {
 
