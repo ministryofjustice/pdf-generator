@@ -76,12 +76,14 @@
         h2 {
             font-size: 20px;
             page-break-after: avoid;
+            page-break-inside: avoid;
             margin-top: 0.8cm;
             margin-bottom: 0.2cm;
         }
         h3 {
             font-size: 16px;
             page-break-after: avoid;
+            page-break-inside: avoid;
             margin-top: 0.8cm;
             margin-bottom: 0.2cm;
         }
@@ -101,7 +103,7 @@
         .optional-section, .alternative-section, .unknown-section {
             display: none;
         }
-        .optional-section.yes, .alternative-section.no, .unknown-section.unknown {
+        .optional-section.yes, .optional-section.true, .alternative-section.no, .alternative-section.false, .unknown-section.unknown {
             display: block;
         }
         div.header {
@@ -328,6 +330,79 @@
     <h3>Contingency plan</h3>
     <div class="sub-section">
         CONTINGENCY_PLAN
+    </div>
+
+
+    <table class="margin-top medium">
+        <tr class="table-header">
+            <td colspan="4" class="heading">Sources</td>
+        </tr>
+        <tr>
+            <td class="heading">Previous convictions</td>
+            <td>
+                <span class="optional-section SOURCES_PREVIOUS_CONVICTIONS">Yes</span>
+                <span class="alternative-section SOURCES_PREVIOUS_CONVICTIONS">No</span>
+            </td>
+            <td class="heading">Previous parole reports</td>
+            <td>
+                <span class="optional-section SOURCES_PREVIOUS_PAROLE_REPORTS">Yes</span>
+                <span class="alternative-section SOURCES_PREVIOUS_PAROLE_REPORTS">No</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="heading">CPS documents</td>
+            <td>
+                <span class="optional-section SOURCES_CPS_DOCUMENTS">Yes</span>
+                <span class="alternative-section SOURCES_CPS_DOCUMENTS">No</span>
+            </td>
+            <td class="heading">Parole dossier</td>
+            <td>
+                <span class="optional-section SOURCES_PAROLE_DOSSIER">Yes</span>
+                <span class="alternative-section SOURCES_PAROLE_DOSSIER">No</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="heading">Pre-sentence report</td>
+            <td>
+                <span class="optional-section SOURCES_PRE_SENTENCE_REPORT">Yes</span>
+                <span class="alternative-section SOURCES_PRE_SENTENCE_REPORT">No</span>
+            </td>
+            <td class="heading">Probation case records</td>
+            <td>
+                <span class="optional-section SOURCES_PROBATION_CASE_RECORD">Yes</span>
+                <span class="alternative-section SOURCES_PROBATION_CASE_RECORD">No</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="heading">Judges comments</td>
+            <td>
+                <span class="optional-section SOURCES_JUDGES_COMMENTS">Yes</span>
+                <span class="alternative-section SOURCES_JUDGES_COMMENTS">No</span>
+            </td>
+            <td class="heading">Other</td>
+            <td>
+                <span class="optional-section SOURCES_OTHER">Yes</span>
+                <span class="alternative-section SOURCES_OTHER">No</span>
+            </td>
+        </tr>
+    </table>
+    <div class="optional-section SOURCES_OTHER">
+        <h2>Other documents</h2>
+        <div class="sub-section">
+            SOURCES_OTHER_DETAIL
+        </div>
+    </div>
+
+    <h2>Reports, assessments and directions</h2>
+    <div class="sub-section">
+        SOURCES_ASSESSMENT_LIST
+    </div>
+
+    <div class="optional-section SOURCES_LIMITATIONS">
+        <h2>Sources: issues and limitations</h2>
+        <div class="sub-section">
+            SOURCES_LIMITATIONS_DETAIL
+        </div>
     </div>
 
 </body>

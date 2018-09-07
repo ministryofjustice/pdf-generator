@@ -327,6 +327,116 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Here is contingency plan detail"
     }
 
+
+    def "Delius user wants to view the documents that they have selected in the  \"Sources\" UI in the Parole Report PDF"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               SOURCES_PREVIOUS_CONVICTIONS: true,
+                               SOURCES_CPS_DOCUMENTS: false,
+                               SOURCES_JUDGES_COMMENTS: true,
+                               SOURCES_PAROLE_DOSSIER: true,
+                               SOURCES_PREVIOUS_PAROLE_REPORTS: false,
+                               SOURCES_PROBATION_CASE_RECORD: false,
+                               SOURCES_PRE_SENTENCE_REPORT: false,
+                               SOURCES_OTHER: false,
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Previous convictions Yes"
+        content.contains "CPS documents No"
+        content.contains "Judges comments Yes"
+        content.contains "Parole dossier Yes"
+        content.contains "Probation case records No"
+        content.contains "Previous parole reports No"
+        content.contains "Pre-sentence report No"
+        content.contains "Other No"
+        !content.contains("Other documents")
+
+    }
+    def "Delius user has selected \"other\" documents in the \"Sources\" UI"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               SOURCES_PREVIOUS_CONVICTIONS: false,
+                               SOURCES_CPS_DOCUMENTS: true,
+                               SOURCES_JUDGES_COMMENTS: false,
+                               SOURCES_PAROLE_DOSSIER: false,
+                               SOURCES_PREVIOUS_PAROLE_REPORTS: true,
+                               SOURCES_PROBATION_CASE_RECORD: true,
+                               SOURCES_PRE_SENTENCE_REPORT: true,
+                               SOURCES_OTHER: true,
+                               SOURCES_OTHER_DETAIL: 'lots of other documents',
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Previous convictions No"
+        content.contains "CPS documents Yes"
+        content.contains "Judges comments No"
+        content.contains "Parole dossier No"
+        content.contains "Probation case records Yes"
+        content.contains "Pre-sentence report Yes"
+        content.contains "Previous parole reports Yes"
+        content.contains "Other Yes"
+        content.contains "Other documents"
+        content.contains "lots of other documents"
+    }
+    def "Delius user wants to view the text that they have entered in the \"Sources\" UI in the Parole Report PDF"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               SOURCES_ASSESSMENT_LIST: '<!-- RICH_TEXT --><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>',
+                               SOURCES_LIMITATIONS: 'yes',
+                               SOURCES_LIMITATIONS_DETAIL: '<!-- RICH_TEXT --><p>Pharetra pharetra massa massa ultricies mi.</p>',
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Reports, assessments and directions"
+        content.contains "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        content.contains "Sources: issues and limitations"
+        content.contains "Pharetra pharetra massa massa ultricies mi."
+    }
+
+    def "Delius user does not have limitations to the sources that have been provided to them"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               SOURCES_ASSESSMENT_LIST: '<!-- RICH_TEXT --><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>',
+                               SOURCES_LIMITATIONS: 'no',
+                               SOURCES_LIMITATIONS_DETAIL: '<!-- RICH_TEXT --><p>Some old text</p>',
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Reports, assessments and directions"
+        content.contains "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        !content.contains("Sources: issues and limitations")
+        !content.contains("Some old text")
+    }
+
     def setupSpec() {
 
         Server.run(new Configuration())
