@@ -474,6 +474,42 @@ class ParoleParom1ReportTest extends Specification {
         !content.contains("Some old text")
     }
 
+    def "Offender does not have a Supervision plan for release"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               SUPERVISION_PLAN_REQUIRED: 'no',
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Supervision plan for release"
+        content.contains "A supervision plan for release is not required"
+    }
+    def "Offender has a Supervision plan for release"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               SUPERVISION_PLAN_REQUIRED: 'yes',
+                               SUPERVISION_PLAN_DETAIL: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Supervision plan for release"
+        content.contains "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+    }
+
     def setupSpec() {
 
         Server.run(new Configuration())
