@@ -326,6 +326,44 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Contingency plan"
         content.contains "Here is contingency plan detail"
     }
+    
+
+    def "Delius user wants to view the text that they entered in the \"Resettlement plan for release\" fields on the Parole Report PDF"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               RESETTLEMENT_PLAN: 'yes',
+                               RESETTLEMENT_PLAN_DETAIL: '<!-- RICH_TEXT --><p>Here is resettlement plan detail</p>'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Resettlement plan for release"
+        content.contains "Here is resettlement plan detail"
+    }
+
+    def "Delius user specifies that there is no \"Resettlement plan for release\" required on the Parole Report PDF"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               RESETTLEMENT_PLAN: 'no'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Resettlement plan for release"
+        content.contains "A resettlement plan for release is not required"
+    }
 
 
     def "Delius user wants to view the documents that they have selected in the  \"Sources\" UI in the Parole Report PDF"() {
