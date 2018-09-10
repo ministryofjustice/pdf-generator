@@ -361,7 +361,8 @@ class ParoleParom1ReportTest extends Specification {
 
         then:
         def content = pageText result.data
-        !content.contains("Resettlement plan for release")
+        content.contains "Resettlement plan for release"
+        content.contains "A resettlement plan for release is not required"
     }
 
 
