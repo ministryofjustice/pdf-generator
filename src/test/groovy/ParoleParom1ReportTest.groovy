@@ -279,6 +279,33 @@ class ParoleParom1ReportTest extends Specification {
         !content.contains("Here is risk of absconding detail")
     }
 
+    def "Delius user wants to view the text that they entered in the Risk to the prisoner fields on the Parole Report PDF"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               SELF_HARM_COMMUNITY: 'yes',
+                               OTHERS_HARM_COMMUNITY: 'yes',
+                               SELF_HARM_CUSTODY: 'no',
+                               OTHERS_HARM_CUSTODY: 'no'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Risk to the prisoner: community"
+        content.contains "Self harming risk Yes"
+        content.contains "Risk of serious harm from others Yes"
+
+        content.contains "Risk to the prisoner: custody"
+        content.contains "Self harming risk No"
+        content.contains "Risk of serious harm from others No"
+
+    }
+
     def "Delius user wants to view the text that they entered in the Risk Management Plan (RMP) fields on the Parole Report PDF with risk of absconding"() {
 
         when:
