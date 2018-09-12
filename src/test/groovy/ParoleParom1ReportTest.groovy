@@ -547,6 +547,23 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Recommendation"
     }
 
+    def "Delius user wants to view the text that they have entered in the \"Oral hearing\" UI in the Parole Report PDF"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               ORAL_HEARING: 'Oral hearing text here',
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Oral hearing"
+        content.contains "Oral hearing text here"
+    }
 
 
     def setupSpec() {
