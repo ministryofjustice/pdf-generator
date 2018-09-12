@@ -511,6 +511,42 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
     }
 
+
+    def "Delius user wants to view the Recommendation information that they have entered into the Parole Form UI"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               RECOMMENDATION: '<!-- RICH_TEXT --><p>Here is the recommendation detail</p>'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Recommendation"
+        content.contains "Here is the recommendation detail"
+    }
+
+    def "Delius user does not enter any text into the free text fields in the Recommendation UI"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               RECOMMENDATION: ''
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Recommendation"
+    }
+
     def "Delius user wants to view the text that they have entered in the \"Oral hearing\" UI in the Parole Report PDF"() {
 
         when:
@@ -528,6 +564,7 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Oral hearing"
         content.contains "Oral hearing text here"
     }
+
 
     def setupSpec() {
 
