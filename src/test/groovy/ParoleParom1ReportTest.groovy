@@ -210,6 +210,38 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Here is current sentence plan detail"
     }
 
+
+    def "Delius user wants to view the text that they entered in the Current RoSH: community fields on the Parole Report PDF"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               ROSH_COMMUNITY_PUBLIC: 'Low',
+                               ROSH_COMMUNITY_KNOWN_ADULT: 'Medium',
+                               ROSH_COMMUNITY_CHILDREN: 'High',
+                               ROSH_COMMUNITY_PRISONERS: 'Very high',
+                               ROSH_COMMUNITY_STAFF: 'Low',
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Current RoSH: community"
+        content.contains "Public"
+        content.contains "Known adult"
+        content.contains "Children"
+        content.contains "Prisoners"
+        content.contains "Staff"
+        content.contains "Low"
+        content.contains "Medium"
+        content.contains "High"
+        content.contains "Very high"
+    }
+
+
     def "Delius user wants to view the text that they entered in the RoSH analysis fields on the Parole Report PDF with risk of absconding"() {
 
         when:
