@@ -103,7 +103,9 @@
         .optional-section, .alternative-section, .unknown-section {
             display: none;
         }
-        .optional-section.yes, .optional-section.true, .alternative-section.no, .alternative-section.false, .unknown-section.unknown {
+        .optional-section.yes, .optional-section.true, .alternative-section.no, .alternative-section.false,
+        .unknown-section.unknown, .optional-section.level-low.low, .optional-section.level-medium.medium,
+        .optional-section.level-high.high, .optional-section.level-very_high.very_high {
             display: block;
         }
         div.header {
@@ -282,11 +284,36 @@
             <td class="heading">Staff</td>
         </tr>
         <tr>
-            <td>ROSH_COMMUNITY_PUBLIC</td>
-            <td>ROSH_COMMUNITY_KNOWN_ADULT</td>
-            <td>ROSH_COMMUNITY_CHILDREN</td>
-            <td>ROSH_COMMUNITY_PRISONERS</td>
-            <td>ROSH_COMMUNITY_STAFF</td>
+            <td>
+                <span class="optional-section level-low ROSH_COMMUNITY_PUBLIC">Low</span>
+                <span class="optional-section level-medium ROSH_COMMUNITY_PUBLIC">Medium</span>
+                <span class="optional-section level-high ROSH_COMMUNITY_PUBLIC">High</span>
+                <span class="optional-section level-very_high ROSH_COMMUNITY_PUBLIC">Very high</span>
+            </td>
+            <td>
+                <span class="optional-section level-low ROSH_COMMUNITY_KNOWN_ADULT">Low</span>
+                <span class="optional-section level-medium ROSH_COMMUNITY_KNOWN_ADULT">Medium</span>
+                <span class="optional-section level-high ROSH_COMMUNITY_KNOWN_ADULT">High</span>
+                <span class="optional-section level-very_high ROSH_COMMUNITY_KNOWN_ADULT">Very high</span>
+            </td>
+            <td>
+                <span class="optional-section level-low ROSH_COMMUNITY_CHILDREN">Low</span>
+                <span class="optional-section level-medium ROSH_COMMUNITY_CHILDREN">Medium</span>
+                <span class="optional-section level-high ROSH_COMMUNITY_CHILDREN">High</span>
+                <span class="optional-section level-very_high ROSH_COMMUNITY_CHILDREN">Very high</span>
+            </td>
+            <td>
+                <span class="optional-section level-low ROSH_COMMUNITY_PRISONERS">Low</span>
+                <span class="optional-section level-medium ROSH_COMMUNITY_PRISONERS">Medium</span>
+                <span class="optional-section level-high ROSH_COMMUNITY_PRISONERS">High</span>
+                <span class="optional-section level-very_high ROSH_COMMUNITY_PRISONERS">Very high</span>
+            </td>
+            <td>
+                <span class="optional-section level-low ROSH_COMMUNITY_STAFF">Low</span>
+                <span class="optional-section level-medium ROSH_COMMUNITY_STAFF">Medium</span>
+                <span class="optional-section level-high ROSH_COMMUNITY_STAFF">High</span>
+                <span class="optional-section level-very_high ROSH_COMMUNITY_STAFF">Very high</span>
+            </td>
         </tr>
     </table>
 

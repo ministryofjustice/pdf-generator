@@ -219,11 +219,11 @@ class ParoleParom1ReportTest extends Specification {
                 requestContentType: JSON,
                 body: [templateName: 'paroleParom1Report',
                        values: [
-                               ROSH_COMMUNITY_PUBLIC: 'Low',
-                               ROSH_COMMUNITY_KNOWN_ADULT: 'Medium',
-                               ROSH_COMMUNITY_CHILDREN: 'High',
-                               ROSH_COMMUNITY_PRISONERS: 'Very high',
-                               ROSH_COMMUNITY_STAFF: 'Low',
+                               ROSH_COMMUNITY_PUBLIC: 'low',
+                               ROSH_COMMUNITY_KNOWN_ADULT: 'medium',
+                               ROSH_COMMUNITY_CHILDREN: 'high',
+                               ROSH_COMMUNITY_PRISONERS: 'very_high',
+                               ROSH_COMMUNITY_STAFF: 'low',
                        ]]
         )
 
