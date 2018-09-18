@@ -241,6 +241,35 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Very high"
     }
 
+    def "Delius user wants to view the text that they entered in the Current RoSH: custody fields on the Parole Report PDF"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               ROSH_CUSTODY_PUBLIC: 'low',
+                               ROSH_CUSTODY_KNOWN_ADULT: 'medium',
+                               ROSH_CUSTODY_CHILDREN: 'high',
+                               ROSH_CUSTODY_PRISONERS: 'very_high',
+                               ROSH_CUSTODY_STAFF: 'low',
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Current RoSH: custody"
+        content.contains "Public"
+        content.contains "Known adult"
+        content.contains "Children"
+        content.contains "Prisoners"
+        content.contains "Staff"
+        content.contains "Low"
+        content.contains "Medium"
+        content.contains "High"
+        content.contains "Very high"
+    }
 
     def "Delius user wants to view the text that they entered in the RoSH analysis fields on the Parole Report PDF with risk of absconding"() {
 
