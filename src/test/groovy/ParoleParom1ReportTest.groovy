@@ -653,6 +653,174 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Oral hearing text here"
     }
 
+    def "Delius user does not enter any text into the free text fields"() {
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               RISK_ASSESSMENT_RSR_SCORE: '',
+                               RISK_ASSESSMENT_RSR_SCORE_AS_LEVEL: '',
+                               RISK_ASSESSMENT_OGRS3_SCORE: '',
+                               RISK_ASSESSMENT_OGRS3_SCORE_AS_LEVEL: '',
+                               RISK_ASSESSMENT_OGP_SCORE: '',
+                               RISK_ASSESSMENT_OGP_SCORE_AS_LEVEL: '',
+                               RISK_ASSESSMENT_OVP_SCORE: '',
+                               RISK_ASSESSMENT_OVP_SCORE_AS_LEVEL: '',
+                               RISK_ASSESSMENT_MATRIX2000_COMPLETED: '',
+                               RISK_ASSESSMENT_MATRIX2000_SCORE: '',
+                               RISK_ASSESSMENT_SARA_COMPLETED: '',
+                               RISK_ASSESSMENT_SARA_SCORE: ''
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Current risk assessment scores"
+        content.contains "RSR\n" +
+                "OGRS3\n" +
+                "OGP\n" +
+                "OVP\n" +
+                "Risk matrix 2000\n" +
+                "SARA"
+    }
+
+    def "Delius user enters risk score for Risk Assessment Score - low" () {
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               RISK_ASSESSMENT_RSR_SCORE: '2.32',
+                               RISK_ASSESSMENT_RSR_SCORE_AS_LEVEL: 'low',
+                               RISK_ASSESSMENT_OGRS3_SCORE: '22',
+                               RISK_ASSESSMENT_OGRS3_SCORE_AS_LEVEL: 'low',
+                               RISK_ASSESSMENT_OGP_SCORE: '23',
+                               RISK_ASSESSMENT_OGP_SCORE_AS_LEVEL: 'low',
+                               RISK_ASSESSMENT_OVP_SCORE: '24',
+                               RISK_ASSESSMENT_OVP_SCORE_AS_LEVEL: 'low',
+                               RISK_ASSESSMENT_MATRIX2000_COMPLETED: 'no',
+                               RISK_ASSESSMENT_MATRIX2000_SCORE: '',
+                               RISK_ASSESSMENT_SARA_COMPLETED: 'no',
+                               RISK_ASSESSMENT_SARA_SCORE: ''
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Current risk assessment scores"
+        content.contains "RSR  Low (2.32)"
+        content.contains "OGRS3  Low (22)"
+        content.contains "OGP  Low (23)"
+        content.contains "OVP  Low (24)"
+        content.contains "Risk matrix 2000 N/A"
+        content.contains "SARA N/A"
+
+    }
+
+    def "Delius user enters risk score for Risk Assessment Score - medium" () {
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               RISK_ASSESSMENT_RSR_SCORE: '5.32',
+                               RISK_ASSESSMENT_RSR_SCORE_AS_LEVEL: 'medium',
+                               RISK_ASSESSMENT_OGRS3_SCORE: '52',
+                               RISK_ASSESSMENT_OGRS3_SCORE_AS_LEVEL: 'medium',
+                               RISK_ASSESSMENT_OGP_SCORE: '53',
+                               RISK_ASSESSMENT_OGP_SCORE_AS_LEVEL: 'medium',
+                               RISK_ASSESSMENT_OVP_SCORE: '44',
+                               RISK_ASSESSMENT_OVP_SCORE_AS_LEVEL: 'medium',
+                               RISK_ASSESSMENT_MATRIX2000_COMPLETED: 'yes',
+                               RISK_ASSESSMENT_MATRIX2000_SCORE: 'low',
+                               RISK_ASSESSMENT_SARA_COMPLETED: 'no',
+                               RISK_ASSESSMENT_SARA_SCORE: ''
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Current risk assessment scores"
+        content.contains "RSR  Medium (5.32)"
+        content.contains "OGRS3  Medium (52)"
+        content.contains "OGP  Medium (53)"
+        content.contains "OVP  Medium (44)"
+        content.contains "Risk matrix 2000 Low"
+        content.contains "SARA N/A"
+
+    }
+
+    def "Delius user enters risk score for Risk Assessment Score - high" () {
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               RISK_ASSESSMENT_RSR_SCORE: '7.32',
+                               RISK_ASSESSMENT_RSR_SCORE_AS_LEVEL: 'high',
+                               RISK_ASSESSMENT_OGRS3_SCORE: '75',
+                               RISK_ASSESSMENT_OGRS3_SCORE_AS_LEVEL: 'high',
+                               RISK_ASSESSMENT_OGP_SCORE: '76',
+                               RISK_ASSESSMENT_OGP_SCORE_AS_LEVEL: 'high',
+                               RISK_ASSESSMENT_OVP_SCORE: '64',
+                               RISK_ASSESSMENT_OVP_SCORE_AS_LEVEL: 'high',
+                               RISK_ASSESSMENT_MATRIX2000_COMPLETED: 'no',
+                               RISK_ASSESSMENT_MATRIX2000_SCORE: '',
+                               RISK_ASSESSMENT_SARA_COMPLETED: 'yes',
+                               RISK_ASSESSMENT_SARA_SCORE: 'low'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Current risk assessment scores"
+        content.contains "RSR  High (7.32)"
+        content.contains "OGRS3  High (75)"
+        content.contains "OGP  High (76)"
+        content.contains "OVP  High (64)"
+        content.contains "Risk matrix 2000 N/A"
+        content.contains "SARA Low"
+
+    }
+
+    def "Delius user enters risk score for Risk Assessment Score - very high" () {
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               RISK_ASSESSMENT_RSR_SCORE: '9',
+                               RISK_ASSESSMENT_RSR_SCORE_AS_LEVEL: 'high',
+                               RISK_ASSESSMENT_OGRS3_SCORE: '90',
+                               RISK_ASSESSMENT_OGRS3_SCORE_AS_LEVEL: 'very_high',
+                               RISK_ASSESSMENT_OGP_SCORE: '91',
+                               RISK_ASSESSMENT_OGP_SCORE_AS_LEVEL: 'very_high',
+                               RISK_ASSESSMENT_OVP_SCORE: '84',
+                               RISK_ASSESSMENT_OVP_SCORE_AS_LEVEL: 'very_high',
+                               RISK_ASSESSMENT_MATRIX2000_COMPLETED: 'yes',
+                               RISK_ASSESSMENT_MATRIX2000_SCORE: 'low',
+                               RISK_ASSESSMENT_SARA_COMPLETED: 'yes',
+                               RISK_ASSESSMENT_SARA_SCORE: 'low'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Current risk assessment scores"
+        content.contains "RSR  High (9)"
+        content.contains "OGRS3  Very high (90)"
+        content.contains "OGP  Very high (91)"
+        content.contains "OVP  Very high (84)"
+        content.contains "Risk matrix 2000 Low"
+        content.contains "SARA Low"
+
+    }
 
     def setupSpec() {
 
