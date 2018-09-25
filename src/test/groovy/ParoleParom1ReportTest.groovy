@@ -211,6 +211,54 @@ class ParoleParom1ReportTest extends Specification {
     }
 
 
+    def "Delius user wants to view the text that they entered in the Multi Agency Public Protection Arrangements (MAPPA) fields on the Parole Report PDF"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               ELIGIBLE_FOR_MAPPA: 'yes',
+                               MAPPA_SCREENED_DATE: '30/03/2018',
+                               MAPPA_CATEGORY: '1',
+                               MAPPA_LEVEL: '2'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains 'Multi Agency Public Protection Arrangements (MAPPA)'
+        content.contains 'MAPPAQ completed'
+        content.contains '30/03/2018'
+        content.contains 'Prisoner\'s current MAPPA category'
+        content.contains 'Prisoner\'s current MAPPA level'
+        content.contains '1'
+        content.contains '2'
+    }
+
+    def "Delius user specifies that the prisoner is NOT eligible for Multi Agency Public Protection Arrangements (MAPPA) on the Parole Report PDF"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               ELIGIBLE_FOR_MAPPA: 'no'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains 'Multi Agency Public Protection Arrangements (MAPPA)'
+        !content.contains('MAPPAQ completed')
+        !content.contains('Prisoner\'s current MAPPA category')
+        !content.contains('Prisoner\'s current MAPPA level')
+        content.contains 'The prisoner is not eligible for MAPPA'
+    }
+
+
     def "Delius user wants to view the text that they entered in the Current RoSH: community fields on the Parole Report PDF"() {
 
         when:
