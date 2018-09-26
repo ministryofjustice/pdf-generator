@@ -870,6 +870,37 @@ class ParoleParom1ReportTest extends Specification {
 
     }
 
+    def "Delius user signs and dates the report" () {
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               SIGNATURE_NAME: 'Main signature name',
+                               SIGNATURE_DIVISION: 'Main signature division',
+                               SIGNATURE_OFFICE_ADDRESS: 'Main office address',
+                               SIGNATURE_EMAIL: 'main.signature@nps.com',
+                               SIGNATURE_TELEPHONE: '01234 567 890',
+                               SIGNATURE_COUNTER_NAME: 'Counter signature name',
+                               SIGNATURE_COUNTER_ROLE: 'Counter signature role',
+                               SIGNATURE_DATE: '26/09/2018'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Signature and date"
+        content.contains "Main signature name"
+        content.contains "Main signature division"
+        content.contains "Main office address"
+        content.contains "main.signature@nps.com"
+        content.contains "01234 567 890"
+        content.contains "Counter signature name"
+        content.contains "Counter signature role"
+        content.contains "26/09/2018"
+    }
+
     def setupSpec() {
 
         Server.run(new Configuration())
