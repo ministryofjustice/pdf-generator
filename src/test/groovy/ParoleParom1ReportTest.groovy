@@ -877,31 +877,28 @@ class ParoleParom1ReportTest extends Specification {
                 requestContentType: JSON,
                 body: [templateName: 'paroleParom1Report',
                        values: [
-                               SIGNATURE_NAME: '',
-                               RISK_ASSESSMENT_RSR_SCORE_AS_LEVEL: 'high',
-                               RISK_ASSESSMENT_OGRS3_SCORE: '90',
-                               RISK_ASSESSMENT_OGRS3_SCORE_AS_LEVEL: 'very_high',
-                               RISK_ASSESSMENT_OGP_SCORE: '91',
-                               RISK_ASSESSMENT_OGP_SCORE_AS_LEVEL: 'very_high',
-                               RISK_ASSESSMENT_OVP_SCORE: '84',
-                               RISK_ASSESSMENT_OVP_SCORE_AS_LEVEL: 'very_high',
-                               RISK_ASSESSMENT_MATRIX2000_COMPLETED: 'yes',
-                               RISK_ASSESSMENT_MATRIX2000_SCORE: 'low',
-                               RISK_ASSESSMENT_SARA_COMPLETED: 'yes',
-                               RISK_ASSESSMENT_SARA_SCORE: 'low'
+                               SIGNATURE_NAME: 'Main signature name',
+                               SIGNATURE_DIVISION: 'Main signature division',
+                               SIGNATURE_OFFICE_ADDRESS: 'Main office address',
+                               SIGNATURE_EMAIL: 'main.signature@nps.com',
+                               SIGNATURE_TELEPHONE: '01234 567 890',
+                               SIGNATURE_COUNTER_NAME: 'Counter signature name',
+                               SIGNATURE_COUNTER_ROLE: 'Counter signature role',
+                               SIGNATURE_DATE: '26/09/2018'
                        ]]
         )
 
         then:
         def content = pageText result.data
-        content.contains "Current risk assessment scores"
-        content.contains "RSR  High (9)"
-        content.contains "OGRS3  Very high (90)"
-        content.contains "OGP  Very high (91)"
-        content.contains "OVP  Very high (84)"
-        content.contains "Risk matrix 2000 Low"
-        content.contains "SARA Low"
-
+        content.contains "Signature and date"
+        content.contains "Main signature name"
+        content.contains "Main signature division"
+        content.contains "Main office address"
+        content.contains "main.signature@nps.com"
+        content.contains "01234 567 890"
+        content.contains "Counter signature name"
+        content.contains "Counter signature role"
+        content.contains "26/09/2018"
     }
 
     def setupSpec() {
