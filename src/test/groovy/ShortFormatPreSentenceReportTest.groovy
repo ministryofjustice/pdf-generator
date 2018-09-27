@@ -100,23 +100,6 @@ class ShortFormatPreSentenceReportTest extends Specification {
         content.contains "Here are additional details to previous supervision"
     }
 
-    def "No Details on previous supervision section appears when not present"() {
-
-        when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'shortFormatPreSentenceReport',
-                       values: [
-                               ADDITIONAL_PREVIOUS_SUPERVISION: ''
-                       ]]
-        )
-
-        then:
-        def content = pageText result.data
-        !content.contains("Details on previous supervision:")
-    }
-
     @Unroll('#issueTitle issue assessment detail appear when present and ticked')
     def "An issue assessment detail appear when present and ticked"(issueTitle, issue, details) {
 
