@@ -29,6 +29,57 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Offender manager: prisoner contact"
     }
 
+    def "Delius user wants to view the text that they entered in the RoSH at point of sentence fields on the Parole Report PDF"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               ROSH_AT_POS_ASSESSMENT_COMPLETED: "yes",
+                               ROSH_AT_POS_DATE: 'Sep 2018',
+                               ROSH_AT_POS_PUBLIC: 'low',
+                               ROSH_AT_POS_KNOWN_ADULT: 'low',
+                               ROSH_AT_POS_CHILDREN: 'low',
+                               ROSH_AT_POS_PRISONERS: 'low',
+                               ROSH_AT_POS_STAFF: 'low',
+                               ROSH_AT_POS_ATTITUDE_INDEX_OFFENCE: '<!-- RICH_TEXT --><p>Prisoner\'s attitude to the index offence text</p>',
+                               ROSH_AT_POS_ATTITUDE_PREVIOUS_OFFENDING: '<!-- RICH_TEXT --><p>Prisoner\'s attitude to their previous offending text</p>'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Risk of Serious Harm (RoSH) at point of sentence"
+        !content.contains("The RoSH at point of sentence is not available")
+        content.contains "Low"
+        content.contains "Prisoner's attitude to the index offence text"
+        content.contains "Prisoner's attitude to their previous offending text"
+    }
+
+    def "Delius user wants to view the text that they entered in the RoSH at point of sentence fields without a previous assessment on the Parole Report PDF"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               ROSH_AT_POS_ASSESSMENT_COMPLETED: "no",
+                               ROSH_AT_POS_ATTITUDE_INDEX_OFFENCE: '<!-- RICH_TEXT --><p>Prisoner\'s attitude to the index offence text</p>',
+                               ROSH_AT_POS_ATTITUDE_PREVIOUS_OFFENDING: '<!-- RICH_TEXT --><p>Prisoner\'s attitude to their previous offending text</p>'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Risk of Serious Harm (RoSH) at point of sentence"
+        content.contains "The RoSH at point of sentence is not available"
+        content.contains "Prisoner's attitude to the index offence text"
+        content.contains "Prisoner's attitude to their previous offending text"
+    }
+
 
     def "Delius user wants to view the text that they entered in the Offender manager: prisoner contact fields on the Parole Report PDF"() {
 
