@@ -101,7 +101,9 @@
         .optional-section, .alternative-section.yes {
             display: none;
         }
-        .optional-section.true, .optional-section.true-true, .optional-section.true-yes, .optional-section.yes, .alternative-section {
+        .optional-section.true, .optional-section.true-true, .optional-section.true-yes, .optional-section.yes,
+        .alternative-section, .optional-section.level-good.good, .optional-section.level-satisfactory.satisfactory,
+        .optional-section.level-poor.poor, .optional-section.level-not_applicable.not_applicable {
             display: block;
         }
         .table-header {
@@ -439,7 +441,10 @@
             </div>
             <div class="sub-section">
                 <h3>Response to previous supervision:</h3>
-                <p class="formatted-text">PREVIOUS_SUPERVISION_RESPONSE</p>
+                <p class="formatted-text optional-section level-good PREVIOUS_SUPERVISION_RESPONSE">Good</p>
+                <p class="formatted-text optional-section level-satisfactory PREVIOUS_SUPERVISION_RESPONSE">Satisfactory</p>
+                <p class="formatted-text optional-section level-poor PREVIOUS_SUPERVISION_RESPONSE">Poor</p>
+                <p class="formatted-text optional-section level-not_applicable PREVIOUS_SUPERVISION_RESPONSE">N/A</p>
             </div>
             <div class="sub-section">
                 <h3>Details on previous supervision:</h3>
