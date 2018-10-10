@@ -466,7 +466,7 @@ class ParoleParom1ReportTest extends Specification {
 
     }
 
-    def "Delius user wants to view the text that they entered in the Risk Management Plan (RMP) fields on the Parole Report PDF with risk of absconding"() {
+    def "Delius user wants to view the text that they entered in the Risk Management Plan (RMP) fields on the Parole Report PDF"() {
 
         when:
         def result = new RESTClient('http://localhost:8080/').post(
@@ -474,6 +474,7 @@ class ParoleParom1ReportTest extends Specification {
                 requestContentType: JSON,
                 body: [templateName: 'paroleParom1Report',
                        values: [
+                               RISK_MANAGEMENT_PLAN_REQUIRED: 'yes',
                                AGENCIES: '<!-- RICH_TEXT --><p>Here is agencies detail</p>',
                                SUPPORT: '<!-- RICH_TEXT --><p>Here is support detail</p>',
                                CONTROL: '<!-- RICH_TEXT --><p>Here is control detail</p>',
@@ -488,8 +489,9 @@ class ParoleParom1ReportTest extends Specification {
         then:
         def content = pageText result.data
         content.contains "Release risk management plan (RMP)"
+        !content.contains("A community Risk Management Plan (RMP) is not required.")
 
-        content.contains "Agencies"
+        content.contains "Current situation (Agencies)"
         content.contains "Here is agencies detail"
 
         content.contains "Support"
@@ -512,6 +514,33 @@ class ParoleParom1ReportTest extends Specification {
 
         content.contains "Contingency plan"
         content.contains "Here is contingency plan detail"
+    }
+
+    def "Delius user specifies that a community RMP is not required"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               RISK_MANAGEMENT_PLAN_REQUIRED: 'no'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Release risk management plan (RMP)"
+        content.contains "A community Risk Management Plan (RMP) is not required."
+
+        !content.contains("Current situation (Agencies)")
+        !content.contains("Support")
+        !content.contains("Control")
+        !content.contains("Added measures for specific risks")
+        !content.contains("Agency actions")
+        !content.contains("Additional conditions or requirement")
+        !content.contains("Level of contact")
+        !content.contains("Contingency plan")
     }
     
 
