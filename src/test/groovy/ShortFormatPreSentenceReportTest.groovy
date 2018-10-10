@@ -255,7 +255,8 @@ class ShortFormatPreSentenceReportTest extends Specification {
 
         then:
         def content = pageText result.data
-        content.findAll("Experience of trauma").size() == 1 // tickbox title only
+        content.contains "Experience of trauma"
+        content.contains "There is no evidence that the offender has experienced trauma."
     }
 
     def "Experience of trauma detail does not appear if present but not checked"() {
@@ -273,7 +274,8 @@ class ShortFormatPreSentenceReportTest extends Specification {
 
         then:
         def content = pageText result.data
-        content.findAll("Experience of trauma").size() == 1 // tickbox title only
+        content.contains "Experience of trauma"
+        content.contains "There is no evidence that the offender has experienced trauma."
     }
 
     def "Caring responsibilities detail appear when present and checked"() {
@@ -294,7 +296,7 @@ class ShortFormatPreSentenceReportTest extends Specification {
         content.findAll("Caring responsibilities").size() == 3 // tickbox title, section title and detail in section
     }
 
-    def "Caring responsibilities  detail does not appear when not present but checked"() {
+    def "Caring responsibilities detail does not appear when not present but checked"() {
 
         when:
         def result = new RESTClient('http://localhost:8080/').post(
@@ -309,7 +311,8 @@ class ShortFormatPreSentenceReportTest extends Specification {
 
         then:
         def content = pageText result.data
-        content.findAll("Caring responsibilities").size() == 1 // tickbox title only
+        content.contains "Caring responsibilities"
+        content.contains "There are no current or past caring responsibilities in this case."
     }
 
     def "Caring responsibilities  detail does not appear if present but not checked"() {
@@ -327,7 +330,8 @@ class ShortFormatPreSentenceReportTest extends Specification {
 
         then:
         def content = pageText result.data
-        content.findAll("Caring responsibilities").size() == 1 // tickbox title only
+        content.contains "Caring responsibilities"
+        content.contains "There are no current or past caring responsibilities in this case."
     }
 
     def "Other sources of information section appears when present and ticked"() {
