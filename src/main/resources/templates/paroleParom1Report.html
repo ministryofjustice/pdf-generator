@@ -99,6 +99,9 @@
         .footer .alternative-section.DRAFT {
             display: inline;
         }
+        .footer-element {
+            margin-left: 16px;
+        }
 
         .optional-section, .alternative-section, .unknown-section {
             display: none;
@@ -185,14 +188,16 @@
         <h3>OFFICIAL</h3>
         <div class="watermark">_WATERMARK_</div>
     </div>
+
     <div class='footer'>
         <span class="footer-element">Page </span><span id="page-number"></span>
-        <span class="footer-element">Report author: </span>
+        <span class="footer-element">Report author: SIGNATURE_NAME</span>
         <span class="footer-element">Date completed:
-            <span class="optional-section _WATERMARK_"></span>
+            <span class="optional-section _WATERMARK_">SIGNATURE_DATE</span>
             <span class="alternative-section _WATERMARK_">Draft</span>
         </span>
     </div>
+
     <div class="page">
 
         <table class="first-page-header">
