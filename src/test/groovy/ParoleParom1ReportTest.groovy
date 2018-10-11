@@ -488,7 +488,7 @@ class ParoleParom1ReportTest extends Specification {
 
         then:
         def content = pageText result.data
-        content.contains "Release risk management plan (RMP)"
+        content.contains "Community Risk Management Plan (RMP)"
         !content.contains("A community Risk Management Plan (RMP) is not required.")
 
         content.contains "Current situation (Agencies)"
@@ -530,7 +530,7 @@ class ParoleParom1ReportTest extends Specification {
 
         then:
         def content = pageText result.data
-        content.contains "Release risk management plan (RMP)"
+        content.contains "Community Risk Management Plan (RMP)"
         content.contains "A community Risk Management Plan (RMP) is not required."
 
         !content.contains("Current situation (Agencies)")
