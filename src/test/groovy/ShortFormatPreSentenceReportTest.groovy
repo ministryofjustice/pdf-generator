@@ -240,6 +240,24 @@ class ShortFormatPreSentenceReportTest extends Specification {
         content.findAll("Experience of trauma").size() == 3 // tickbox title, section title and detail in section
     }
 
+    def "Experience of trauma when selected should not show no trauma message"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'shortFormatPreSentenceReport',
+                       values: [
+                                EXPERIENCE_TRAUMA_DETAILS: '<!-- RICH_TEXT --><p>Experience of trauma</p>',
+                                EXPERIENCE_TRAUMA: 'yes'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        !content.contains("There is no evidence that the offender has experienced trauma.")
+    }
+
     def "Experience of trauma detail does not appear when not present but checked"() {
 
         when:
