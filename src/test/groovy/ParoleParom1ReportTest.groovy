@@ -807,9 +807,9 @@ class ParoleParom1ReportTest extends Specification {
         def content = pageText result.data
         content.contains "Current risk assessment scores"
         content.contains "RSR\n" +
-                "OGRS3\n" +
-                "OGP\n" +
-                "OVP\n" +
+                "OGRS3 (year 2)\n" +
+                "OGP (year 2)\n" +
+                "OVP (year 2)\n" +
                 "Risk matrix 2000\n" +
                 "SARA"
     }
@@ -840,9 +840,9 @@ class ParoleParom1ReportTest extends Specification {
         def content = pageText result.data
         content.contains "Current risk assessment scores"
         content.contains "RSR  Low (2.32)"
-        content.contains "OGRS3  Low (22)"
-        content.contains "OGP  Low (23)"
-        content.contains "OVP  Low (24)"
+        content.contains "OGRS3 (year 2)  Low (22)"
+        content.contains "OGP (year 2)  Low (23)"
+        content.contains "OVP (year 2)  Low (24)"
         content.contains "Risk matrix 2000 N/A"
         content.contains "SARA N/A"
 
@@ -874,9 +874,9 @@ class ParoleParom1ReportTest extends Specification {
         def content = pageText result.data
         content.contains "Current risk assessment scores"
         content.contains "RSR  Medium (5.32)"
-        content.contains "OGRS3  Medium (52)"
-        content.contains "OGP  Medium (53)"
-        content.contains "OVP  Medium (44)"
+        content.contains "OGRS3 (year 2)  Medium (52)"
+        content.contains "OGP (year 2)  Medium (53)"
+        content.contains "OVP (year 2)  Medium (44)"
         content.contains "Risk matrix 2000 Low"
         content.contains "SARA N/A"
 
@@ -908,9 +908,9 @@ class ParoleParom1ReportTest extends Specification {
         def content = pageText result.data
         content.contains "Current risk assessment scores"
         content.contains "RSR  High (7.32)"
-        content.contains "OGRS3  High (75)"
-        content.contains "OGP  High (76)"
-        content.contains "OVP  High (64)"
+        content.contains "OGRS3 (year 2)  High (75)"
+        content.contains "OGP (year 2)  High (76)"
+        content.contains "OVP (year 2)  High (64)"
         content.contains "Risk matrix 2000 N/A"
         content.contains "SARA Low"
 
@@ -942,9 +942,9 @@ class ParoleParom1ReportTest extends Specification {
         def content = pageText result.data
         content.contains "Current risk assessment scores"
         content.contains "RSR  High (9)"
-        content.contains "OGRS3  Very high (90)"
-        content.contains "OGP  Very high (91)"
-        content.contains "OVP  Very high (84)"
+        content.contains "OGRS3 (year 2)  Very high (90)"
+        content.contains "OGP (year 2)  Very high (91)"
+        content.contains "OVP (year 2)  Very high (84)"
         content.contains "Risk matrix 2000 Low"
         content.contains "SARA Low"
 
