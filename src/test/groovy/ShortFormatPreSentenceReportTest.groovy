@@ -296,6 +296,24 @@ class ShortFormatPreSentenceReportTest extends Specification {
         content.findAll("Caring responsibilities").size() == 3 // tickbox title, section title and detail in section
     }
 
+    def "Caring responsibilities no indicator is not shown checked"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'shortFormatPreSentenceReport',
+                       values: [
+                                CARING_RESPONSIBILITIES_DETAILS: '<!-- RICH_TEXT --><p>Caring responsibilities</p>',
+                                CARING_RESPONSIBILITIES: 'yes'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        !content.contains("There are no current or past caring responsibilities in this case.")
+    }
+
     def "Caring responsibilities detail does not appear when not present but checked"() {
 
         when:
