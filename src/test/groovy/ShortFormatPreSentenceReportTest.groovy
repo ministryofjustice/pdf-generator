@@ -230,32 +230,15 @@ class ShortFormatPreSentenceReportTest extends Specification {
                 requestContentType: JSON,
                 body: [templateName: 'shortFormatPreSentenceReport',
                        values: [
-                                EXPERIENCE_TRAUMA_DETAILS: '<!-- RICH_TEXT --><p>Experience of trauma</p>',
+                                EXPERIENCE_TRAUMA_DETAILS: '<!-- RICH_TEXT --><p>Experience of trauma details</p>',
                                 EXPERIENCE_TRAUMA: 'yes'
                        ]]
         )
 
         then:
         def content = pageText result.data
-        content.findAll("Experience of trauma").size() == 3 // tickbox title, section title and detail in section
-    }
-
-    def "Experience of trauma when selected should not show no trauma message"() {
-
-        when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'shortFormatPreSentenceReport',
-                       values: [
-                                EXPERIENCE_TRAUMA_DETAILS: '<!-- RICH_TEXT --><p>Experience of trauma</p>',
-                                EXPERIENCE_TRAUMA: 'yes'
-                       ]]
-        )
-
-        then:
-        def content = pageText result.data
-        !content.contains("There is no evidence that the offender has experienced trauma.")
+        content.contains "Experience of trauma"
+        content.contains "Experience of trauma details"
     }
 
     def "Experience of trauma detail does not appear when not present but checked"() {
@@ -273,8 +256,7 @@ class ShortFormatPreSentenceReportTest extends Specification {
 
         then:
         def content = pageText result.data
-        content.contains "Experience of trauma"
-        content.contains "There is no evidence that the offender has experienced trauma."
+        content.findAll("Experience of trauma").size() == 1 // Radio button legend
     }
 
     def "Experience of trauma detail does not appear if present but not checked"() {
@@ -285,15 +267,15 @@ class ShortFormatPreSentenceReportTest extends Specification {
                 requestContentType: JSON,
                 body: [templateName: 'shortFormatPreSentenceReport',
                        values: [
-                                EXPERIENCE_TRAUMA_DETAILS: '<!-- RICH_TEXT --><p>Experience of trauma</p>',
+                                EXPERIENCE_TRAUMA_DETAILS: '<!-- RICH_TEXT --><p>Some trauma details text</p>',
                                 EXPERIENCE_TRAUMA: 'no'
                        ]]
         )
 
         then:
         def content = pageText result.data
-        content.contains "Experience of trauma"
-        content.contains "There is no evidence that the offender has experienced trauma."
+        content.findAll("Experience of trauma").size() == 1 // Radio button legend
+        !content.contains("Some trauma details text")
     }
 
     def "Caring responsibilities detail appear when present and checked"() {
@@ -304,32 +286,15 @@ class ShortFormatPreSentenceReportTest extends Specification {
                 requestContentType: JSON,
                 body: [templateName: 'shortFormatPreSentenceReport',
                        values: [
-                                CARING_RESPONSIBILITIES_DETAILS: '<!-- RICH_TEXT --><p>Caring responsibilities</p>',
+                                CARING_RESPONSIBILITIES_DETAILS: '<!-- RICH_TEXT --><p>Some caring details text</p>',
                                 CARING_RESPONSIBILITIES: 'yes'
                        ]]
         )
 
         then:
         def content = pageText result.data
-        content.findAll("Caring responsibilities").size() == 3 // tickbox title, section title and detail in section
-    }
-
-    def "Caring responsibilities no indicator is not shown checked"() {
-
-        when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'shortFormatPreSentenceReport',
-                       values: [
-                                CARING_RESPONSIBILITIES_DETAILS: '<!-- RICH_TEXT --><p>Caring responsibilities</p>',
-                                CARING_RESPONSIBILITIES: 'yes'
-                       ]]
-        )
-
-        then:
-        def content = pageText result.data
-        !content.contains("There are no current or past caring responsibilities in this case.")
+        content.contains "Caring responsibilities"
+        content.contains "Some caring details text"
     }
 
     def "Caring responsibilities detail does not appear when not present but checked"() {
@@ -347,8 +312,7 @@ class ShortFormatPreSentenceReportTest extends Specification {
 
         then:
         def content = pageText result.data
-        content.contains "Caring responsibilities"
-        content.contains "There are no current or past caring responsibilities in this case."
+        content.findAll("Caring responsibilities").size() == 1 // Radio button legend
     }
 
     def "Caring responsibilities  detail does not appear if present but not checked"() {
@@ -359,15 +323,15 @@ class ShortFormatPreSentenceReportTest extends Specification {
                 requestContentType: JSON,
                 body: [templateName: 'shortFormatPreSentenceReport',
                        values: [
-                                CARING_RESPONSIBILITIES_DETAILS: '<!-- RICH_TEXT --><p>Caring responsibilities</p>',
+                                CARING_RESPONSIBILITIES_DETAILS: '<!-- RICH_TEXT --><p>Some caring details text</p>',
                                 CARING_RESPONSIBILITIES: 'no'
                        ]]
         )
 
         then:
         def content = pageText result.data
-        content.contains "Caring responsibilities"
-        content.contains "There are no current or past caring responsibilities in this case."
+        content.findAll("Caring responsibilities").size() == 1 // Radio button legend
+        !content.contains("Some caring details text")
     }
 
     def "Other sources of information section appears when present and ticked"() {
