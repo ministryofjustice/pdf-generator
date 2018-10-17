@@ -37,7 +37,12 @@ public class PdfGenerator {
             Files.write(inputFile.toPath(), document.getBytes());
             PDFRenderer.renderToPDF(inputFile, outputFile.getCanonicalPath());
 
-            return ArrayUtils.toObject(Files.readAllBytes(outputFile.toPath()));
+            val pdfBytes = ArrayUtils.toObject(Files.readAllBytes(outputFile.toPath()));
+
+            inputFile.delete();
+            outputFile.delete();
+
+            return pdfBytes;
         }
         catch (IOException | DocumentException ex) {
 
