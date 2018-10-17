@@ -10,6 +10,131 @@ import uk.gov.justice.digital.pdf.Server
 import static groovyx.net.http.ContentType.JSON
 
 class ParoleParom1ReportTest extends Specification {
+
+    def "Delius user does not enter any text into the Prisoner Details text fields"() {
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               PRISONER_DETAILS_PRISON_INSTITUTION: '',
+                               PRISONER_DETAILS_PRISONERS_FULL_NAME: '',
+                               PRISONER_DETAILS_PRISON_NUMBER: '',
+                               PRISONER_DETAILS_NOMIS_NUMBER: '',
+                               PRISONER_DETAILS_OFFENCE: '',
+                               PRISONER_DETAILS_SENTENCE: '',
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Prisoner details"
+
+    }
+
+    def "Offender has a Determinate Sentence"() {
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               PRISONER_DETAILS_PRISON_INSTITUTION: 'Doncaster',
+                               PRISONER_DETAILS_PRISONERS_FULL_NAME: 'Jane Doe',
+                               PRISONER_DETAILS_PRISON_NUMBER: 'P98793-123',
+                               PRISONER_DETAILS_NOMIS_NUMBER: 'N2124214-3423',
+                               PRISONER_DETAILS_PRISONERS_CATEGORY: 'restricted',
+                               PRISONER_DETAILS_OFFENCE: '<!-- RICH_TEXT --><p>Aggravated assault</p>',
+                               PRISONER_DETAILS_SENTENCE: '<!-- RICH_TEXT --><p>20 years</p>',
+                               PRISONER_DETAILS_SENTENCE_TYPE: 'determinate',
+                               PRISONER_DETAILS_PAROLE_ELIGIBILITY_DATE: '08/12/2021'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Doncaster"
+        content.contains "Jane Doe"
+        content.contains "P98793-123"
+        content.contains "N2124214-3423"
+        content.contains "Restricted"
+        content.contains "Aggravated assault"
+        content.contains "20 years"
+        content.contains "Determinate"
+        !content.contains("Indeterminate")
+        content.contains "08/12/2021"
+    }
+
+    def "Offender has a Determinate Sentence with an automatic release date"() {
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               PRISONER_DETAILS_PRISON_INSTITUTION: 'Doncaster',
+                               PRISONER_DETAILS_PRISONERS_FULL_NAME: 'Kieron Dobson',
+                               PRISONER_DETAILS_PRISON_NUMBER: 'P12345-123',
+                               PRISONER_DETAILS_NOMIS_NUMBER: 'N123456C',
+                               PRISONER_DETAILS_PRISONERS_CATEGORY: 'a',
+                               PRISONER_DETAILS_OFFENCE: '<!-- RICH_TEXT --><p>Assault</p>',
+                               PRISONER_DETAILS_SENTENCE: '<!-- RICH_TEXT --><p>10 years</p>',
+                               PRISONER_DETAILS_SENTENCE_TYPE: 'determinate',
+                               PRISONER_DETAILS_AUTO_RELEASE_DATE: '08/11/2031'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Doncaster"
+        content.contains "Kieron Dobson"
+        content.contains "P12345-123"
+        content.contains "N123456C"
+        content.contains "A"
+        content.contains "Assault"
+        content.contains "10 years"
+        content.contains "Determinate"
+        !content.contains("Indeterminate")
+        content.contains "08/11/2031"
+    }
+
+    def "Offender has Indeterminate sentence"() {
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               PRISONER_DETAILS_PRISON_INSTITUTION: 'Hull',
+                               PRISONER_DETAILS_PRISONERS_FULL_NAME: 'Billy Fizz',
+                               PRISONER_DETAILS_PRISON_NUMBER: 'P54321-123',
+                               PRISONER_DETAILS_NOMIS_NUMBER: 'N54321C',
+                               PRISONER_DETAILS_PRISONERS_CATEGORY: 'b',
+                               PRISONER_DETAILS_OFFENCE: '<!-- RICH_TEXT --><p>Drunk on duty</p>',
+                               PRISONER_DETAILS_SENTENCE: '<!-- RICH_TEXT --><p>1 year</p>',
+                               PRISONER_DETAILS_SENTENCE_TYPE: 'indeterminate',
+                               PRISONER_DETAILS_TARIFF_LENGTH: '12 months',
+                               PRISONER_DETAILS_TARIFF_EXPIRY_DATE: '29/06/2019'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Hull"
+        content.contains "Billy Fizz"
+        content.contains "P54321"
+        content.contains "N54321C"
+        content.contains "B"
+        content.contains "Drunk on duty"
+        content.contains "1 year"
+        content.contains "Indeterminate"
+        !content.contains("Determinate")
+        content.contains "12 months"
+        content.contains "29/06/2019"
+    }
+
+
     def "Delius user does not enter any text into the free prisoner contact text fields"() {
 
         when:
