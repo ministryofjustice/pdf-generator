@@ -242,9 +242,7 @@ class ParoleParom1ReportTest extends Specification {
 
         then:
         def content = pageText result.data
-        content.contains "Offender Personality Disorder (OPD) pathway consideration"
-        !content.contains("The prisoner has met the OPD screening criteria")
-        !content.contains("The prisoner has not met the OPD screening criteria")
+        !content.contains("Offender Personality Disorder (OPD) pathway")
     }
 
     def "Delius user wants to view the Yes option that they have selected in the OPD Pathway UI on the Parole Report PDF"() {
@@ -255,15 +253,16 @@ class ParoleParom1ReportTest extends Specification {
                 requestContentType: JSON,
                 body: [templateName: 'paroleParom1Report',
                        values: [
-                               CONSIDERED_FOR_OPD_PATHWAY_SERVICES: 'yes'
+                               CONSIDERED_FOR_OPD_PATHWAY_SERVICES: 'yes',
+                               OPD_SCREENED_DATE: '21/10/2018',
                        ]]
         )
 
         then:
         def content = pageText result.data
-        content.contains "Offender Personality Disorder (OPD) pathway consideration"
-        content.contains "The prisoner has met the OPD screening criteria"
-        !content.contains("The prisoner has not met the OPD screening criteria")
+        content.contains "Offender Personality Disorder (OPD) pathway"
+        content.contains "Screening date"
+        content.contains "21/10/2018"
     }
     def "Delius user wants to view the No option that they have selected in the OPD Pathway UI on the Parole Report PDF"() {
 
@@ -273,15 +272,15 @@ class ParoleParom1ReportTest extends Specification {
                 requestContentType: JSON,
                 body: [templateName: 'paroleParom1Report',
                        values: [
-                               CONSIDERED_FOR_OPD_PATHWAY_SERVICES: 'no'
+                               CONSIDERED_FOR_OPD_PATHWAY_SERVICES: 'no',
+                               NOT_SCREENED_FOR_OPD_REASON: 'Some reason for not doing the OPD screening',
                        ]]
         )
 
         then:
         def content = pageText result.data
-        content.contains "Offender Personality Disorder (OPD) pathway consideration"
-        content.contains "The prisoner has not met the OPD screening criteria"
-        !content.contains("The prisoner has met the OPD screening criteria")
+        content.contains "Offender Personality Disorder (OPD) pathway"
+        content.contains "Some reason for not doing the OPD screening"
     }
 
     def "Delius user wants to view the text that they entered in the Behaviour in prison fields on the Parole Report PDF"() {
