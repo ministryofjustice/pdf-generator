@@ -600,8 +600,8 @@ class ParoleParom1ReportTest extends Specification {
                 body: [templateName: 'paroleParom1Report',
                        values: [
                                RISK_MANAGEMENT_PLAN_REQUIRED: 'yes',
-                               AGENCIES: '<!-- RICH_TEXT --><p>Here is agencies detail</p>',
-                               SUPPORT: '<!-- RICH_TEXT --><p>Here is support detail</p>',
+                               CURRENT_SITUATION: '<!-- RICH_TEXT --><p>Here is current situation detail</p>',
+                               SUPPORTING_AGENCIES: '<!-- RICH_TEXT --><p>Here is supporting agencies detail</p>',
                                CONTROL: '<!-- RICH_TEXT --><p>Here is control detail</p>',
                                RISK_MEASURES: '<!-- RICH_TEXT --><p>Here is risk measures detail</p>',
                                AGENCY_ACTIONS: '<!-- RICH_TEXT --><p>Here is agency actions detail</p>',
@@ -616,11 +616,11 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Community Risk Management Plan (RMP)"
         !content.contains("A community Risk Management Plan (RMP) is not required.")
 
-        content.contains "Current situation (Agencies)"
-        content.contains "Here is agencies detail"
+        content.contains "Current situation"
+        content.contains "Here is current situation detail"
 
-        content.contains "Support"
-        content.contains "Here is support detail"
+        content.contains "Supporting agencies"
+        content.contains "Here is supporting agencies detail"
 
         content.contains "Control"
         content.contains "Here is control detail"
@@ -658,8 +658,8 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Community Risk Management Plan (RMP)"
         content.contains "A community Risk Management Plan (RMP) is not required."
 
-        !content.contains("Current situation (Agencies)")
-        !content.contains("Support")
+        !content.contains("Current situation")
+        !content.contains("Supporting agencies")
         !content.contains("Control")
         !content.contains("Added measures for specific risks")
         !content.contains("Agency actions")
