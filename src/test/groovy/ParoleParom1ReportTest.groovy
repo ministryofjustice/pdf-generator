@@ -367,7 +367,7 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Victim Personal Statement (VPS) Don't know"
     }
 
-    def "Delius user wants to view the text that they entered in the Current sentence plan and response fields on the Parole Report PDF"() {
+    def "Delius user wants to view the text that they entered in the Prison sentence plan and response fields on the Parole Report PDF"() {
 
         when:
         def result = new RESTClient('http://localhost:8080/').post(
@@ -381,7 +381,7 @@ class ParoleParom1ReportTest extends Specification {
 
         then:
         def content = pageText result.data
-        content.contains "Current sentence plan and response"
+        content.contains "Prison sentence plan"
         content.contains "Here is current sentence plan detail"
     }
 
@@ -513,7 +513,7 @@ class ParoleParom1ReportTest extends Specification {
 
         then:
         def content = pageText result.data
-        content.contains "Risk of serious harm analysis"
+        content.contains "Nature of the risk to all relevant groups"
         content.contains "Here is nature of risk detail"
 
         content.contains "Factors likely to increase the risk of serious harm"
@@ -547,7 +547,7 @@ class ParoleParom1ReportTest extends Specification {
 
         then:
         def content = pageText result.data
-        content.contains "Risk of serious harm analysis"
+        content.contains "Nature of the risk to all relevant groups"
         content.contains "Here is nature of risk detail"
 
         content.contains "Factors likely to increase the risk of serious harm"
