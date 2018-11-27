@@ -601,6 +601,7 @@ class ParoleParom1ReportTest extends Specification {
                                RISK_MANAGEMENT_PLAN_REQUIRED: 'yes',
                                CURRENT_SITUATION: '<!-- RICH_TEXT --><p>Here is current situation detail</p>',
                                SUPPORTING_AGENCIES: '<!-- RICH_TEXT --><p>Here is supporting agencies detail</p>',
+                               SUPPORT: '<!-- RICH_TEXT --><p>Here is support detail</p>',
                                CONTROL: '<!-- RICH_TEXT --><p>Here is control detail</p>',
                                RISK_MEASURES: '<!-- RICH_TEXT --><p>Here is risk measures detail</p>',
                                AGENCY_ACTIONS: '<!-- RICH_TEXT --><p>Here is agency actions detail</p>',
@@ -620,6 +621,9 @@ class ParoleParom1ReportTest extends Specification {
 
         content.contains "Supporting agencies"
         content.contains "Here is supporting agencies detail"
+
+        content.contains "Support"
+        content.contains "Here is support detail"
 
         content.contains "Control"
         content.contains "Here is control detail"
@@ -659,6 +663,7 @@ class ParoleParom1ReportTest extends Specification {
 
         !content.contains("Current situation")
         !content.contains("Supporting agencies")
+        !content.contains("Support")
         !content.contains("Control")
         !content.contains("Added measures for specific risks")
         !content.contains("Agency actions")
