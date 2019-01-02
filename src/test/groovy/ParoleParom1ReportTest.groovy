@@ -599,15 +599,15 @@ class ParoleParom1ReportTest extends Specification {
                 body: [templateName: 'paroleParom1Report',
                        values: [
                                RISK_MANAGEMENT_PLAN_REQUIRED: 'yes',
-                               CURRENT_SITUATION: '<!-- RICH_TEXT --><p>Here is current situation detail</p>',
-                               SUPPORTING_AGENCIES: '<!-- RICH_TEXT --><p>Here is supporting agencies detail</p>',
-                               SUPPORT: '<!-- RICH_TEXT --><p>Here is support detail</p>',
-                               CONTROL: '<!-- RICH_TEXT --><p>Here is control detail</p>',
-                               RISK_MEASURES: '<!-- RICH_TEXT --><p>Here is risk measures detail</p>',
-                               AGENCY_ACTIONS: '<!-- RICH_TEXT --><p>Here is agency actions detail</p>',
-                               ADDITIONAL_CONDITIONS: '<!-- RICH_TEXT --><p>Here is additional conditions detail</p>',
-                               LEVEL_OF_CONTACT: '<!-- RICH_TEXT --><p>Here is level of contact detail</p>',
-                               CONTINGENCY_PLAN: '<!-- RICH_TEXT --><p>Here is contingency plan detail</p>'
+                               RMP_CURRENT_SITUATION: '<!-- RICH_TEXT --><p>Here is current situation detail</p>',
+                               RMP_SUPPORTING_AGENCIES: '<!-- RICH_TEXT --><p>Here is supporting agencies detail</p>',
+                               RMP_SUPPORT: '<!-- RICH_TEXT --><p>Here is support detail</p>',
+                               RMP_CONTROL: '<!-- RICH_TEXT --><p>Here is control detail</p>',
+                               RMP_RISK_MEASURES: '<!-- RICH_TEXT --><p>Here is risk measures detail</p>',
+                               RMP_AGENCY_ACTIONS: '<!-- RICH_TEXT --><p>Here is agency actions detail</p>',
+                               RMP_ADDITIONAL_CONDITIONS: '<!-- RICH_TEXT --><p>Here is additional conditions detail</p>',
+                               RMP_LEVEL_OF_CONTACT: '<!-- RICH_TEXT --><p>Here is level of contact detail</p>',
+                               RMP_CONTINGENCY_PLAN: '<!-- RICH_TEXT --><p>Here is contingency plan detail</p>'
                        ]]
         )
 
@@ -865,7 +865,7 @@ class ParoleParom1ReportTest extends Specification {
                 requestContentType: JSON,
                 body: [templateName: 'paroleParom1Report',
                        values: [
-                               RECOMMENDATION: '<!-- RICH_TEXT --><p>Here is the recommendation detail</p>'
+                               _RECOMMENDATION_: '<!-- RICH_TEXT --><p>Here is the recommendation detail</p>'
                        ]]
         )
 
@@ -883,7 +883,7 @@ class ParoleParom1ReportTest extends Specification {
                 requestContentType: JSON,
                 body: [templateName: 'paroleParom1Report',
                        values: [
-                               RECOMMENDATION: ''
+                               _RECOMMENDATION_: ''
                        ]]
         )
 
