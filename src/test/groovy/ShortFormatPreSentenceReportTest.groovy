@@ -47,6 +47,41 @@ class ShortFormatPreSentenceReportTest extends Specification {
         content.contains "Page 1 Report author: Date completed: Draft"
     }
 
+    def "Other offence appears when present"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'shortFormatPreSentenceReport',
+                       values: [
+                               OTHER_OFFENCE: '<!-- RICH_TEXT --><p>There was another offence</p>'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Other offences and dates:"
+        content.contains "There was another offence"
+    }
+
+    def "No Other offence section appears when not present"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'shortFormatPreSentenceReport',
+                       values: [
+                               OTHER_OFFENCE: ''
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        !content.contains("Other offences and dates:")
+    }
+
     def "Pattern of offending appears when present"() {
 
         when:
