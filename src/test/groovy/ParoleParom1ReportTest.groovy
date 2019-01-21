@@ -559,8 +559,8 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Likelihood of further offending"
         content.contains "Here is likelihood of further offending detail"
 
-        !content.contains("Absconding risk")
-        !content.contains("Here is risk of absconding detail")
+        content.contains("Absconding risk")
+        content.contains("The prisoner does not pose an absconding risk")
     }
 
     def "Delius user wants to view the text that they entered in the Risk to the prisoner fields on the Parole Report PDF"() {
