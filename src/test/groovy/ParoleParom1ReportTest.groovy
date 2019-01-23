@@ -452,16 +452,15 @@ class ParoleParom1ReportTest extends Specification {
 
         then:
         def content = pageText result.data
-        content.contains "Current RoSH: community"
+        content.contains "Current RoSH"
         content.contains "Public"
         content.contains "Known adult"
         content.contains "Children"
         content.contains "Prisoners"
         content.contains "Staff"
-        content.contains "Low"
-        content.contains "Medium"
-        content.contains "High"
-        content.contains "Very high"
+
+        content.contains "Community Low Medium High Very high Low"
+        content.contains "Custody"
     }
 
     def "Delius user wants to view the text that they entered in the Current RoSH: custody fields on the Parole Report PDF"() {
@@ -482,16 +481,15 @@ class ParoleParom1ReportTest extends Specification {
 
         then:
         def content = pageText result.data
-        content.contains "Current RoSH: custody"
+        content.contains "Current RoSH"
         content.contains "Public"
         content.contains "Known adult"
         content.contains "Children"
         content.contains "Prisoners"
         content.contains "Staff"
-        content.contains "Low"
-        content.contains "Medium"
-        content.contains "High"
-        content.contains "Very high"
+
+        content.contains "Community"
+        content.contains "Custody Low Medium High Very high Low"
     }
 
     def "Delius user wants to view the text that they entered in the RoSH analysis fields on the Parole Report PDF with risk of absconding"() {
@@ -580,13 +578,11 @@ class ParoleParom1ReportTest extends Specification {
 
         then:
         def content = pageText result.data
-        content.contains "Risk to the prisoner: community"
-        content.contains "Self harming risk Yes"
-        content.contains "Risk of serious harm from others Yes"
-
-        content.contains "Risk to the prisoner: custody"
-        content.contains "Self harming risk No"
-        content.contains "Risk of serious harm from others No"
+        content.contains "Risk to the prisoner"
+        content.contains "Self harming risk"
+        content.contains "Risk of serious harm from others"
+        content.contains "Community Yes Yes"
+        content.contains "Custody No No"
 
     }
 
