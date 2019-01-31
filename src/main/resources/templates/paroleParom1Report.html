@@ -114,6 +114,9 @@
         .optional-section.sentence-type-indeterminate.indeterminate, .optional-section.sentence-type-determinate.true-determinate {
             display: table-row;
         }
+        tr.optional-section.yes {
+            display: table-row;
+        }
         div.header {
             display: block; text-align: center;
             position: running(header);
@@ -396,22 +399,29 @@
     </table>
 
 
-    <div class="optional-section CONSIDERED_FOR_OPD_PATHWAY_SERVICES">
-        <table class="margin-top medium">
-            <tr class="table-header">
-                <td colspan="2" class="heading">Offender Personality Disorder (OPD) pathway</td>
-            </tr>
-            <tr>
-                <td width="50%" class="heading">Screening date</td>
-                <td width="50%">OPD_SCREENED_DATE</td>
-            </tr>
-        </table>
-    </div>
-
-    <div class="alternative-section CONSIDERED_FOR_OPD_PATHWAY_SERVICES">
-        <h2>Offender Personality Disorder (OPD) pathway</h2>
-        <div class="sub-section">NOT_SCREENED_FOR_OPD_REASON</div>
-    </div>
+    <table class="margin-top medium">
+        <tr class="table-header">
+            <td colspan="2" class="heading">Offender Personality Disorder (OPD) pathway</td>
+        </tr>
+        <tr>
+            <td width="50%" class="heading">Date of OPD screen</td>
+            <td width="50%">OPD_SCREENED_DATE</td>
+        </tr>
+        <tr>
+            <td width="50%" class="heading">OPD criteria met</td>
+            <td width="50%">
+                <span class="optional-section CONSIDERED_FOR_OPD_PATHWAY_SERVICES">Yes</span>
+                <span class="alternative-section CONSIDERED_FOR_OPD_PATHWAY_SERVICES">No</span>
+            </td>
+        </tr>
+        <tr class="optional-section CONSIDERED_FOR_OPD_PATHWAY_SERVICES">
+            <td width="50%" class="heading">Consultation or formulation received</td>
+            <td width="50%">
+                <span class="optional-section OPD_CONSULTATION_OR_FORMULATION">Yes</span>
+                <span class="alternative-section OPD_CONSULTATION_OR_FORMULATION">No</span>
+            </td>
+        </tr>
+    </table>
 
 
     <h2>Behaviour in prison</h2>

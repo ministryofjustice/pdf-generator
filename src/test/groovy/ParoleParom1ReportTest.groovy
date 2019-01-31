@@ -228,23 +228,6 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Here is prisoner agencies detail"
     }
 
-    def "Delius user does not select an option within the OPD Pathway UI"() {
-
-        when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               CONSIDERED_FOR_OPD_PATHWAY_SERVICES: ''
-                       ]]
-        )
-
-        then:
-        def content = pageText result.data
-        !content.contains("Offender Personality Disorder (OPD) pathway")
-    }
-
     def "Delius user wants to view the Yes option that they have selected in the OPD Pathway UI on the Parole Report PDF"() {
 
         when:
@@ -253,16 +236,18 @@ class ParoleParom1ReportTest extends Specification {
                 requestContentType: JSON,
                 body: [templateName: 'paroleParom1Report',
                        values: [
-                               CONSIDERED_FOR_OPD_PATHWAY_SERVICES: 'yes',
                                OPD_SCREENED_DATE: '21/10/2018',
+                               CONSIDERED_FOR_OPD_PATHWAY_SERVICES: 'yes',
+                               OPD_CONSULTATION_OR_FORMULATION: 'no'
                        ]]
         )
 
         then:
         def content = pageText result.data
         content.contains "Offender Personality Disorder (OPD) pathway"
-        content.contains "Screening date"
-        content.contains "21/10/2018"
+        content.contains "Date of OPD screen 21/10/2018"
+        content.contains "OPD criteria met Yes"
+        content.contains "Consultation or formulation received No"
     }
     def "Delius user wants to view the No option that they have selected in the OPD Pathway UI on the Parole Report PDF"() {
 
@@ -272,15 +257,17 @@ class ParoleParom1ReportTest extends Specification {
                 requestContentType: JSON,
                 body: [templateName: 'paroleParom1Report',
                        values: [
-                               CONSIDERED_FOR_OPD_PATHWAY_SERVICES: 'no',
-                               NOT_SCREENED_FOR_OPD_REASON: 'Some reason for not doing the OPD screening',
+                               OPD_SCREENED_DATE: '21/10/2018',
+                               CONSIDERED_FOR_OPD_PATHWAY_SERVICES: 'no'
                        ]]
         )
 
         then:
         def content = pageText result.data
         content.contains "Offender Personality Disorder (OPD) pathway"
-        content.contains "Some reason for not doing the OPD screening"
+        content.contains "Date of OPD screen 21/10/2018"
+        content.contains "OPD criteria met No"
+        !content.contains ("Consultation or formulation received")
     }
 
     def "Delius user wants to view the text that they entered in the Behaviour in prison fields on the Parole Report PDF"() {
