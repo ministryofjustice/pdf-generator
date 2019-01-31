@@ -48,6 +48,7 @@ class ParoleParom1ReportTest extends Specification {
                                PRISONER_DETAILS_OFFENCE: '<!-- RICH_TEXT --><p>Aggravated assault</p>',
                                PRISONER_DETAILS_SENTENCE: '<!-- RICH_TEXT --><p>20 years</p>',
                                PRISONER_DETAILS_SENTENCE_TYPE: 'determinate',
+                               PRISONER_DETAILS_DETERMINATE_SENTENCE_TYPE: 'extended',
                                PRISONER_DETAILS_PAROLE_ELIGIBILITY_DATE: '08/12/2021'
                        ]]
         )
@@ -62,6 +63,7 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Aggravated assault"
         content.contains "20 years"
         content.contains "Determinate"
+        content.contains "Extended"
         !content.contains("Indeterminate")
         content.contains "08/12/2021"
     }
