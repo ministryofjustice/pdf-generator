@@ -107,13 +107,21 @@
         .optional-section.sentence-type-indeterminate.indeterminate, .optional-section.sentence-type-determinate.determinate {
             display: block;
         }
-        span.optional-section.level-low.low, span.optional-section.level-medium.medium,
-        span.optional-section.level-high.high, span.optional-section.level-very_high.very_high {
+        span.optional-section.level-low.low,
+        span.optional-section.level-medium.medium,
+        span.optional-section.level-high.high,
+        span.optional-section.level-very_high.very_high,
+        span.optional-section.sentence-type-indeterminate.indeterminate,
+        span.optional-section.sentence-type-determinate-eds.extendedDeterminate,
+        span.optional-section.sentence-type-determinate-dcr.discretionaryConditionalRelease,
+        span.optional-section.sentence-type-determinate-sopc.sentenceOffendersParticularConcern,
+        span.optional-section.sentence-type-determinate-epp.extendedPublicProtection,
+        span.optional-section.sentence-type-determinate-extended.extended {
             display: inline;
         }
-        .optional-section.sentence-type-indeterminate.indeterminate, .optional-section.sentence-type-determinate.true-determinate {
-            display: table-row;
-        }
+
+        tr.optional-section.sentence-type-determinate.determinate,
+        tr.optional-section.sentence-type-indeterminate.indeterminate,
         tr.optional-section.yes {
             display: table-row;
         }
@@ -260,13 +268,19 @@
         </tr>
         <tr>
             <td width="25%" class="heading">Sentence</td>
-            <td width="25%" >
+            <td colspan="3">
                 PRISONER_DETAILS_SENTENCE
             </td>
+        </tr>
+        <tr>
             <td width="25%" class="heading">Sentence type</td>
-            <td width="25%" >
+            <td colspan="3">
                 <span class="optional-section sentence-type-indeterminate PRISONER_DETAILS_SENTENCE_TYPE">Indeterminate</span>
-                <span class="optional-section sentence-type-determinate PRISONER_DETAILS_SENTENCE_TYPE">Determinate</span>
+                <span class="optional-section sentence-type-determinate-eds PRISONER_DETAILS_DETERMINATE_SENTENCE_TYPE">Extended Determinate (EDS)</span>
+                <span class="optional-section sentence-type-determinate-dcr PRISONER_DETAILS_DETERMINATE_SENTENCE_TYPE">Discretionary Conditional Release (DCR)</span>
+                <span class="optional-section sentence-type-determinate-sopc PRISONER_DETAILS_DETERMINATE_SENTENCE_TYPE">Sentence for Offenders of Particular Concern (SOPC)</span>
+                <span class="optional-section sentence-type-determinate-epp PRISONER_DETAILS_DETERMINATE_SENTENCE_TYPE">Extended Public Protection (EPP)</span>
+                <span class="optional-section sentence-type-determinate-extended PRISONER_DETAILS_DETERMINATE_SENTENCE_TYPE">Extended</span>
             </td>
         </tr>
         <tr class="optional-section sentence-type-indeterminate PRISONER_DETAILS_SENTENCE_TYPE">
@@ -279,19 +293,12 @@
                 PRISONER_DETAILS_TARIFF_EXPIRY_DATE
             </td>
         </tr>
-        <tr class="optional-section sentence-type-determinate PRISONER_DETAILS_PAROLE_ELIGIBILITY_DATE_PRESENT-PRISONER_DETAILS_SENTENCE_TYPE">
-            <td colspan="3" width="25%" class="heading">Parole eligibility date</td>
-            <td width="75%" >
+        <tr class="optional-section sentence-type-determinate PRISONER_DETAILS_SENTENCE_TYPE">
+            <td width="25%" class="heading">Eligibility date</td>
+            <td colspan="3">
                 PRISONER_DETAILS_PAROLE_ELIGIBILITY_DATE
             </td>
         </tr>
-        <tr class="optional-section sentence-type-determinate PRISONER_DETAILS_AUTO_RELEASE_DATE_PRESENT-PRISONER_DETAILS_SENTENCE_TYPE">
-            <td colspan="3" width="25%" class="heading">Automatic release date / non parole eligibility date</td>
-            <td width="75%" >
-                PRISONER_DETAILS_AUTO_RELEASE_DATE
-            </td>
-        </tr>
-
     </table>
 
     <h2>Offender manager: prisoner contact</h2>
