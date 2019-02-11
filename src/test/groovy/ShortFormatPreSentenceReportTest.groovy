@@ -82,7 +82,7 @@ class ShortFormatPreSentenceReportTest extends Specification {
         !content.contains("Other offences and dates:")
     }
 
-    def "Pattern of offending appears when present"() {
+    def "Pattern of offending"() {
 
         when:
         def result = new RESTClient('http://localhost:8080/').post(
@@ -98,23 +98,6 @@ class ShortFormatPreSentenceReportTest extends Specification {
         def content = pageText result.data
         content.contains "Pattern of offending:"
         content.contains "There is a pattern of offending"
-    }
-
-    def "No Pattern of offending section appears when not present"() {
-
-        when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'shortFormatPreSentenceReport',
-                       values: [
-                               PATTERN_OF_OFFENDING: ''
-                       ]]
-        )
-
-        then:
-        def content = pageText result.data
-        !content.contains("Pattern of offending:")
     }
 
     def "Details on previous supervision section appears when present"() {
