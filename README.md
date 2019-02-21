@@ -69,7 +69,7 @@ E.g. browse to http://localhost:8080/debug/helloWorld?SALUTATION=Mr&FORENAME=Joh
 
 To create or modify new templates, load or create e.g. a Word Document in [LibreOffice](https://www.libreoffice.org/), and alter as necessary to include PLACE_HOLDER text which will be substituted in generated PDFs.
 
-Then choose `File | Export..` from the menu, and export in XHTML `.html` format. This new template should then be made available to the PDF Generator service by storaing in the `src/main/resources/templates` directory.
+Then choose `File | Export..` from the menu, and export in XHTML `.html` format. This new template should then be made available to the PDF Generator service by storing in the `src/main/resources/templates` directory.
 
 ### Building and running with Docker
 
