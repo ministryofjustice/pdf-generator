@@ -9,6 +9,12 @@
     <style type="text/css">
         p {
             orphans: 1; /* workaround for bug described by https://stackoverflow.com/questions/9499519/itext-2-flying-saucer-how-to-avoid-that-the-images-appears-broken-between-two */
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            line-height: 1.42;
+            tab-size: 4;
+            white-space: pre-wrap;
         }
         body {
             font-family: "nta", Arial, helvetica, sans-serif;
@@ -172,11 +178,6 @@
             padding-bottom: 0;
             page-break-after: avoid;
             page-break-inside: avoid;
-        }
-
-        p {
-            margin-top: 4px;
-            margin-bottom: 8px;
         }
 
         td p {
