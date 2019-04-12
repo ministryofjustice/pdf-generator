@@ -1,14 +1,15 @@
 package uk.gov.justice.digital.pdf.service;
 
-import com.lowagie.text.DocumentException;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import javax.inject.Inject;
+
+import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.lang3.ArrayUtils;
-import org.xhtmlrenderer.simple.PDFRenderer;
+import org.jsoup.Jsoup;
+import org.jsoup.helper.W3CDom;
 import uk.gov.justice.digital.pdf.data.PdfRequest;
 import uk.gov.justice.digital.pdf.interfaces.TemplateRepository;
 
@@ -36,7 +37,8 @@ public class PdfGenerator {
             String document = TemplateEngine.populate(pdfRequest, templates);
 
             Files.write(inputFile.toPath(), document.getBytes());
-            PDFRenderer.renderToPDF(inputFile, outputFile.getCanonicalPath());
+
+            renderToPdf(inputFile, outputFile);
 
             val pdfBytes = ArrayUtils.toObject(Files.readAllBytes(outputFile.toPath()));
 
@@ -45,11 +47,25 @@ public class PdfGenerator {
 
             return pdfBytes;
         }
-        catch (IOException | DocumentException ex) {
+        catch (Exception ex) {
 
             log.error("Process error", ex);
             return null;
         }
+    }
+
+    private void renderToPdf(File inputFile, File outputFile) throws Exception {
+        OutputStream outputStream = new FileOutputStream(outputFile.getCanonicalPath());
+        PdfRendererBuilder builder = new PdfRendererBuilder();
+        builder.useFastMode();
+        builder.withW3cDocument(processInputFileIntoW3CDocument(inputFile), null);
+        builder.toStream(outputStream);
+        builder.run();
+    }
+
+    public org.w3c.dom.Document processInputFileIntoW3CDocument(File inputFile) throws IOException {
+        org.jsoup.nodes.Document doc = Jsoup.parse(inputFile, "UTF-8");
+        return new W3CDom().fromJsoup(doc);
     }
 
     private File createTempFileName(String prefix, String suffix) throws IOException {
