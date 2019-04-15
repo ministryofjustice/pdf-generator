@@ -27,7 +27,8 @@ public class PdfGenerator {
 
         try {
 
-            log.info("PDF Generator request: " + pdfRequest);
+            log.debug("PDF Generator request: " + pdfRequest);
+            log.info("PDF Generator request for {}", pdfRequest.getTemplateName());
 
             val inputFile = createTempFileName("input", ".html");
             val outputFile = createTempFileName("output", ".pdf");
