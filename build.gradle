@@ -16,6 +16,7 @@ repositories {
     // Use 'jcenter' for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
+    mavenCentral()
 }
 
 jar {
@@ -38,9 +39,11 @@ dependencies {
     compile 'com.sparkjava:spark-core:2.6.0'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.8.8.1'
     compile 'org.apache.commons:commons-lang3:3.5'
-    compile 'org.xhtmlrenderer:flying-saucer-pdf:9.1.15'
     compile 'com.mashape.unirest:unirest-java:1.4.9'
     compile 'commons-io:commons-io:2.6'
+    compile 'com.openhtmltopdf:openhtmltopdf-core:0.0.1-RC19'
+    compile 'com.openhtmltopdf:openhtmltopdf-pdfbox:0.0.1-RC19'
+    compile 'org.jsoup:jsoup:1.9.2'
 
     compileOnly 'org.projectlombok:lombok:1.16.16'
 
