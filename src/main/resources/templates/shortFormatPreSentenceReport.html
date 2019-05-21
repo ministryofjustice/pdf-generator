@@ -7,13 +7,17 @@
     <title> Short Format Pre-Sentence Report </title>
 
     <style type="text/css">
-        p {
-            orphans: 1; /* workaround for bug described by https://stackoverflow.com/questions/9499519/itext-2-flying-saucer-how-to-avoid-that-the-images-appears-broken-between-two */
+
+        p, li {
             box-sizing: border-box;
             margin: 0 0 16px 0;
             padding: 0;
             line-height: 1.42;
             tab-size: 4;
+        }
+
+        p {
+            orphans: 1; /* workaround for bug described by https://stackoverflow.com/questions/9499519/itext-2-flying-saucer-how-to-avoid-that-the-images-appears-broken-between-two */
             min-height: 16px;
         }
 
