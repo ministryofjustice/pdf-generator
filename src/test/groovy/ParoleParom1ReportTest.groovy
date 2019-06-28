@@ -570,7 +570,7 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Current situation"
         content.contains "Here is current situation detail"
 
-        content.contains "Supporting agencies"
+        content.contains "Agencies"
         content.contains "Here is supporting agencies detail"
 
         content.contains "Support"
@@ -613,7 +613,7 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "A community Risk Management Plan (RMP) is not required."
 
         !content.contains("Current situation")
-        !content.contains("Supporting agencies")
+        !content.contains("Agencies")
         !content.contains("Support")
         !content.contains("Control")
         !content.contains("Added measures for specific risks")
