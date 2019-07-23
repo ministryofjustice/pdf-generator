@@ -65,7 +65,8 @@ public class TemplateEngine {
 
     private static String cleanWhenDirty(String value) {
         if (value.startsWith("<!-- RICH_TEXT -->")) { // rich text is already clean
-            return value;
+            // remove any new line after our marker tag
+            return value.replace("<!-- RICH_TEXT -->\r\n", "");
         }
         return escapeXml10(value);
     }
