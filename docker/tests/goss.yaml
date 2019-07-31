@@ -6,7 +6,7 @@ file:
   /home/tools/pdfGenerator.jar:
     exists: true
     filetype: file
-    mode: "0644"
+    mode: "0777"
     owner: root
     group: root
 process:
