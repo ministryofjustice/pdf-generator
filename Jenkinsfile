@@ -1,54 +1,132 @@
-def prepare_env() {
+def get_pdfgenerator_version() {
     sh '''
-    #!/usr/env/bin bash
-    docker pull mojdigitalstudio/hmpps-oraclejdk-builder:latest
+    #!/bin/bash +x
+    # Until migration is complete, need to avoid clash with live circle builds
+    # Use latest circle generated tag version for now - excluding any local commit diffs
+    git describe --tags --abbrev=0 > pdfgenerator.version
     '''
+    return readFile("./pdfgenerator.version")
 }
 
 pipeline {
-
     agent { label "jenkins_slave" }
 
-    stages {
+    environment {
+        docker_image = "hmpps/new-tech-pdfgenerator"
+        aws_region = 'eu-west-2'
+        ecr_repo = ''
+        pdfgenerator_VERSION = get_pdfgenerator_version()
+    }
 
-        stage('Setup') {
+    options { 
+        disableConcurrentBuilds() 
+    }
+
+    stages {
+        stage ('Notify build started') {
             steps {
-                prepare_env()
+                slackSend(message: "Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL.replace('http://', 'https://').replace(':8080', '')}|Open>)")
             }
         }
 
-        stage('Build') {
+        stage ('Initialize') {
             steps {
                 sh '''
-                    docker run --rm -v `pwd`:/home/tools/data mojdigitalstudio/hmpps-oraclejdk-builder bash -c "./gradlew build"
-                    mkdir -p ./build/artifacts
-                    cp build/libs/*.jar build/artifacts/
-                    ls -1 build/artifacts/pdfGenerator-*.jar | sed \'s/^.*pdfGenerator-\\(.*\\)\\.jar.*$/\\1/\' > build/artifacts/version.txt
-                    cp build/artifacts/pdfGenerator*.jar build/artifacts/pdfGenerator.jar
+                    #!/bin/bash +x
+                    echo "PATH = ${PATH}"
+                    echo "pdfgenerator_VERSION = ${pdfgenerator_VERSION}"
                 '''
             }
         }
 
-        stage ('Package') {
+       stage('Verify Prerequisites') {
+           steps {
+               sh '''
+                    #!/bin/bash +x
+                    echo "Testing AWS Connectivity and Credentials"
+                    aws sts get-caller-identity
+               '''
+           }
+       }
+
+       stage('Gradle Build') {
+           steps {
+                sh '''
+                    #!/bin/bash +x
+                    make gradle-build pdfgenerator_version=${pdfgenerator_VERSION};
+                '''
+           }
+       }
+
+        stage('Get ECR Login') {
             steps {
-                sh 'docker build -t 895523100917.dkr.ecr.eu-west-2.amazonaws.com/hmpps/pdf-generator:latest --file ./Dockerfile .'
-                sh 'aws ecr get-login --no-include-email --region eu-west-2 | source /dev/stdin'
-                sh 'docker push 895523100917.dkr.ecr.eu-west-2.amazonaws.com/hmpps/pdf-generator:latest'
+                sh '''
+                    #!/bin/bash +x
+                    make ecr-login
+                    ls -ail
+                '''
+                // Stash the ecr repo to save a repeat aws api call
+                stash includes: 'ecr.repo', name: 'ecr.repo'
             }
         }
-
-        stage('trigger deployment') {
-            steps {
-                build job: 'New_Tech/Deploy_PDF_Generator', parameters: [[$class: 'StringParameterValue', name: 'environment_type', value: 'dev']]
+        stage('Build Docker image') {
+           steps {
+                unstash 'ecr.repo'
+                sh '''
+                    #!/bin/bash +x
+                    make build pdfgenerator_version=${pdfgenerator_VERSION}
+                '''
             }
         }
-
+        stage('Image Tests') {
+            steps {
+                // Run dgoss tests
+                sh '''
+                    #!/bin/bash +x
+                    make test
+                '''
+            }
+        }
+        stage('Push image') {
+            steps{
+                unstash 'ecr.repo'
+                sh '''
+                    #!/bin/bash +x
+                    make push pdfgenerator_version=${pdfgenerator_VERSION}
+                '''
+                
+            }            
+        }
+        stage ('Remove untagged ECR images') {
+            steps{
+                unstash 'ecr.repo'
+                sh '''
+                    #!/bin/bash +x
+                    make clean-remote
+                '''
+            }
+        }
+        stage('Remove Unused docker image') {
+            steps{
+                unstash 'ecr.repo'
+                sh '''
+                    #!/bin/bash +x
+                    make clean-local pdfgenerator_version=${pdfgenerator_VERSION}
+                '''
+            }
+        }
     }
-
     post {
         always {
+            // Add a sleep to allow docker step to fully release file locks on failed run
+            sleep(time: 3, unit: "SECONDS")
             deleteDir()
         }
+        success {
+            slackSend(message: "Build successful -${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL.replace('http://', 'https://').replace(':8080', '')}|Open>)", color: 'good')
+        }
+        failure {
+            slackSend(message: "Build failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL.replace('http://', 'https://').replace(':8080', '')}|Open>)", color: 'danger')
+        }
     }
-
 }
