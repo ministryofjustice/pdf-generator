@@ -19,7 +19,8 @@ gradle-build: build_dir = $(shell pwd)
 gradle-build: build_version = $(shell echo ${pdfgenerator_version} | awk -F . '{print $$3}')
 gradle-build:
 	$(info Running gradle build task for patch version $(build_version) from tag ${pdfgenerator_version})
-	docker run --rm -v $(build_dir):/build -w /build -e CIRCLE_BUILD_NUM=${build_version} $(gradle_builder_image) bash -c "./gradlew build"
+	# Build container runs as root - need to fix up perms at end so jenkins can clear up the workspace
+	docker run --rm -v $(build_dir):/build -w /build -e CIRCLE_BUILD_NUM=${build_version} $(gradle_builder_image) bash -c "./gradlew build; chmod -R 0777 build/libs/*.jar"
 
 ecr-login:
 	$(shell aws ecr get-login --no-include-email --region ${aws_region})
