@@ -1,0 +1,26 @@
+package:
+  openjdk8-jre:
+    installed: true
+file:
+  # Check for presence of casenotes jar file
+  /home/tools/pdfGenerator.jar:
+    exists: true
+    filetype: file
+    mode: "0644"
+    owner: root
+    group: root
+process:
+  java:
+    running: true
+port:
+  tcp:8080:
+    listening: true
+    ip:
+    - 0.0.0.0
+http:
+  http://localhost:8080/healthcheck:
+    status: 200
+    timeout: 1000
+    body: 
+    - "/^{\"status\":\"OK\".*/"
+

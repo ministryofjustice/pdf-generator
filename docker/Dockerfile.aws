@@ -1,0 +1,13 @@
+FROM mojdigitalstudio/hmpps-base-java:latest
+# Build time variables
+ARG PDFGENERATOR_VERSION
+ENV PDFGENERATOR_VERSION=$CASENOTES_VERSION
+USER root
+RUN apk add curl jq
+USER tools
+COPY build/libs/pdfGenerator-${PDFGENERATOR_VERSION}.jar /home/tools/pdfGenerator.jar
+
+
+EXPOSE 8080
+
+ENTRYPOINT ["/usr/bin/java", "-jar", "/home/tools/pdfGenerator.jar"]
