@@ -2,8 +2,8 @@ def get_pdfgenerator_version() {
     sh '''
     #!/bin/bash +x
     # Until migration is complete, need to avoid clash with live circle builds
-    # Use latest circle generated tag version for now
-    git describe --tags > pdfgenerator.version
+    # Use latest circle generated tag version for now - excluding any local commit diffs
+    git describe --tags --abbrev=0 > pdfgenerator.version
     '''
     return readFile("./pdfgenerator.version")
 }
