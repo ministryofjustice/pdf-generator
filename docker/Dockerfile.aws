@@ -1,7 +1,7 @@
 FROM mojdigitalstudio/hmpps-base-java:latest
 # Build time variables
 ARG PDFGENERATOR_VERSION
-ENV PDFGENERATOR_VERSION=$DFGENERATOR_VERSION
+ENV PDFGENERATOR_VERSION=$PDFGENERATOR_VERSION
 USER root
 RUN apk add curl jq
 USER tools

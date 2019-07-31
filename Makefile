@@ -28,7 +28,7 @@ ecr-login:
 build: ecr_repo = $(shell cat ./ecr.repo)
 build:
 	$(info Build of repo $(ecr_repo))
-	docker build -t $(ecr_repo) --build-arg pdfgenerator_version=${pdfgenerator_version}  -f docker/Dockerfile.aws .
+	docker build -t $(ecr_repo) --build-arg PDFGENERATOR_VERSION=${pdfgenerator_version}  -f docker/Dockerfile.aws .
 
 tag: ecr_repo = $(shell cat ./ecr.repo)
 tag:
