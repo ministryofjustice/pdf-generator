@@ -1,10 +1,15 @@
 def get_pdfgenerator_version() {
-    sh '''
-    #!/bin/bash +x
-    # Until migration is complete, need to avoid clash with live circle builds
-    # Use latest circle generated tag version for now - excluding any local commit diffs
-    git describe --tags --abbrev=0 > pdfgenerator.version
-    '''
+    sh """
+    branch=\$(echo ${GIT_BRANCH} | sed 's/\\//_/g')
+    build_prefix="\$(grep "version = " build.gradle | awk -F = '{print \$2}' | sed 's/\\'//g')${BUILD_NUMBER}"
+    if [ \\"\$branch\\" = \\"master\\" ]; then
+        echo "Master Branch build detected"
+        echo \$build_prefix${BUILD_NUMBER} > pdfgenerator.version;       
+    else
+        echo "Non Master Branch build detected"
+        echo \$build_prefix${BUILD_NUMBER}-\$branch > pdfgenerator.version;
+    fi
+    """
     return readFile("./pdfgenerator.version")
 }
 
