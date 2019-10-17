@@ -1,13 +1,13 @@
 def get_pdfgenerator_version() {
     sh """
     branch=\$(echo ${GIT_BRANCH} | sed 's/\\//_/g')
-    build_prefix="\$(grep "version = " build.gradle | awk -F = '{print \$2}' | sed 's/\\'//g')${BUILD_NUMBER}"
+    build_prefix="\$(grep "version = " build.gradle | awk '{print \$3}' | sed "s/'//g")${BUILD_NUMBER}"
     if [ \\"\$branch\\" = \\"master\\" ]; then
         echo "Master Branch build detected"
-        echo \$build_prefix${BUILD_NUMBER} > pdfgenerator.version;       
+        echo "\$build_prefix" > pdfgenerator.version;       
     else
         echo "Non Master Branch build detected"
-        echo \$build_prefix${BUILD_NUMBER}-\$branch > pdfgenerator.version;
+        echo "\$build_prefix-\$branch" > pdfgenerator.version;
     fi
     """
     return readFile("./pdfgenerator.version")
