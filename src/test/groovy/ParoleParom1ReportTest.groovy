@@ -576,7 +576,7 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Interventions / Treatment"
         content.contains "Here is interventions / treatment detail"
 
-        content.contains "Victim safety planning actions"
+        content.contains "Victim safety planning"
         content.contains "Here is victim safety planning detail"
 
         content.contains "Contingency plan"
@@ -591,7 +591,13 @@ class ParoleParom1ReportTest extends Specification {
                 requestContentType: JSON,
                 body: [templateName: 'paroleParom1Report',
                        values: [
-                               RISK_MANAGEMENT_PLAN_REQUIRED: 'no'
+                               RISK_MANAGEMENT_PLAN_REQUIRED: 'no',
+                               RMP_CURRENT_SITUATION: '<!-- RICH_TEXT --><p>Here is current situation detail</p>',
+                               RMP_SUPERVISION: '<!-- RICH_TEXT --><p>Here is supervision detail</p>',
+                               RMP_MONITORING_CONTROL: '<!-- RICH_TEXT --><p>Here is monitoring / control detail</p>',
+                               RMP_INTERVENTIONS_TREATMENT: '<!-- RICH_TEXT --><p>Here is interventions / treatment detail</p>',
+                               RMP_VICTIM_SAFETY_PLANNING: '<!-- RICH_TEXT --><p>Here is victim safety planning detail</p>',
+                               RMP_CONTINGENCY_PLAN: '<!-- RICH_TEXT --><p>Here is contingency plan detail</p>'
                        ]]
         )
 
@@ -601,11 +607,17 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "A community Risk Management Plan (RMP) is not required."
 
         !content.contains("Current situation")
-        !content.contains("Supervision")
+        !content.contains("Here is monitoring / control detail")
+        // Cannot check for "Supervision" as "Supervision plan for release" is here
+        !content.contains("Here is supervision detail")
         !content.contains("Monitoring / Control")
+        !content.contains("Here is monitoring / control detail")
         !content.contains("Interventions / Treatment")
-        !content.contains("Victim safety planning actions")
+        !content.contains("Here is interventions / treatment detail")
+        !content.contains("Victim safety planning")
+        !content.contains("Here is victim safety planning detail")
         !content.contains("Contingency plan")
+        !content.contains("Here is contingency plan detail")
     }
     
 
