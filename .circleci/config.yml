@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 
 jobs:
     build:
@@ -99,15 +99,3 @@ workflows:
     build-deploy:
         jobs:
             - build
-            - deploysmoketest:
-                requires:
-                    - build
-            - smoketest:
-                requires:
-                  - deploysmoketest
-            - deploy:
-                requires:
-                    - build
-                filters:
-                    branches:
-                      only: master
