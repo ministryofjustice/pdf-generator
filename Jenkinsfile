@@ -14,7 +14,7 @@ def get_pdfgenerator_version() {
 }
 
 pipeline {
-    agent { label "jenkins_slave" }
+    agent { label "jenkins_agent" }
 
     environment {
         docker_image = "hmpps/new-tech-pdfgenerator"
