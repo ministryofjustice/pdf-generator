@@ -56,13 +56,13 @@
         .watermark {
             display: block;
             position: relative;
-            top: 2cm;
-            left: 0;
+            top: 10cm;
+            left: -2cm;
             width: 100%;
             height: 0;
             overflow: visible;
             z-index: -1;
-            font-size: 170px;
+            font-size: 200px;
             color: #EAEAEA;
             -o-transform: rotate(45deg);
             -moz-transform: rotate(45deg);
@@ -281,9 +281,9 @@
         </tr>
     </table>
 
-    <h1 class="center">Oral Pre-Sentence Report</h1>
+    <h1 class="center">Record of Oral Pre-Sentence Report</h1>
 
-    <p>This is an Oral Pre-Sentence Report as defined in Section 158 of the Criminal Justice Act 2003.</p>
+    <p>This is a record of the oral presentation of a Pre-Sentence Report as defined in Section 158 of the Criminal Justice Act 2003.</p>
 
     <table class="margin-top medium keep-together-section">
         <tr class="table-header">
@@ -337,20 +337,27 @@
             </td>
         </tr>
     </table>
-    <div class="details-section">
-        <h3>Summary of the offence:</h3>
-        <div class="formatted-text">OFFENCE_SUMMARY</div>
-    </div>
+
     <div class="details-section">
         <h3>Offence analysis:</h3>
         <div class="formatted-text">OFFENCE_ANALYSIS</div>
     </div>
 
-    <div class="details-section">
-        <h3>Pattern of offending:</h3>
-        <div class="formatted-text">PATTERN_OF_OFFENDING</div>
+    <div class="keep-together-section">
+        <table class="margin-top medium">
+            <tr class="table-header">
+                <td colspan="4" class="heading">Pattern of offending behaviour</td>
+            </tr>
+            <tr>
+                <td width="90%">Current offending is part of a pattern of offending behaviour</td>
+                <td width="10%" class="check-padding"><span class="check PATTERN_OF_OFFENDING"></span></td>
+            </tr>
+            <tr>
+                <td>Current offending represents an escalation in seriousness</td>
+                <td class="check-padding"><span class="check ESCALATION_IN_SERIOUSNESS"></span></td>
+            </tr>
+        </table>
     </div>
-
 
     <div class="keep-together-section">
         <table class="margin-top medium">
@@ -366,11 +373,11 @@
             <tr>
                 <td width="40%">Accommodation</td>
                 <td width="10%" class="check-padding"><span class="check ISSUE_ACCOMMODATION"></span></td>
-                <td width="40%">Employment</td>
+                <td width="40%">Employment &amp; Training</td>
                 <td width="10%" class="check-padding"><span class="check ISSUE_EMPLOYMENT"></span></td>
             </tr>
             <tr>
-                <td>Finance</td>
+                <td>Finances</td>
                 <td class="check-padding"><span class="check ISSUE_FINANCE"></span></td>
                 <td>Relationships</td>
                 <td class="check-padding"><span class="check ISSUE_RELATIONSHIPS"></span></td>
@@ -390,87 +397,84 @@
             <tr>
                 <td>Caring responsibilities</td>
                 <td class="check-padding"><span class="check CARING_RESPONSIBILITIES"></span></td>
+                <td>Maturity</td>
+                <td class="check-padding"><span class="check ISSUE_MATURITY"></span></td>
+            </tr>
+            <tr>
                 <td>Other</td>
                 <td class="check-padding"><span class="check ISSUE_OTHER"></span></td>
             </tr>
         </table>
         <div class="details-section">
-            <div class="sub-section optional-section ISSUE_ACCOMMODATION_DETAILS_PRESENT-ISSUE_ACCOMMODATION">
-                <h3>Accommodation</h3>
-                <div class="formatted-text">ISSUE_ACCOMMODATION_DETAILS</div>
-            </div>
-            <div class="sub-section optional-section ISSUE_EMPLOYMENT_DETAILS_PRESENT-ISSUE_EMPLOYMENT">
-                <h3>Employment, training and education</h3>
-                <div class="formatted-text">ISSUE_EMPLOYMENT_DETAILS</div>
-            </div>
-            <div class="sub-section optional-section ISSUE_FINANCE_DETAILS_PRESENT-ISSUE_FINANCE">
-                <h3>Finance</h3>
-                <div class="formatted-text">ISSUE_FINANCE_DETAILS</div>
-            </div>
-            <div class="sub-section optional-section ISSUE_RELATIONSHIPS_DETAILS_PRESENT-ISSUE_RELATIONSHIPS">
-                <h3>Relationships</h3>
-                <div class="formatted-text">ISSUE_RELATIONSHIPS_DETAILS</div>
-            </div>
-            <div class="sub-section optional-section ISSUE_SUBSTANCE_MISUSE_DETAILS_PRESENT-ISSUE_SUBSTANCE_MISUSE">
-                <h3>Substance misuse</h3>
-                <div class="formatted-text">ISSUE_SUBSTANCE_MISUSE_DETAILS</div>
-            </div>
-            <div class="sub-section optional-section ISSUE_HEALTH_DETAILS_PRESENT-ISSUE_HEALTH">
-                <h3>Physical &amp; mental health</h3>
-                <div class="formatted-text">ISSUE_HEALTH_DETAILS</div>
-            </div>
-            <div class="sub-section optional-section ISSUE_BEHAVIOUR_DETAILS_PRESENT-ISSUE_BEHAVIOUR">
-                <h3>Thinking and behaviour</h3>
-                <div class="formatted-text">ISSUE_BEHAVIOUR_DETAILS</div>
-            </div>
-
             <div class="sub-section">
-                <h3>Experience of trauma</h3>
-                <div class="formatted-text optional-section EXPERIENCE_TRAUMA_DETAILS_PRESENT-EXPERIENCE_TRAUMA">EXPERIENCE_TRAUMA_DETAILS</div>
-                <div class="formatted-text alternative-section EXPERIENCE_TRAUMA">There is no evidence that the offender has experienced trauma.</div>
-            </div>
-
-            <div class="sub-section">
-                <h3>Caring responsibilities</h3>
-                <div class="formatted-text optional-section CARING_RESPONSIBILITIES_DETAILS_PRESENT-CARING_RESPONSIBILITIES">CARING_RESPONSIBILITIES_DETAILS</div>
-                <div class="formatted-text alternative-section CARING_RESPONSIBILITIES">There are no current or past caring responsibilities in this case.</div>
-            </div>
-
-            <div class="sub-section optional-section ISSUE_OTHER_DETAILS_PRESENT-ISSUE_OTHER">
-                <h3>Other</h3>
-                <div class="formatted-text">ISSUE_OTHER_DETAILS</div>
+                <h3>Evidence for assessment</h3>
+                <div class="formatted-text">ASSESSMENT_EVIDENCE</div>
             </div>
         </div>
     </div>
 
+    <div class="keep-together-section">
+        <table class="margin-top medium">
+            <tr class="table-header">
+                <td class="heading">Risk assessment</td>
+            </tr>
+        </table>
 
-    <div>
-        <h2>Risk assessment</h2>
-        <div class="sub-section">
-            <h3>Likelihood of further offending:</h3>
-            <div class="formatted-text">LIKELIHOOD_OF_RE_OFFENDING</div>
+        <table class="margin-top keep-together-section">
+            <tr class="table-header">
+                <td colspan="4" class="heading">Likelihood of further general offending</td>
+            </tr>
+            <tr>
+                <td width="80%">LIKELIHOOD_TOOL_1</td>
+                <td width="20%">LIKELIHOOD_LEVEL_1</td>
+            </tr>
+            <tr>
+                <td>LIKELIHOOD_TOOL_2</td>
+                <td>LIKELIHOOD_LEVEL_2</td>
+            </tr>
+            <tr>
+                <td>LIKELIHOOD_TOOL_3</td>
+                <td>LIKELIHOOD_LEVEL_3</td>
+            </tr>
+        </table>
+        <div class="details-section">
+            <div class="sub-section optional-section ISSUE_ACCOMMODATION_DETAILS_PRESENT-ISSUE_ACCOMMODATION">
+                <h3>Assessment</h3>
+                <div class="formatted-text">LIKELIHOOD_ASSESSMENT</div>
+            </div>
         </div>
-        <div class="sub-section">
-            <h3>Risk of serious harm:</h3>
-            <div class="formatted-text">RISK_OF_SERIOUS_HARM</div>
-        </div>
-        <div class="sub-section">
-            <h3>Response to previous supervision:</h3>
-            <div class="formatted-text">PREVIOUS_SUPERVISION_RESPONSE</div>
-        </div>
-        <div class="sub-section">
-            <h3>Details on previous supervision:</h3>
-            <div class="formatted-text">ADDITIONAL_PREVIOUS_SUPERVISION</div>
+
+        <table class="margin-top keep-together-section">
+            <tr class="table-header">
+                <td class="heading">Response to previous supervision</td>
+            </tr>
+            <tr>
+                <td>PREVIOUS_SUPERVISION_RESPONSE</td>
+            </tr>
+        </table>
+
+        <table class="margin-top keep-together-section">
+            <tr class="table-header">
+                <td colspan="4" class="heading">Risk of serious harm</td>
+            </tr>
+            <tr>
+                <td width="80%">Assessment level</td>
+                <td width="20%">ROSH_LEVEL</td>
+            </tr>
+        </table>
+        <div class="details-section">
+            <div class="sub-section">
+                <h3>Evidence for Risk Assessment level</h3>
+                <div class="formatted-text">ROSH_EVIDENCE</div>
+            </div>
         </div>
     </div>
 
     <h2>Proposed sentence (including length and any sentence components)</h2>
 
-
     <div class="sub-section">
         <div class="formatted-text">_PROPOSAL_</div>
     </div>
-
 
     <div class="keep-together-section">
         <table class="margin-top medium">
