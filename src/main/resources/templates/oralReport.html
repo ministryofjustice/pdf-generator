@@ -64,10 +64,6 @@
             z-index: -1;
             font-size: 200px;
             color: #EAEAEA;
-            -o-transform: rotate(45deg);
-            -moz-transform: rotate(45deg);
-            -ms-transform: rotate(45deg);
-            -webkit-transform: rotate(45deg);
             transform: rotate(-45deg);
             text-align: center;
         }
@@ -322,6 +318,24 @@
 
     <table class="margin-top medium keep-together-section">
         <tr class="table-header">
+            <td colspan="2" class="heading">Sentencing court details</td>
+        </tr>
+        <tr>
+            <td width="25%" class="heading">Court:</td>
+            <td width="75%">_COURT_</td>
+        </tr>
+        <tr>
+            <td class="heading">Date of Hearing:</td>
+            <td>_DATE_OF_HEARING_</td>
+        </tr>
+        <tr>
+            <td class="heading">Local Justice Area:</td>
+            <td>_LOCAL_JUSTICE_AREA_</td>
+        </tr>
+    </table>
+
+    <table class="margin-top medium keep-together-section">
+        <tr class="table-header">
             <td class="heading">Offence details</td>
         </tr>
         <tr>
@@ -337,6 +351,73 @@
             </td>
         </tr>
     </table>
+
+    <h2>Proposed sentence (including length and any sentence components)</h2>
+
+    <div class="sub-section">
+        <div class="formatted-text">_PROPOSAL_</div>
+    </div>
+
+    <div class="keep-together-section">
+        <table class="margin-top medium">
+            <tr class="table-header">
+                <td class="heading">Risk assessment</td>
+            </tr>
+        </table>
+
+        <table class="margin-top keep-together-section">
+            <tr class="table-header">
+                <td colspan="4" class="heading">Likelihood of further general offending</td>
+            </tr>
+            <tr class="optional-section LIKELIHOOD_TOOL_1_PRESENT">
+                <td width="80%">LIKELIHOOD_TOOL_1</td>
+                <td width="20%">LIKELIHOOD_LEVEL_1</td>
+            </tr>
+            <tr class="optional-section LIKELIHOOD_TOOL_2_PRESENT">
+                <td>LIKELIHOOD_TOOL_2</td>
+                <td>LIKELIHOOD_LEVEL_2</td>
+            </tr>
+            <tr class="optional-section LIKELIHOOD_TOOL_3_PRESENT">
+                <td>LIKELIHOOD_TOOL_3</td>
+                <td>LIKELIHOOD_LEVEL_3</td>
+            </tr>
+            <tr class="optional-section LIKELIHOOD_TOOL_4_PRESENT">
+                <td>LIKELIHOOD_TOOL_4</td>
+                <td>LIKELIHOOD_LEVEL_4</td>
+            </tr>
+        </table>
+        <div class="details-section">
+            <div class="sub-section">
+                <h3>Assessment</h3>
+                <div class="formatted-text">LIKELIHOOD_ASSESSMENT</div>
+            </div>
+        </div>
+
+        <table class="margin-top keep-together-section">
+            <tr class="table-header">
+                <td class="heading">Response to previous supervision</td>
+            </tr>
+            <tr class="optional-section PREVIOUS_SUPERVISION_RESPONSE_PRESENT">
+                <td>PREVIOUS_SUPERVISION_RESPONSE</td>
+            </tr>
+        </table>
+
+        <table class="margin-top keep-together-section">
+            <tr class="table-header">
+                <td colspan="4" class="heading">Risk of serious harm</td>
+            </tr>
+            <tr>
+                <td width="80%">Assessment level</td>
+                <td width="20%">ROSH_LEVEL</td>
+            </tr>
+        </table>
+        <div class="details-section">
+            <div class="sub-section">
+                <h3>Evidence for Risk Assessment level</h3>
+                <div class="formatted-text">ROSH_EVIDENCE</div>
+            </div>
+        </div>
+    </div>
 
     <div class="details-section">
         <h3>Offence analysis:</h3>
@@ -464,73 +545,6 @@
     <div class="keep-together-section">
         <table class="margin-top medium">
             <tr class="table-header">
-                <td class="heading">Risk assessment</td>
-            </tr>
-        </table>
-
-        <table class="margin-top keep-together-section">
-            <tr class="table-header">
-                <td colspan="4" class="heading">Likelihood of further general offending</td>
-            </tr>
-            <tr class="optional-section LIKELIHOOD_TOOL_1_PRESENT">
-                <td width="80%">LIKELIHOOD_TOOL_1</td>
-                <td width="20%">LIKELIHOOD_LEVEL_1</td>
-            </tr>
-            <tr class="optional-section LIKELIHOOD_TOOL_2_PRESENT">
-                <td>LIKELIHOOD_TOOL_2</td>
-                <td>LIKELIHOOD_LEVEL_2</td>
-            </tr>
-            <tr class="optional-section LIKELIHOOD_TOOL_3_PRESENT">
-                <td>LIKELIHOOD_TOOL_3</td>
-                <td>LIKELIHOOD_LEVEL_3</td>
-            </tr>
-            <tr class="optional-section LIKELIHOOD_TOOL_4_PRESENT">
-                <td>LIKELIHOOD_TOOL_4</td>
-                <td>LIKELIHOOD_LEVEL_4</td>
-            </tr>
-        </table>
-        <div class="details-section">
-            <div class="sub-section">
-                <h3>Assessment</h3>
-                <div class="formatted-text">LIKELIHOOD_ASSESSMENT</div>
-            </div>
-        </div>
-
-        <table class="margin-top keep-together-section">
-            <tr class="table-header">
-                <td class="heading">Response to previous supervision</td>
-            </tr>
-            <tr class="optional-section PREVIOUS_SUPERVISION_RESPONSE_PRESENT">
-                <td>PREVIOUS_SUPERVISION_RESPONSE</td>
-            </tr>
-        </table>
-
-        <table class="margin-top keep-together-section">
-            <tr class="table-header">
-                <td colspan="4" class="heading">Risk of serious harm</td>
-            </tr>
-            <tr>
-                <td width="80%">Assessment level</td>
-                <td width="20%">ROSH_LEVEL</td>
-            </tr>
-        </table>
-        <div class="details-section">
-            <div class="sub-section">
-                <h3>Evidence for Risk Assessment level</h3>
-                <div class="formatted-text">ROSH_EVIDENCE</div>
-            </div>
-        </div>
-    </div>
-
-    <h2>Proposed sentence (including length and any sentence components)</h2>
-
-    <div class="sub-section">
-        <div class="formatted-text">_PROPOSAL_</div>
-    </div>
-
-    <div class="keep-together-section">
-        <table class="margin-top medium">
-            <tr class="table-header">
                 <td colspan="4" class="heading">Sources of information</td>
             </tr>
             <tr>
@@ -575,25 +589,6 @@
             <div class="formatted-text">OTHER_INFORMATION_DETAILS</div>
         </div>
     </div>
-
-    <table class="margin-top medium keep-together-section">
-        <tr class="table-header">
-            <td colspan="2" class="heading">Sentencing court details</td>
-        </tr>
-        <tr>
-            <td width="25%" class="heading">Court:</td>
-            <td width="75%">_COURT_</td>
-        </tr>
-        <tr>
-            <td class="heading">Date of Hearing:</td>
-            <td>_DATE_OF_HEARING_</td>
-        </tr>
-        <tr>
-            <td class="heading">Local Justice Area:</td>
-            <td>_LOCAL_JUSTICE_AREA_</td>
-        </tr>
-    </table>
-
 
     <table class="margin-top medium keep-together-section">
         <tr class="table-header">
