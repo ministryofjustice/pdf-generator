@@ -10,4 +10,4 @@ HEALTHCHECK CMD curl -f http://localhost:8080/healthcheck
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "/root/pdfGenerator.jar"]
+CMD ["java", "-jar", "/root/pdfGenerator.jar"]

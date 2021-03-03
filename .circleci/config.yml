@@ -91,9 +91,9 @@ jobs:
           time: '10'
       - deploy_to_ecs:
           role-arn: $ROLE_ARN_DEPLOY_DEV
-          family: dlc-delius-pdfgen-pri-ecs
+          family: dlc-dev-pdf-generator-task-definition
           cluster-name: dlc-dlc-dev-ecscluster-private-ecs
-          service-name: dlc-delius-pdfgen-pri-ecs
+          service-name: dlc-dev-pdf-generator-service
           env-name: delius-core-dev
   # ... add more environments here as needed
 
@@ -105,3 +105,6 @@ workflows:
       - deploy_to_dev:
           requires:
             - build
+          filters:
+            branches:
+              only: main
