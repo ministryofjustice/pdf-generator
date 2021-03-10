@@ -9,6 +9,22 @@ orbs:
   queue: eddiewebb/queue@1.5.0
 
 commands:
+  deploy_to_ecs:
+    steps:
+      - mem/recall:
+          env_var: APP_VERSION
+      - queue/until_front_of_line:
+          consider-branch: false
+          time: '10'
+      - aws-cli/setup
+      - assume_role:
+          role-arn: $AWS_ROLE_ARN
+      - aws-ecs/update-service:
+          cluster-name: $AWS_ECS_CLUSTER_NAME
+          family: $AWS_ECS_ENV_NAME-pdf-generator-task-definition
+          service-name: $AWS_ECS_ENV_NAME-pdf-generator-service
+          container-image-name-updates: container=pdfgenerator,tag=$APP_VERSION
+          verify-revision-is-deployed: true
   assume_role:
     parameters:
       role-arn:
@@ -24,30 +40,6 @@ commands:
             echo "export AWS_SECRET_ACCESS_KEY=$(echo $temp_role | jq .Credentials.SecretAccessKey | xargs)" >> $BASH_ENV; source $BASH_ENV;
             echo "export AWS_SESSION_TOKEN=$(echo $temp_role | jq .Credentials.SessionToken | xargs)" >> $BASH_ENV; source $BASH_ENV;
             aws configure set aws_session_token "$(echo $temp_role | jq .Credentials.SessionToken | xargs)" --profile default
-  deploy_to_ecs:
-    parameters:
-      role-arn:
-        type: string
-      family:
-        type: string
-      cluster-name:
-        type: string
-      service-name:
-        type: string
-      env-name:
-        type: string
-    steps:
-      - mem/recall:
-          env_var: APP_VERSION
-      - aws-cli/setup
-      - assume_role:
-          role-arn: <<parameters.role-arn>>
-      - aws-ecs/update-service:
-          family: <<parameters.family>>
-          cluster-name: <<parameters.cluster-name>>
-          service-name: <<parameters.service-name>>
-          container-image-name-updates: container=pdfgenerator,tag=$APP_VERSION
-          verify-revision-is-deployed: true
 
 jobs:
   build:
@@ -75,36 +67,47 @@ jobs:
           destination: jars
       - aws-cli/setup
       - assume_role:
-          role-arn: $ROLE_ARN_PUSH_DOCKER_IMAGE
+          role-arn: $AWS_ROLE_ARN
       - setup_remote_docker:
           docker_layer_caching: true
       - aws-ecr/build-and-push-image:
           checkout: false
           repo: hmpps/new-tech-pdfgenerator
           tag: $VERSION
+      - when:
+          condition:
+            # Push 'latest' tag for non-branch builds
+            equal: [ master, << pipeline.git.branch >> ]
+          steps:
+            - aws-ecr/build-and-push-image:
+                checkout: false
+                repo: hmpps/new-tech-pdfgenerator
+                tag: latest
   deploy_to_dev:
     docker:
       - image: circleci/python
     steps:
-      - queue/until_front_of_line:
-          consider-branch: false
-          time: '10'
       - deploy_to_ecs:
-          role-arn: $ROLE_ARN_DEPLOY_DEV
-          family: dlc-dev-pdf-generator-task-definition
-          cluster-name: dlc-dlc-dev-ecscluster-private-ecs
-          service-name: dlc-dev-pdf-generator-service
-          env-name: delius-core-dev
-  # ... add more environments here as needed
+          context: hmpps-delius-deploy-to-ecs-dev
+  deploy_to_test:
+    docker:
+      - image: circleci/python
+    steps:
+      - deploy_to_ecs:
+          context: hmpps-delius-deploy-to-ecs-test
 
 workflows:
   version: 2
   build-deploy:
     jobs:
-      - build
+      - build:
+          context: hmpps-delius-push-to-ecr
       - deploy_to_dev:
           requires:
             - build
+      - deploy_to_test:
+          requires:
+            - deploy_to_dev
           filters:
             branches:
-              only: main
+              only: master
