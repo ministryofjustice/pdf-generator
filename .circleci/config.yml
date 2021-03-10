@@ -9,22 +9,6 @@ orbs:
   queue: eddiewebb/queue@1.5.0
 
 commands:
-  deploy_to_ecs:
-    steps:
-      - mem/recall:
-          env_var: APP_VERSION
-      - queue/until_front_of_line:
-          consider-branch: false
-          time: '10'
-      - aws-cli/setup
-      - assume_role:
-          role-arn: $AWS_ROLE_ARN
-      - aws-ecs/update-service:
-          cluster-name: $AWS_ECS_CLUSTER_NAME
-          family: $AWS_ECS_ENV_NAME-pdf-generator-task-definition
-          service-name: $AWS_ECS_ENV_NAME-pdf-generator-service
-          container-image-name-updates: container=pdfgenerator,tag=$APP_VERSION
-          verify-revision-is-deployed: true
   assume_role:
     parameters:
       role-arn:
@@ -83,18 +67,24 @@ jobs:
                 checkout: false
                 repo: hmpps/new-tech-pdfgenerator
                 tag: latest
-  deploy_to_dev:
+  deploy:
     docker:
       - image: circleci/python
     steps:
-      - deploy_to_ecs:
-          context: hmpps-delius-deploy-to-ecs-dev
-  deploy_to_test:
-    docker:
-      - image: circleci/python
-    steps:
-      - deploy_to_ecs:
-          context: hmpps-delius-deploy-to-ecs-test
+      - mem/recall:
+          env_var: APP_VERSION
+      - queue/until_front_of_line:
+          consider-branch: false
+          time: '10'
+      - aws-cli/setup
+      - assume_role:
+          role-arn: $AWS_ROLE_ARN
+      - aws-ecs/update-service:
+          cluster-name: $AWS_ECS_CLUSTER_NAME
+          family: $AWS_ECS_ENV_NAME-pdf-generator-task-definition
+          service-name: $AWS_ECS_ENV_NAME-pdf-generator-service
+          container-image-name-updates: container=pdfgenerator,tag=$APP_VERSION
+          verify-revision-is-deployed: true
 
 workflows:
   version: 2
@@ -102,10 +92,14 @@ workflows:
     jobs:
       - build:
           context: hmpps-delius-push-to-ecr
-      - deploy_to_dev:
+      - deploy:
+          name: deploy_to_dev
+          context: hmpps-delius-deploy-to-ecs-dev
           requires:
             - build
-      - deploy_to_test:
+      - deploy:
+          name: deploy_to_test
+          context: hmpps-delius-deploy-to-ecs-test
           requires:
             - deploy_to_dev
           filters:
