@@ -270,7 +270,8 @@ class ParoleParom1ReportTest extends Specification {
                                VICTIMS_IMPACT_DETAILS: '<!-- RICH_TEXT --><p>Here is victim impact details</p>',
                                VICTIMS_VLO_CONTACT_DATE: '31/08/2018',
                                VICTIMS_ENGAGED_IN_VCS: 'yes',
-                               VICTIMS_SUBMIT_VPS: 'yes'
+                               VICTIMS_SUBMIT_VPS: 'yes',
+                               VICTIMS_ORAL_HEARING: 'yes'
                        ]]
         )
 
@@ -281,6 +282,7 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Victim Liaison Officer (VLO) contacted 31/08/2018"
         content.contains "Victim Contact Scheme (VCS) engagement Yes"
         content.contains "Victim Personal Statement (VPS) Yes"
+        content.contains "Victim Oral Hearing Yes"
     }
     def "Delius user wants to view the text that they entered in the Offender manager: \"Victims\" UI on the Parole Report PD - with No"() {
 
@@ -293,7 +295,8 @@ class ParoleParom1ReportTest extends Specification {
                                VICTIMS_IMPACT_DETAILS: '<!-- RICH_TEXT --><p>Here is victim impact details</p>',
                                VICTIMS_VLO_CONTACT_DATE: '31/08/2018',
                                VICTIMS_ENGAGED_IN_VCS: 'no',
-                               VICTIMS_SUBMIT_VPS: 'no'
+                               VICTIMS_SUBMIT_VPS: 'no',
+                               VICTIMS_ORAL_HEARING: 'no'
                        ]]
         )
 
@@ -304,6 +307,7 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Victim Liaison Officer (VLO) contacted 31/08/2018"
         content.contains "Victim Contact Scheme (VCS) engagement No"
         content.contains "Victim Personal Statement (VPS) No"
+        content.contains "Victim Oral Hearing No"
     }
     def "Delius user wants to view the text that they entered in the Offender manager: \"Victims\" UI on the Parole Report PD - with Don't know"() {
 
@@ -619,7 +623,7 @@ class ParoleParom1ReportTest extends Specification {
         !content.contains("Contingency plan")
         !content.contains("Here is contingency plan detail")
     }
-    
+
 
     def "Delius user wants to view the text that they entered in the \"Resettlement plan for release\" fields on the Parole Report PDF"() {
 
