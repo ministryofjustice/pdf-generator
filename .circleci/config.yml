@@ -1,101 +1,170 @@
 version: 2.1
 
-jobs:
-    build:
-        working_directory: ~/app
-        docker:
-            - image: circleci/openjdk:8
-        steps:
-            - checkout
-            - restore_cache:
-                keys:
-                  - dotgradle-{{ checksum "build.gradle" }}
-                  - dotgradle-
-            - run:
-                name: Run gradle build
-                command: ./gradlew build
-            - save_cache:
-                paths:
-                  - ~/.gradle
-                key: dotgradle-{{ checksum "build.gradle" }}
-            - store_test_results:
-                path: ./build/test-results/test/
-            - run:
-                name: Generate Build version
-                command: |
-                  echo "export BUILD_VERSION=$(date +%Y%m%d%H%M)-$CIRCLE_BUILD_NUM" >> $BASH_ENV
-            - run:
-                name: Save Fat Jar
-                command: |
-                  mkdir -p ./build/artifacts
-                  mv build/libs/*.jar ./build/artifacts/
-                  ls -1 ./build/artifacts/pdfGenerator-*.jar | sed 's/^.*pdfGenerator-\(.*\)\.jar.*$/\1/' > ./build/artifacts/version.txt
-                  cp ./build/artifacts/pdfGenerator*.jar ./build/artifacts/pdfGenerator.jar
-            - persist_to_workspace:
-                root: ./build/artifacts/
-                paths:
-                  - ./pdfGenerator.jar
-                  - ./version.txt
-            - store_artifacts:
-                path: build/artifacts
-                destination: jars
-    deploy:
-        docker:
-            - image: paulodiovani/aws-eb-cli
-        working_directory: ~/app
-        steps:
-            - attach_workspace:
-                at: /workspace
-            - checkout
-            - run:
-                name: Deploy to Elastic Beanstalk
-                command: |
-                  eb deploy --label $(cat /workspace/version.txt)
-    deploysmoketest:
-          docker:
-              - image: paulodiovani/aws-eb-cli
-          working_directory: ~/app
-          steps:
-              - attach_workspace:
-                  at: /workspace
-              - checkout
-              - run:
-                  name: Deploy to Elastic Beanstalk Smoke Test environment
-                  command: |
-                    eb deploy pdf-generator-smoke-test  --label $(cat /workspace/version.txt)
+orbs:
+  aws-cli: circleci/aws-cli@1.4.0
+  aws-ecr: circleci/aws-ecr@6.15.3
+  aws-ecs: circleci/aws-ecs@2.0.0
+  hmpps: ministryofjustice/hmpps@2.2
+  mem: circleci/rememborb@0.0.1
+  queue: eddiewebb/queue@1.5.0
 
-    smoketest:
-      docker:
-      - image: circleci/openjdk:8-node-browsers
-      working_directory: ~/app
-      steps:
+commands:
+  assume_role:
+    parameters:
+      role-arn:
+        type: string
+    steps:
       - run:
-          name: Checkout smoke test
+          name: Assume IAM role
+          # This is a workaround for the aws-ecs/update-service CircleCI command not taking a profile parameter, and the underlying aws cli command not honouring the AWS_PROFILE env var.
+          # See https://github.com/CircleCI-Public/aws-ecs-orb/issues/41 for further details
           command: |
-            git clone https://github.com/noms-digital-studio/ndelius-new-tech-smoke-test.git .
-            git checkout "$CIRCLE_BRANCH" || true
+            temp_role=$(aws sts assume-role --role-arn <<parameters.role-arn>> --role-session-name "circleci-$CIRCLE_BUILD_NUM-$RANDOM")
+            echo "export AWS_ACCESS_KEY_ID=$(echo $temp_role | jq .Credentials.AccessKeyId | xargs)" >> $BASH_ENV; source $BASH_ENV;
+            echo "export AWS_SECRET_ACCESS_KEY=$(echo $temp_role | jq .Credentials.SecretAccessKey | xargs)" >> $BASH_ENV; source $BASH_ENV;
+            echo "export AWS_SESSION_TOKEN=$(echo $temp_role | jq .Credentials.SessionToken | xargs)" >> $BASH_ENV; source $BASH_ENV;
+            aws configure set aws_session_token "$(echo $temp_role | jq .Credentials.SessionToken | xargs)" --profile default
+
+jobs:
+  build:
+    working_directory: ~/app
+    docker:
+      - image: circleci/openjdk:8
+    steps:
+      - checkout
+      - hmpps/create_app_version
+      - restore_cache:
+          keys:
+            - dotgradle-{{ checksum "build.gradle" }}
+            - dotgradle-
       - run:
-          name: Build and run test
+          name: Run gradle build
+          command: ./gradlew -Pversion=$VERSION build
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: dotgradle-{{ checksum "build.gradle" }}
+      - store_test_results:
+          path: ./build/test-results/test/
+      - store_artifacts:
+          path: build/libs
+          destination: jars
+      - aws-cli/setup
+      - assume_role:
+          role-arn: $AWS_ROLE_ARN
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - aws-ecr/build-and-push-image:
+          checkout: false
+          repo: hmpps/new-tech-pdfgenerator
+          tag: $VERSION
+      - when:
+          condition:
+            # Push 'latest' tag for non-branch builds
+            equal: [ master, << pipeline.git.branch >> ]
+          steps:
+            - aws-ecr/build-and-push-image:
+                checkout: false
+                repo: hmpps/new-tech-pdfgenerator
+                tag: latest
+  deploy:
+    parameters:
+      container-name:
+        type: string
+        default: pdf-generator
+      service-name:
+        type: string
+        default: $AWS_ECS_ENV_NAME-pdf-generator-service
+      family:
+        type: string
+        default: $AWS_ECS_ENV_NAME-pdf-generator-task-definition
+    docker:
+      - image: circleci/python
+    steps:
+      - mem/recall:
+          env_var: APP_VERSION
+      - queue/until_front_of_line:
+          consider-branch: false
+          time: '10'
+      - aws-cli/setup
+      - run:
+          name: Assume IAM role
+          # This is a workaround for the aws-ecs/update-service CircleCI command not taking a profile parameter, and the underlying aws cli command not honouring the AWS_PROFILE env var.
+          # See https://github.com/CircleCI-Public/aws-ecs-orb/issues/41 for further details
           command: |
-            gradle test  --tests uk.gov.justice.digital.hmpps.delius.*.*_FullJourney
-      - store_test_results:
-          path: ./build/test-results/
-      - store_test_results:
-          path: ./build/geb-reports/
-      - store_test_results:
-          path: ./build/reports/
-      - store_artifacts:
-          path: ./build/test-results/
-          destination: reports
-      - store_artifacts:
-          path: ./build/geb-reports/
-          destination: reports
-      - store_artifacts:
-          path: ./build/reports/
-          destination: reports
+            temp_role=$(aws sts assume-role --role-arn $AWS_ROLE_ARN --role-session-name "circleci-$CIRCLE_BUILD_NUM-$RANDOM")
+            echo "export AWS_ACCESS_KEY_ID=$(echo $temp_role | jq .Credentials.AccessKeyId | xargs)" >> $BASH_ENV; source $BASH_ENV;
+            echo "export AWS_SECRET_ACCESS_KEY=$(echo $temp_role | jq .Credentials.SecretAccessKey | xargs)" >> $BASH_ENV; source $BASH_ENV;
+            echo "export AWS_SESSION_TOKEN=$(echo $temp_role | jq .Credentials.SessionToken | xargs)" >> $BASH_ENV; source $BASH_ENV;
+            aws configure set aws_session_token "$(echo $temp_role | jq .Credentials.SessionToken | xargs)" --profile default
+      - aws-ecs/update-service:
+          cluster-name: $AWS_ECS_CLUSTER_NAME
+          family: << parameters.family >>
+          service-name: << parameters.service-name >>
+          container-image-name-updates: container=<< parameters.container-name >>,tag=$APP_VERSION
+          verify-revision-is-deployed: true
 
 workflows:
-    version: 2
-    build-deploy:
-        jobs:
+  version: 2
+  build-deploy:
+    jobs:
+      - build:
+          context: hmpps-delius-push-to-ecr
+      - deploy:
+          name: deploy_to_dev
+          context: hmpps-delius-deploy-to-ecs-dev
+          requires:
             - build
+      - deploy:
+          name: deploy_to_test
+          context: hmpps-delius-deploy-to-ecs-test
+          container-name: pdfgenerator
+          service-name: del-delius-pdfgen-pri-ecs
+          family: del-delius-pdfgen-pri-ecs
+          requires:
+            - deploy_to_dev
+          filters:
+            branches:
+              only: master
+      - request-pre-prod-approval:
+          type: approval
+          requires:
+            - deploy_to_test
+      - deploy:
+          name: deploy_to_stage
+          context: hmpps-delius-deploy-to-ecs-stage
+          container-name: pdfgenerator
+          service-name: del-delius-pdfgen-pri-ecs
+          family: del-delius-pdfgen-pri-ecs
+          requires:
+            - request-pre-prod-approval
+      - deploy:
+          name: deploy_to_pre_prod
+          context: hmpps-delius-deploy-to-ecs-pre-prod
+          container-name: pdfgenerator
+          service-name: del-delius-pdfgen-pri-ecs
+          family: del-delius-pdfgen-pri-ecs
+          requires:
+            - request-pre-prod-approval
+      - deploy:
+          name: deploy_to_perf
+          context: hmpps-delius-deploy-to-ecs-perf
+          container-name: pdfgenerator
+          service-name: del-delius-pdfgen-pri-ecs
+          family: del-delius-pdfgen-pri-ecs
+          requires:
+            - request-pre-prod-approval
+      - request-prod-approval:
+          type: approval
+          requires:
+            - deploy_to_stage
+            - deploy_to_pre_prod
+            - deploy_to_perf
+      - deploy:
+          name: deploy_to_production
+          context: hmpps-delius-deploy-to-ecs-prod
+          container-name: pdfgenerator
+          service-name: del-delius-pdfgen-pri-ecs
+          family: del-delius-pdfgen-pri-ecs
+          requires:
+            - request-prod-approval
