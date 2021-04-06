@@ -805,6 +805,41 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
     }
 
+    def "Delius user does not confirm that they have liaised with the Prison Offender Manager"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               PRISON_LIAISON: ''
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Prison liaison"
+    }
+
+    def "Delius user confirms that they have liaised with the Prison Offender Manager"() {
+
+        when:
+        def result = new RESTClient('http://localhost:8080/').post(
+                path: 'generate',
+                requestContentType: JSON,
+                body: [templateName: 'paroleParom1Report',
+                       values: [
+                               PRISON_LIAISON: 'yes'
+                       ]]
+        )
+
+        then:
+        def content = pageText result.data
+        content.contains "Prison liaison"
+        content.contains "I confirm that I have had sight of the On/post Tariff Parole Custody Report and liaised with the Prison Offender Manager and their views around the assessment and recommendation have been taken into account in this report."
+    }
+
 
     def "Delius user wants to view the Recommendation information that they have entered into the Parole Form UI"() {
 
