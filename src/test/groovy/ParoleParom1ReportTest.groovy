@@ -830,7 +830,7 @@ class ParoleParom1ReportTest extends Specification {
                 requestContentType: JSON,
                 body: [templateName: 'paroleParom1Report',
                        values: [
-                               PRISON_LIAISON: 'yes'
+                               PRISON_LIAISON: true
                        ]]
         )
 
