@@ -205,8 +205,7 @@ class ParoleParom1ReportTest extends Specification {
                 body: [templateName: 'paroleParom1Report',
                        values: [
                                OPD_SCREENED_DATE: '21/10/2018',
-                               CONSIDERED_FOR_OPD_PATHWAY_SERVICES: 'yes',
-                               OPD_CONSULTATION_OR_FORMULATION: 'no'
+                               CONSIDERED_FOR_OPD_PATHWAY_SERVICES: 'yes'
                        ]]
         )
 
@@ -215,7 +214,6 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Offender Personality Disorder (OPD) pathway"
         content.contains "Date of OPD screen 21/10/2018"
         content.contains "OPD criteria met Yes"
-        content.contains "Consultation or formulation received No"
     }
     def "Delius user wants to view the No option that they have selected in the OPD Pathway UI on the Parole Report PDF"() {
 
@@ -235,7 +233,6 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Offender Personality Disorder (OPD) pathway"
         content.contains "Date of OPD screen 21/10/2018"
         content.contains "OPD criteria met No"
-        !content.contains ("Consultation or formulation received")
     }
 
     def "Delius user wants to view the text that they entered in the Behaviour in prison fields on the Parole Report PDF"() {
