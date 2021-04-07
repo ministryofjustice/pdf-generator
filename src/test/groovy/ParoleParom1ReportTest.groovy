@@ -874,8 +874,10 @@ class ParoleParom1ReportTest extends Specification {
                                RISK_ASSESSMENT_OGP_SCORE_AS_LEVEL: '',
                                RISK_ASSESSMENT_OVP_SCORE: '',
                                RISK_ASSESSMENT_OVP_SCORE_AS_LEVEL: '',
-                               RISK_ASSESSMENT_MATRIX2000_COMPLETED: '',
-                               RISK_ASSESSMENT_MATRIX2000_SCORE: '',
+                               RISK_ASSESSMENT_OASYS_OSPC_COMPLETED: '',
+                               RISK_ASSESSMENT_OASYS_OSPC_SCORE: '',
+                               RISK_ASSESSMENT_OASYS_OSPI_COMPLETED: '',
+                               RISK_ASSESSMENT_OASYS_OSPI_SCORE: '',
                                RISK_ASSESSMENT_SARA_COMPLETED: '',
                                RISK_ASSESSMENT_SARA_SCORE: ''
                        ]]
@@ -888,7 +890,8 @@ class ParoleParom1ReportTest extends Specification {
                 "OGRS3 (year 2)\n" +
                 "OGP (year 2)\n" +
                 "OVP (year 2)\n" +
-                "Risk matrix 2000\n" +
+                "OASys Sexual re-offending Predictor (Contact) (OSP/C)\n" +
+                "OASys Sexual re-offending Predictor (Indecent Images) (OSP/I)\n" +
                 "SARA"
     }
 
@@ -907,8 +910,10 @@ class ParoleParom1ReportTest extends Specification {
                                RISK_ASSESSMENT_OGP_SCORE_AS_LEVEL: 'low',
                                RISK_ASSESSMENT_OVP_SCORE: '24',
                                RISK_ASSESSMENT_OVP_SCORE_AS_LEVEL: 'low',
-                               RISK_ASSESSMENT_MATRIX2000_COMPLETED: 'no',
-                               RISK_ASSESSMENT_MATRIX2000_SCORE: '',
+                               RISK_ASSESSMENT_OASYS_OSPC_COMPLETED: 'no',
+                               RISK_ASSESSMENT_OASYS_OSPC_SCORE: '',
+                               RISK_ASSESSMENT_OASYS_OSPI_COMPLETED: 'no',
+                               RISK_ASSESSMENT_OASYS_OSPI_SCORE: '',
                                RISK_ASSESSMENT_SARA_COMPLETED: 'no',
                                RISK_ASSESSMENT_SARA_SCORE: ''
                        ]]
@@ -921,7 +926,8 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "OGRS3 (year 2)  Low (22)"
         content.contains "OGP (year 2)  Low (23)"
         content.contains "OVP (year 2)  Low (24)"
-        content.contains "Risk matrix 2000 N/A"
+        content.contains "OASys Sexual re-offending Predictor (Contact) (OSP/C) N/A"
+        content.contains "OASys Sexual re-offending Predictor (Indecent Images) (OSP/I) N/A"
         content.contains "SARA N/A"
 
     }
@@ -941,8 +947,10 @@ class ParoleParom1ReportTest extends Specification {
                                RISK_ASSESSMENT_OGP_SCORE_AS_LEVEL: 'medium',
                                RISK_ASSESSMENT_OVP_SCORE: '44',
                                RISK_ASSESSMENT_OVP_SCORE_AS_LEVEL: 'medium',
-                               RISK_ASSESSMENT_MATRIX2000_COMPLETED: 'yes',
-                               RISK_ASSESSMENT_MATRIX2000_SCORE: 'low',
+                               RISK_ASSESSMENT_OASYS_OSPC_COMPLETED: 'yes',
+                               RISK_ASSESSMENT_OASYS_OSPC_SCORE: 'low',
+                               RISK_ASSESSMENT_OASYS_OSPI_COMPLETED: 'yes',
+                               RISK_ASSESSMENT_OASYS_OSPI_SCORE: 'medium',
                                RISK_ASSESSMENT_SARA_COMPLETED: 'no',
                                RISK_ASSESSMENT_SARA_SCORE: ''
                        ]]
@@ -955,7 +963,8 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "OGRS3 (year 2)  Medium (52)"
         content.contains "OGP (year 2)  Medium (53)"
         content.contains "OVP (year 2)  Medium (44)"
-        content.contains "Risk matrix 2000 Low"
+        content.contains "OASys Sexual re-offending Predictor (Contact) (OSP/C) Low"
+        content.contains "OASys Sexual re-offending Predictor (Indecent Images) (OSP/I) Medium"
         content.contains "SARA N/A"
 
     }
@@ -975,8 +984,10 @@ class ParoleParom1ReportTest extends Specification {
                                RISK_ASSESSMENT_OGP_SCORE_AS_LEVEL: 'high',
                                RISK_ASSESSMENT_OVP_SCORE: '64',
                                RISK_ASSESSMENT_OVP_SCORE_AS_LEVEL: 'high',
-                               RISK_ASSESSMENT_MATRIX2000_COMPLETED: 'no',
-                               RISK_ASSESSMENT_MATRIX2000_SCORE: '',
+                               RISK_ASSESSMENT_OASYS_OSPC_COMPLETED: 'no',
+                               RISK_ASSESSMENT_OASYS_OSPC_SCORE: '',
+                               RISK_ASSESSMENT_OASYS_OSPI_COMPLETED: 'no',
+                               RISK_ASSESSMENT_OASYS_OSPI_SCORE: '',
                                RISK_ASSESSMENT_SARA_COMPLETED: 'yes',
                                RISK_ASSESSMENT_SARA_SCORE: 'low'
                        ]]
@@ -989,7 +1000,8 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "OGRS3 (year 2)  High (75)"
         content.contains "OGP (year 2)  High (76)"
         content.contains "OVP (year 2)  High (64)"
-        content.contains "Risk matrix 2000 N/A"
+        content.contains "OASys Sexual re-offending Predictor (Contact) (OSP/C) N/A"
+        content.contains "OASys Sexual re-offending Predictor (Indecent Images) (OSP/I) N/A"
         content.contains "SARA Low"
 
     }
@@ -1009,8 +1021,10 @@ class ParoleParom1ReportTest extends Specification {
                                RISK_ASSESSMENT_OGP_SCORE_AS_LEVEL: 'very_high',
                                RISK_ASSESSMENT_OVP_SCORE: '84',
                                RISK_ASSESSMENT_OVP_SCORE_AS_LEVEL: 'very_high',
-                               RISK_ASSESSMENT_MATRIX2000_COMPLETED: 'yes',
-                               RISK_ASSESSMENT_MATRIX2000_SCORE: 'low',
+                               RISK_ASSESSMENT_OASYS_OSPC_COMPLETED: 'yes',
+                               RISK_ASSESSMENT_OASYS_OSPC_SCORE: 'low',
+                               RISK_ASSESSMENT_OASYS_OSPI_COMPLETED: 'yes',
+                               RISK_ASSESSMENT_OASYS_OSPI_SCORE: 'medium',
                                RISK_ASSESSMENT_SARA_COMPLETED: 'yes',
                                RISK_ASSESSMENT_SARA_SCORE: 'low'
                        ]]
@@ -1023,7 +1037,8 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "OGRS3 (year 2)  Very high (90)"
         content.contains "OGP (year 2)  Very high (91)"
         content.contains "OVP (year 2)  Very high (84)"
-        content.contains "Risk matrix 2000 Low"
+        content.contains "OASys Sexual re-offending Predictor (Contact) (OSP/C) Low"
+        content.contains "OASys Sexual re-offending Predictor (Indecent Images) (OSP/I) Medium"
         content.contains "SARA Low"
 
     }
