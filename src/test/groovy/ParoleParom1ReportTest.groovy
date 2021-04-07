@@ -675,6 +675,7 @@ class ParoleParom1ReportTest extends Specification {
                                SOURCES_PREVIOUS_PAROLE_REPORTS: false,
                                SOURCES_PROBATION_CASE_RECORD: false,
                                SOURCES_PRE_SENTENCE_REPORT: false,
+                               SOURCES_TARIFF: false,
                                SOURCES_OTHER: false,
                        ]]
         )
@@ -688,6 +689,7 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Probation case records No"
         content.contains "Previous parole reports No"
         content.contains "Pre-sentence report No"
+        content.contains "On/post Tariff Parole Custody Report No"
         content.contains "Other No"
         !content.contains("Other documents")
 
@@ -707,6 +709,7 @@ class ParoleParom1ReportTest extends Specification {
                                SOURCES_PREVIOUS_PAROLE_REPORTS: true,
                                SOURCES_PROBATION_CASE_RECORD: true,
                                SOURCES_PRE_SENTENCE_REPORT: true,
+                               SOURCES_TARIFF: true,
                                SOURCES_OTHER: true,
                                SOURCES_OTHER_DETAIL: 'lots of other documents',
                        ]]
@@ -721,6 +724,7 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Probation case records Yes"
         content.contains "Pre-sentence report Yes"
         content.contains "Previous parole reports Yes"
+        content.contains "On/post Tariff Parole Custody Report Yes"
         content.contains "Other Yes"
         content.contains "Other documents"
         content.contains "lots of other documents"
