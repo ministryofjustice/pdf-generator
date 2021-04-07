@@ -855,7 +855,7 @@ class ParoleParom1ReportTest extends Specification {
 
         then:
         def content = pageText result.data
-        content.contains "Oral hearing"
+        content.contains "Member case assessment and oral hearing considerations"
         content.contains "Oral hearing text here"
     }
 
