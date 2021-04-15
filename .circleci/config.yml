@@ -118,9 +118,6 @@ workflows:
       - deploy:
           name: deploy_to_test
           context: hmpps-delius-deploy-to-ecs-test
-          container-name: pdfgenerator
-          service-name: del-delius-pdfgen-pri-ecs
-          family: del-delius-pdfgen-pri-ecs
           requires:
             - deploy_to_dev
           filters:
@@ -133,22 +130,16 @@ workflows:
       - deploy:
           name: deploy_to_stage
           context: hmpps-delius-deploy-to-ecs-stage
-          container-name: pdfgenerator
-          service-name: del-delius-pdfgen-pri-ecs
-          family: del-delius-pdfgen-pri-ecs
-          requires:
-            - request-pre-prod-approval
-      - deploy:
-          name: deploy_to_pre_prod
-          context: hmpps-delius-deploy-to-ecs-pre-prod
-          container-name: pdfgenerator
-          service-name: del-delius-pdfgen-pri-ecs
-          family: del-delius-pdfgen-pri-ecs
           requires:
             - request-pre-prod-approval
       - deploy:
           name: deploy_to_perf
           context: hmpps-delius-deploy-to-ecs-perf
+          requires:
+            - request-pre-prod-approval
+      - deploy:
+          name: deploy_to_pre_prod
+          context: hmpps-delius-deploy-to-ecs-pre-prod
           container-name: pdfgenerator
           service-name: del-delius-pdfgen-pri-ecs
           family: del-delius-pdfgen-pri-ecs
