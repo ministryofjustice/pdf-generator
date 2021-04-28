@@ -68,16 +68,6 @@ jobs:
                 repo: hmpps/new-tech-pdfgenerator
                 tag: latest
   deploy:
-    parameters:
-      container-name:
-        type: string
-        default: pdf-generator
-      service-name:
-        type: string
-        default: $AWS_ECS_ENV_NAME-pdf-generator-service
-      family:
-        type: string
-        default: $AWS_ECS_ENV_NAME-pdf-generator-task-definition
     docker:
       - image: circleci/python
     steps:
@@ -99,9 +89,9 @@ jobs:
             aws configure set aws_session_token "$(echo $temp_role | jq .Credentials.SessionToken | xargs)" --profile default
       - aws-ecs/update-service:
           cluster-name: $AWS_ECS_CLUSTER_NAME
-          family: << parameters.family >>
-          service-name: << parameters.service-name >>
-          container-image-name-updates: container=<< parameters.container-name >>,tag=$APP_VERSION
+          family: $AWS_ECS_ENV_NAME-pdf-generator-task-definition
+          service-name: $AWS_ECS_ENV_NAME-pdf-generator-service
+          container-image-name-updates: container=pdf-generator,tag=$APP_VERSION
           verify-revision-is-deployed: true
 
 workflows:
@@ -140,9 +130,6 @@ workflows:
       - deploy:
           name: deploy_to_pre_prod
           context: hmpps-delius-deploy-to-ecs-pre-prod
-          container-name: pdfgenerator
-          service-name: del-delius-pdfgen-pri-ecs
-          family: del-delius-pdfgen-pri-ecs
           requires:
             - request-pre-prod-approval
       - request-prod-approval:
@@ -154,8 +141,5 @@ workflows:
       - deploy:
           name: deploy_to_production
           context: hmpps-delius-deploy-to-ecs-prod
-          container-name: pdfgenerator
-          service-name: del-delius-pdfgen-pri-ecs
-          family: del-delius-pdfgen-pri-ecs
           requires:
             - request-prod-approval
