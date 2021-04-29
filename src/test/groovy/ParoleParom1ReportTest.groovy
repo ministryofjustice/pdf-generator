@@ -460,7 +460,6 @@ class ParoleParom1ReportTest extends Specification {
                 requestContentType: JSON,
                 body: [templateName: 'paroleParom1Report',
                        values: [
-                               RISK_MANAGEMENT_PLAN_REQUIRED: 'yes',
                                RMP_CURRENT_SITUATION: '<!-- RICH_TEXT --><p>Here is current situation detail</p>',
                                RMP_SUPERVISION: '<!-- RICH_TEXT --><p>Here is supervision detail</p>',
                                RMP_MONITORING_CONTROL: '<!-- RICH_TEXT --><p>Here is monitoring / control detail</p>',
@@ -494,44 +493,6 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Here is contingency plan detail"
     }
 
-    def "Delius user specifies that a community RMP is not required"() {
-
-        when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               RISK_MANAGEMENT_PLAN_REQUIRED: 'no',
-                               RMP_CURRENT_SITUATION: '<!-- RICH_TEXT --><p>Here is current situation detail</p>',
-                               RMP_SUPERVISION: '<!-- RICH_TEXT --><p>Here is supervision detail</p>',
-                               RMP_MONITORING_CONTROL: '<!-- RICH_TEXT --><p>Here is monitoring / control detail</p>',
-                               RMP_INTERVENTIONS_TREATMENT: '<!-- RICH_TEXT --><p>Here is interventions / treatment detail</p>',
-                               RMP_VICTIM_SAFETY_PLANNING: '<!-- RICH_TEXT --><p>Here is victim safety planning detail</p>',
-                               RMP_CONTINGENCY_PLAN: '<!-- RICH_TEXT --><p>Here is contingency plan detail</p>'
-                       ]]
-        )
-
-        then:
-        def content = pageText result.data
-        content.contains "Community Risk Management Plan (RMP)"
-        content.contains "A community Risk Management Plan (RMP) is not required."
-
-        !content.contains("Current situation")
-        !content.contains("Here is monitoring / control detail")
-        // Cannot check for "Supervision" as "Supervision plan for release" is here
-        !content.contains("Here is supervision detail")
-        !content.contains("Monitoring / Control")
-        !content.contains("Here is monitoring / control detail")
-        !content.contains("Interventions / Treatment")
-        !content.contains("Here is interventions / treatment detail")
-        !content.contains("Victim safety planning")
-        !content.contains("Here is victim safety planning detail")
-        !content.contains("Contingency plan")
-        !content.contains("Here is contingency plan detail")
-    }
-
-
     def "Delius user wants to view the text that they entered in the \"Resettlement plan for release\" fields on the Parole Report PDF"() {
 
         when:
@@ -540,7 +501,6 @@ class ParoleParom1ReportTest extends Specification {
                 requestContentType: JSON,
                 body: [templateName: 'paroleParom1Report',
                        values: [
-                               RESETTLEMENT_PLAN: 'yes',
                                RESETTLEMENT_PLAN_DETAIL: '<!-- RICH_TEXT --><p>Here is resettlement plan detail</p>'
                        ]]
         )
@@ -549,24 +509,6 @@ class ParoleParom1ReportTest extends Specification {
         def content = pageText result.data
         content.contains "Resettlement plan for release"
         content.contains "Here is resettlement plan detail"
-    }
-
-    def "Delius user specifies that there is no \"Resettlement plan for release\" required on the Parole Report PDF"() {
-
-        when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               RESETTLEMENT_PLAN: 'no'
-                       ]]
-        )
-
-        then:
-        def content = pageText result.data
-        content.contains "Resettlement plan for release"
-        content.contains "A resettlement plan for release is not required"
     }
 
 
@@ -683,23 +625,6 @@ class ParoleParom1ReportTest extends Specification {
         !content.contains("Some old text")
     }
 
-    def "Offender does not have a Supervision plan for release"() {
-
-        when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               SUPERVISION_PLAN_REQUIRED: 'no',
-                       ]]
-        )
-
-        then:
-        def content = pageText result.data
-        content.contains "Supervision plan for release"
-        content.contains "A supervision plan for release is not required"
-    }
     def "Offender has a Supervision plan for release"() {
 
         when:
@@ -708,7 +633,6 @@ class ParoleParom1ReportTest extends Specification {
                 requestContentType: JSON,
                 body: [templateName: 'paroleParom1Report',
                        values: [
-                               SUPERVISION_PLAN_REQUIRED: 'yes',
                                SUPERVISION_PLAN_DETAIL: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
                        ]]
         )
