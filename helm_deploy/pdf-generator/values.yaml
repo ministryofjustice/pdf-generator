@@ -1,0 +1,40 @@
+# Values here are the same across all environments
+generic-service:
+  nameOverride: ndelius-new-tech-pdf-generator
+
+  resources:
+    requests:
+      cpu: 1
+      memory: 512Mi
+
+  image:
+    repository: quay.io/hmpps/ndelius-new-tech-pdf-generator
+    tag: app_version # override at deployment time
+    port: 8080
+
+  ingress:
+    enabled: true
+    v1_2_enabled: true
+    v0_47_enabled: false
+    tlsSecretName: ndelius-new-tech-pdf-generator-cert
+
+  allowlist:
+    groups:
+      - global_protect
+      - unilink_staff
+
+  readinessProbe:
+    httpGet:
+      port: 8080
+      path: /healthcheck
+  livenessProbe:
+    httpGet:
+      port: 8080
+      path: /healthcheck
+  startupProbe:
+    httpGet:
+      port: 8080
+      path: /healthcheck
+
+generic-prometheus-alerts:
+  targetApplication: ndelius-new-tech-pdf-generator

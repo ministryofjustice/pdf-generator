@@ -1,0 +1,13 @@
+apiVersion: v2
+appVersion: '1.0'
+description: A Helm chart for Kubernetes
+name: ndelius-new-tech-pdf-generator
+version: 1.0.0
+
+dependencies:
+  - name: generic-service
+    version: "3.8"
+    repository: https://ministryofjustice.github.io/hmpps-helm-charts
+  - name: generic-prometheus-alerts
+    version: "1.11"
+    repository: https://ministryofjustice.github.io/hmpps-helm-charts
