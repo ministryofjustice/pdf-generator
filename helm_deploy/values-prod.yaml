@@ -1,0 +1,9 @@
+---
+generic-service:
+  replicaCount: 2
+  ingress:
+    host: ndelius-new-tech-pdf-generator.hmpps.service.justice.gov.uk
+
+generic-prometheus-alerts:
+  alertSeverity: probation-integration-notifications
+  businessHoursOnly: true
