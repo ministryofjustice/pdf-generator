@@ -67,7 +67,7 @@ workflows:
           filters:
             branches:
               only:
-                - main
+                - master
           requires:
             - build
       - hmpps/deploy_env:
@@ -79,7 +79,7 @@ workflows:
           filters:
             branches:
               only:
-                - main
+                - master
           requires:
             - build
       - request-prod-approval:
