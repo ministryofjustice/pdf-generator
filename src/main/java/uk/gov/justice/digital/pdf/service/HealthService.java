@@ -6,7 +6,7 @@ import lombok.val;
 import org.apache.commons.io.FileUtils;
 import uk.gov.justice.digital.pdf.Configuration;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;

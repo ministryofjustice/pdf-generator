@@ -1,9 +1,9 @@
 package uk.gov.justice.digital.pdf.service;
 
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
-import javax.inject.Inject;
-import javax.inject.Named;
+import kong.unirest.core.Unirest;
+import kong.unirest.core.UnirestException;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import lombok.extern.slf4j.Slf4j;
 import uk.gov.justice.digital.pdf.interfaces.TemplateRepository;
 
