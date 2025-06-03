@@ -32,6 +32,8 @@ jar {
             exclude { it.path.contains('META-INF') } }
         }
     }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 dependencies {
