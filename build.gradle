@@ -1,6 +1,11 @@
 apply plugin: 'java'
-
-sourceCompatibility = 1.8
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
 
 // Apply application plugin for easy application start
 apply plugin: 'application'
@@ -13,9 +18,6 @@ version = '0.1.' + (System.getenv("CIRCLE_BUILD_NUM") ?: "SNAPSHOT")
 apply plugin: 'groovy'
 
 repositories {
-    // Use 'jcenter' for resolving your dependencies.
-    // You can declare any Maven/Ivy/file repository here.
-    jcenter()
     mavenCentral()
 }
 
@@ -26,30 +28,33 @@ jar {
     }
 
     from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it).matching {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it).matching {
             exclude { it.path.contains('META-INF') } }
         }
     }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 dependencies {
 
-    compile "ch.qos.logback:logback-classic:1.2.3"
-    compile 'com.google.inject:guice:4.1.0'
-    compile 'com.sparkjava:spark-core:2.6.0'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.8.8.1'
-    compile 'org.apache.commons:commons-lang3:3.5'
-    compile 'com.mashape.unirest:unirest-java:1.4.9'
-    compile 'commons-io:commons-io:2.6'
-    compile 'com.openhtmltopdf:openhtmltopdf-core:0.0.1-RC19'
-    compile 'com.openhtmltopdf:openhtmltopdf-pdfbox:0.0.1-RC19'
-    compile 'org.jsoup:jsoup:1.9.2'
+    implementation 'ch.qos.logback:logback-classic:1.5.13'
+    implementation 'com.google.inject:guice:7.0.0'
+    implementation 'com.sparkjava:spark-core:2.9.4'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.1'
+    implementation 'org.apache.commons:commons-lang3:3.17.0'
+    implementation 'com.konghq:unirest-java-core:4.4.4'
+    implementation 'commons-io:commons-io:2.18.0'
+    implementation 'com.openhtmltopdf:openhtmltopdf-core:1.0.10'
+    implementation 'com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10'
+    implementation 'org.jsoup:jsoup:1.18.1'
 
-    compileOnly 'org.projectlombok:lombok:1.16.16'
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.38'
 
-    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
-    testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
-    testCompile 'org.apache.pdfbox:pdfbox:2.0.4'
+    testImplementation 'org.spockframework:spock-core:1.1-groovy-2.4'
+    testImplementation 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
+    testImplementation 'org.apache.pdfbox:pdfbox:2.0.4'
 }
 
 // Always run tests, because why wouldn't you?

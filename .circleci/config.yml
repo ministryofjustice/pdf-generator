@@ -2,13 +2,13 @@ version: 2.1
 
 orbs:
   mem: circleci/rememborb@0.0.1
-  hmpps: ministryofjustice/hmpps@7
+  hmpps: ministryofjustice/hmpps@11
 
 jobs:
   build:
     working_directory: ~/app
     docker:
-      - image: circleci/openjdk:8
+      - image: cimg/openjdk:17.0
     steps:
       - checkout
       - restore_cache:

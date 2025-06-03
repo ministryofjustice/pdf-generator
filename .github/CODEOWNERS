@@ -1,0 +1,6 @@
+* @ministryofjustice/probation-integration
+build.gradle
+settings.gradle
+.github/actions
+.github/workflows
+**/Dockerfile

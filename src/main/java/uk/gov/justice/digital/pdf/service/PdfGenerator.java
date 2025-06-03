@@ -2,7 +2,7 @@ package uk.gov.justice.digital.pdf.service;
 
 import java.io.*;
 import java.nio.file.Files;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,6 @@
-import groovy.json.JsonSlurper
 import groovyx.net.http.HttpResponseException
 import groovyx.net.http.RESTClient
+import net.sf.json.groovy.JsonSlurper
 import spark.Spark
 import spock.lang.Specification
 import uk.gov.justice.digital.pdf.Configuration
@@ -20,14 +20,12 @@ class IntegrationTest extends Specification {
         result.status == 200
         result.data.status == "OK"
         result.data.version == "UNKNOWN"
-        result.data.configuration == jsonSlurper.parseText("""
-            {
-                "ALFRESCO_URL": "http://localhost:8080/alfresco/service/",
-                "DEBUG_LOG": "false",
-                "PORT": "8080",
-                "ALFRESCO_USER": "alfrescoUser"
-            }
-        """)
+        result.data.configuration == jsonSlurper.parseText(/* language=json */ """{
+            "ALFRESCO_URL": "http://localhost:8080/alfresco/service/",
+            "DEBUG_LOG": "false",
+            "PORT": "8080",
+            "ALFRESCO_USER": "alfrescoUser"
+        }""")
     }
 
     def "POST generate creates a PDF and returns as a JSON string of Bytes"() {
@@ -42,7 +40,7 @@ class IntegrationTest extends Specification {
         then:
         result.status == 200
         result.data.subList(0, 5) == [37, 80, 68, 70, 45]
-        result.data.size > 10000
+        result.data.size() > 10000
     }
 
     def "debug unavailable in default configuration"() {
