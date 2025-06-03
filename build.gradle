@@ -38,18 +38,18 @@ jar {
 
 dependencies {
 
-    implementation 'ch.qos.logback:logback-classic:1.5.13'
+    implementation 'ch.qos.logback:logback-classic:1.5.18'
     implementation 'com.google.inject:guice:7.0.0'
     implementation 'com.sparkjava:spark-core:2.9.4'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.19.0'
     implementation 'org.apache.commons:commons-lang3:3.17.0'
-    implementation 'com.konghq:unirest-java-core:4.4.4'
-    implementation 'commons-io:commons-io:2.18.0'
+    implementation 'com.konghq:unirest-java-core:4.4.7'
+    implementation 'commons-io:commons-io:2.19.0'
     implementation 'com.openhtmltopdf:openhtmltopdf-core:1.0.10'
     implementation 'com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10'
-    implementation 'org.jsoup:jsoup:1.18.1'
+    implementation 'org.jsoup:jsoup:1.20.1'
 
-    compileOnly 'org.projectlombok:lombok:1.18.30'
+    compileOnly 'org.projectlombok:lombok:1.18.38'
     annotationProcessor 'org.projectlombok:lombok:1.18.38'
 
     testImplementation 'org.spockframework:spock-core:1.1-groovy-2.4'
