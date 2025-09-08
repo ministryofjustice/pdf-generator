@@ -43,14 +43,14 @@ dependencies {
     implementation 'com.sparkjava:spark-core:2.9.4'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.20.0'
     implementation 'org.apache.commons:commons-lang3:3.18.0'
-    implementation 'com.konghq:unirest-java-core:4.5.0'
+    implementation 'com.konghq:unirest-java-core:4.5.1'
     implementation 'commons-io:commons-io:2.20.0'
     implementation 'com.openhtmltopdf:openhtmltopdf-core:1.0.10'
     implementation 'com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10'
     implementation 'org.jsoup:jsoup:1.21.2'
 
-    compileOnly 'org.projectlombok:lombok:1.18.38'
-    annotationProcessor 'org.projectlombok:lombok:1.18.38'
+    compileOnly 'org.projectlombok:lombok:1.18.40'
+    annotationProcessor 'org.projectlombok:lombok:1.18.40'
 
     testImplementation 'org.spockframework:spock-core:2.3-groovy-4.0'
     testImplementation 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
