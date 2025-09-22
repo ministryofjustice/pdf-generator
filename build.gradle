@@ -49,8 +49,8 @@ dependencies {
     implementation 'com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10'
     implementation 'org.jsoup:jsoup:1.21.2'
 
-    compileOnly 'org.projectlombok:lombok:1.18.40'
-    annotationProcessor 'org.projectlombok:lombok:1.18.40'
+    compileOnly 'org.projectlombok:lombok:1.18.42'
+    annotationProcessor 'org.projectlombok:lombok:1.18.42'
 
     testImplementation 'org.spockframework:spock-core:2.3-groovy-4.0'
     testImplementation 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
