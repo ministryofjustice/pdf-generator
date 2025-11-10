@@ -44,7 +44,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.20.1'
     implementation 'org.apache.commons:commons-lang3:3.19.0'
     implementation 'com.konghq:unirest-java-core:4.5.1'
-    implementation 'commons-io:commons-io:2.20.0'
+    implementation 'commons-io:commons-io:2.21.0'
     implementation 'com.openhtmltopdf:openhtmltopdf-core:1.0.10'
     implementation 'com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10'
     implementation 'org.jsoup:jsoup:1.21.2'
