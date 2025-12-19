@@ -1,0 +1,5 @@
+# libpng: Out-of-bounds read vulnerability in libpng
+# https://github.com/adoptium/containers/issues/858
+# Reason: Vulnerability present due to upstream eclipse-temurin Alpine image rebuild lag
+# Package: libpng
+CVE-2025-66293 exp:2026-08-01
