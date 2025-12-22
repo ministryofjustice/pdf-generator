@@ -38,7 +38,7 @@ jar {
 
 dependencies {
 
-    implementation 'ch.qos.logback:logback-classic:1.5.22'
+    implementation 'ch.qos.logback:logback-classic:1.5.23'
     implementation 'com.google.inject:guice:7.0.0'
     implementation 'com.sparkjava:spark-core:2.9.4'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.20.1'
