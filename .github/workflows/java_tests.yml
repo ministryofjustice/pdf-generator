@@ -1,0 +1,45 @@
+name: Run Java tests
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: Run Java tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: refresh cache
+        id: initial-cache
+        uses: actions/cache@v5
+        env:
+          cache-name: gradle-cache
+        with:
+          path: |
+            - gradle-{{ checksum "build.gradle" }}
+            - gradle-
+          key: ${{ runner.os }}-gradle-${{ env.cache-name }}-${{ hashFiles('build.gradle') }}
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+          cache-dependency-path: |
+            *.gradle*
+            **/gradle-wrapper.properties
+
+      - name: Run tests
+        run: ./gradlew check
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: Upload test results
+          path: build/test-results/test/

@@ -1,0 +1,85 @@
+name: Pipeline [test -> build -> deploy]
+on:
+  push:
+    branches:
+      - '**'
+  workflow_dispatch:
+    inputs:
+      additional_docker_tag:
+        description: Additional docker tag that can be used to specify stable or testing tags
+        required: false
+        default: ''
+        type: string
+      push:
+        description: Push docker image to registry flag
+        required: true
+        default: false
+        type: boolean
+permissions:
+  contents: read
+  packages: write
+jobs:
+  helm_lint:
+    strategy:
+      matrix:
+        environments: ['test', 'preprod', 'prod']
+    name: helm lint
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/test_helm_lint.yml@v2 # WORKFLOW VERSION
+    secrets: inherit
+    with:
+      environment: ${{ matrix.environments }}
+
+  run_tests:
+    name: Run Tests
+    uses: ./.github/workflows/java_tests.yml
+    secrets: inherit
+
+  docker_build:
+    name: Build docker image from hmpps-github-actions
+    if: github.ref == 'refs/heads/main'
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/docker_build.yml@v2 # WORKFLOW_VERSION
+    with:
+      docker_registry: 'ghcr.io'
+      registry_org: 'ministryofjustice'
+      additional_docker_tag: ${{ inputs.additional_docker_tag }}
+      push: ${{ inputs.push || true }}
+      docker_multiplatform: false
+
+  deploy_test:
+    name: Deploy to test environment
+    if: github.ref == 'refs/heads/main'
+    needs:
+      - docker_build
+      - helm_lint
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@v2 # WORKFLOW VERSION
+    secrets: inherit
+    with:
+      environment: 'test'
+      app_version: '${{ needs.docker_build.outputs.app_version }}'
+      helm_timeout: '5m'
+
+  deploy_preprod:
+    name: Deploy to preprod environment
+    if: github.ref == 'refs/heads/main'
+    needs:
+      - docker_build
+      - helm_lint
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@v2 # WORKFLOW VERSION
+    secrets: inherit
+    with:
+      environment: 'preprod'
+      app_version: '${{ needs.docker_build.outputs.app_version }}'
+      helm_timeout: '5m'
+
+  deploy_prod:
+    name: Deploy to prod environment
+    if: github.ref == 'refs/heads/main'
+    needs:
+      - docker_build
+      - helm_lint
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@v2 # WORKFLOW VERSION
+    secrets: inherit
+    with:
+      environment: 'prod'
+      app_version: '${{ needs.docker_build.outputs.app_version }}'
+      helm_timeout: '5m'
