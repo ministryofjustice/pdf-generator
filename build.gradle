@@ -38,7 +38,7 @@ jar {
 
 dependencies {
 
-    implementation 'ch.qos.logback:logback-classic:1.5.22'
+    implementation 'ch.qos.logback:logback-classic:1.5.23'
     implementation 'com.google.inject:guice:7.0.0'
     implementation 'com.sparkjava:spark-core:2.9.4'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.20.1'
@@ -47,7 +47,7 @@ dependencies {
     implementation 'commons-io:commons-io:2.21.0'
     implementation 'com.openhtmltopdf:openhtmltopdf-core:1.0.10'
     implementation 'com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10'
-    implementation 'org.jsoup:jsoup:1.21.2'
+    implementation 'org.jsoup:jsoup:1.22.1'
 
     compileOnly 'org.projectlombok:lombok:1.18.42'
     annotationProcessor 'org.projectlombok:lombok:1.18.42'
