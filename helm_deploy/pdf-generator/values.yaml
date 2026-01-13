@@ -8,7 +8,7 @@ generic-service:
       memory: 512Mi
 
   image:
-    repository: quay.io/hmpps/ndelius-new-tech-pdf-generator
+    repository: ghcr.io/ministryofjustice/pdf-generator
     tag: app_version # override at deployment time
     port: 8080
 
