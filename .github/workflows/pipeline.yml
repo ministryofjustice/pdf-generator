@@ -15,9 +15,11 @@ on:
         required: true
         default: false
         type: boolean
+
 permissions:
   contents: read
   packages: write
+
 jobs:
   helm_lint:
     strategy:
