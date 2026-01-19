@@ -38,12 +38,12 @@ jar {
 
 dependencies {
 
-    implementation 'ch.qos.logback:logback-classic:1.5.24'
+    implementation 'ch.qos.logback:logback-classic:1.5.25'
     implementation 'com.google.inject:guice:7.0.0'
     implementation 'com.sparkjava:spark-core:2.9.4'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.20.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.21.0'
     implementation 'org.apache.commons:commons-lang3:3.20.0'
-    implementation 'com.konghq:unirest-java-core:4.7.1'
+    implementation 'com.konghq:unirest-java-core:4.7.3'
     implementation 'commons-io:commons-io:2.21.0'
     implementation 'com.openhtmltopdf:openhtmltopdf-core:1.0.10'
     implementation 'com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10'
