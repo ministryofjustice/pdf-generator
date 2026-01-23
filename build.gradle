@@ -1,16 +1,18 @@
 apply plugin: 'java'
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(25)
     }
 }
 
 // Apply application plugin for easy application start
 apply plugin: 'application'
 
-mainClassName = "uk.gov.justice.digital.pdf.Server"
+application {
+    mainClass = "uk.gov.justice.digital.pdf.Server"
+}
 
 version = '0.1.' + (System.getenv("CIRCLE_BUILD_NUM") ?: "SNAPSHOT")
 
@@ -24,12 +26,14 @@ repositories {
 jar {
     manifest {
         attributes 'Main-Class': 'uk.gov.justice.digital.pdf.Server',
-                   'Implementation-Version': version
+                'Implementation-Version': version
     }
 
     from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it).matching {
-            exclude { it.path.contains('META-INF') } }
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it).matching {
+                exclude { it.path.contains('META-INF') }
+            }
         }
     }
 
@@ -52,10 +56,44 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.42'
     annotationProcessor 'org.projectlombok:lombok:1.18.42'
 
-    testImplementation 'org.spockframework:spock-core:2.4-groovy-5.0'
-    testImplementation 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
-    testImplementation 'org.apache.pdfbox:pdfbox:3.0.6'
+    testImplementation 'org.spockframework:spock-core:2.4-M7-groovy-5.0'
+    testImplementation 'org.apache.groovy:groovy-json'
+    testImplementation 'com.konghq:unirest-java-core:4.7.3'
+    testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.21.0'
+
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 // Always run tests, because why wouldn't you?
-test.outputs.upToDateWhen {false}
+test.outputs.upToDateWhen { false }
+
+test {
+    useJUnitPlatform()
+}
+
+// SparkJava 2.9.4 transitively pulls Jetty 9.4.48 (2022),
+// which is NOT compatible with newer JVMs (JDK 21+ / 25).
+//
+// When running on Java 25, the older Jetty causes the JVM to
+// abort during test execution (Gradle Test Executor exit code 100),
+// due to illegal / restricted native access.
+//
+// We explicitly force a newer Jetty 9.4 LTS release here to ensure:
+//  - Stable runtime on Java 25
+//  - Stable Spock / integration test execution
+//  - Consistent behaviour between local, CI and Docker builds
+//
+// IMPORTANT:
+// Removing this block will cause tests to crash on Java 25.
+configurations.configureEach {
+    resolutionStrategy {
+        force "org.eclipse.jetty:jetty-server:9.4.56.v20240826"
+        force "org.eclipse.jetty:jetty-servlet:9.4.56.v20240826"
+        force "org.eclipse.jetty:jetty-util:9.4.56.v20240826"
+        force "org.eclipse.jetty:jetty-http:9.4.56.v20240826"
+        force "org.eclipse.jetty:jetty-io:9.4.56.v20240826"
+        force "org.eclipse.jetty:jetty-webapp:9.4.56.v20240826"
+        force "org.eclipse.jetty.websocket:websocket-server:9.4.56.v20240826"
+    }
+}
+
