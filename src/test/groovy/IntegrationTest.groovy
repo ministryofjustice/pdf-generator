@@ -1,67 +1,63 @@
-import groovyx.net.http.HttpResponseException
-import groovyx.net.http.RESTClient
-import net.sf.json.groovy.JsonSlurper
-import spark.Spark
-import spock.lang.Specification
-import uk.gov.justice.digital.pdf.Configuration
-import uk.gov.justice.digital.pdf.Server
+import groovy.json.JsonSlurper
+import kong.unirest.core.HttpResponse
+import kong.unirest.core.Unirest
+import kong.unirest.core.UnirestException
 
-import static groovyx.net.http.ContentType.*
-
-class IntegrationTest extends Specification {
-    def jsonSlurper = new JsonSlurper()
+class IntegrationTest extends AbstractIntegrationSpec {
 
     def "server returns healthcheck endpoint details"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').get(path: 'healthcheck')
+        def response = Unirest.get("http://localhost:8080/healthcheck")
+                .asString()
 
-        then:
-        result.status == 200
-        result.data.status == "OK"
-        result.data.version == "UNKNOWN"
-        result.data.configuration == jsonSlurper.parseText(/* language=json */ """{
+        Map body = new JsonSlurper().parseText(response.body) as Map
+
+        Map expectedConfig = new JsonSlurper().parseText("""
+        {
             "ALFRESCO_URL": "http://localhost:8080/alfresco/service/",
             "DEBUG_LOG": "false",
             "PORT": "8080",
             "ALFRESCO_USER": "alfrescoUser"
-        }""")
+        }
+    """) as Map
+
+        then:
+        response.status == 200
+        body['status'] == 'OK'
+        body['version'] == 'UNKNOWN'
+        body['configuration'] == expectedConfig
     }
 
     def "POST generate creates a PDF and returns as a JSON string of Bytes"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'shortFormatPreSentenceReport', values: [CASE_NUMBER: 'ABC1234D']]
-        )
+        HttpResponse<List> response = Unirest.post("http://localhost:8080/generate")
+                .header("Content-Type", "application/json")
+                .body([
+                        templateName: 'shortFormatPreSentenceReport',
+                        values      : [CASE_NUMBER: 'ABC1234D']
+                ])
+                .asObject(List)
 
         then:
-        result.status == 200
-        result.data.subList(0, 5) == [37, 80, 68, 70, 45]
-        result.data.size() > 10000
+        response.status == 200
+        response.body.subList(0, 5) == [37, 80, 68, 70, 45]
+        response.body.size() > 10_000
     }
 
     def "debug unavailable in default configuration"() {
 
         when:
-        new RESTClient('http://localhost:8080/').get(path: 'debug/shortFormatPreSentenceReport')
+        def response = Unirest.get("http://localhost:8080/debug/shortFormatPreSentenceReport")
+                .asString()
+
+        if (response.status >= 400) {
+            throw new UnirestException("HTTP ${response.status}")
+        }
 
         then:
-        thrown HttpResponseException
-    }
-
-    def setupSpec() {
-
-        Server.run(new Configuration())
-        Thread.sleep 1500
-    }
-
-    def cleanupSpec() {
-
-        Spark.stop()
-        Thread.sleep 3500
+        thrown(UnirestException)
     }
 
 }

@@ -1,60 +1,58 @@
-import groovyx.net.http.RESTClient
-import org.apache.commons.lang3.ArrayUtils
+import kong.unirest.core.Unirest
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.text.PDFTextStripper
-import spark.Spark
-import spock.lang.Specification
-import uk.gov.justice.digital.pdf.Configuration
-import uk.gov.justice.digital.pdf.Server
 
-import static groovyx.net.http.ContentType.JSON
-
-class ParoleParom1ReportTest extends Specification {
+class ParoleParom1ReportTest extends AbstractIntegrationSpec {
 
     def "Delius user does not enter any text into the Prisoner Details text fields"() {
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               PRISONER_DETAILS_PRISON_INSTITUTION: '',
-                               PRISONER_DETAILS_PRISONERS_FULL_NAME: '',
-                               PRISONER_DETAILS_PRISON_NUMBER: '',
-                               PRISONER_DETAILS_NOMIS_NUMBER: '',
-                               PRISONER_DETAILS_OFFENCE: '',
-                               PRISONER_DETAILS_SENTENCE: '',
-                       ]]
-        )
+        def response = Unirest.post("http://localhost:8080/generate")
+                .header("Content-Type", "application/json")
+                .body([
+                        templateName: 'paroleParom1Report',
+                        values      : [
+                                PRISONER_DETAILS_PRISON_INSTITUTION : '',
+                                PRISONER_DETAILS_PRISONERS_FULL_NAME: '',
+                                PRISONER_DETAILS_PRISON_NUMBER      : '',
+                                PRISONER_DETAILS_NOMIS_NUMBER       : '',
+                                PRISONER_DETAILS_OFFENCE            : '',
+                                PRISONER_DETAILS_SENTENCE           : '',
+                        ]
+                ])
+                .asObject(byte[].class)
+
+        byte[] pdfBytes = response.body
 
         then:
-        def content = pageText result.data
+        def content = pageText(pdfBytes)
         content.contains "Prisoner details"
-
     }
+
 
     def "Offender has a Determinate Sentence"() {
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               PRISONER_DETAILS_PRISON_INSTITUTION: 'Doncaster',
-                               PRISONER_DETAILS_PRISONERS_FULL_NAME: 'Jane Doe',
-                               PRISONER_DETAILS_PRISON_NUMBER: 'P98793-123',
-                               PRISONER_DETAILS_NOMIS_NUMBER: 'N2124214-3423',
-                               PRISONER_DETAILS_PRISONERS_CATEGORY: 'restricted',
-                               PRISONER_DETAILS_OFFENCE: '<!-- RICH_TEXT --><p>Aggravated assault</p>',
-                               PRISONER_DETAILS_SENTENCE: '<!-- RICH_TEXT --><p>20 years</p>',
-                               PRISONER_DETAILS_SENTENCE_TYPE: 'determinate',
-                               PRISONER_DETAILS_DETERMINATE_SENTENCE_TYPE: 'discretionaryConditionalRelease',
-                               PRISONER_DETAILS_PAROLE_ELIGIBILITY_DATE: '08/12/2021'
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        PRISONER_DETAILS_PRISON_INSTITUTION       : 'Doncaster',
+                                        PRISONER_DETAILS_PRISONERS_FULL_NAME      : 'Jane Doe',
+                                        PRISONER_DETAILS_PRISON_NUMBER            : 'P98793-123',
+                                        PRISONER_DETAILS_NOMIS_NUMBER             : 'N2124214-3423',
+                                        PRISONER_DETAILS_PRISONERS_CATEGORY       : 'restricted',
+                                        PRISONER_DETAILS_OFFENCE                  : '<!-- RICH_TEXT --><p>Aggravated assault</p>',
+                                        PRISONER_DETAILS_SENTENCE                 : '<!-- RICH_TEXT --><p>20 years</p>',
+                                        PRISONER_DETAILS_SENTENCE_TYPE            : 'determinate',
+                                        PRISONER_DETAILS_DETERMINATE_SENTENCE_TYPE: 'discretionaryConditionalRelease',
+                                        PRISONER_DETAILS_PAROLE_ELIGIBILITY_DATE  : '08/12/2021'
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Doncaster"
         content.contains "Jane Doe"
         content.contains "P98793-123"
@@ -67,28 +65,31 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "08/12/2021"
     }
 
+
     def "Offender has Indeterminate sentence"() {
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               PRISONER_DETAILS_PRISON_INSTITUTION: 'Hull',
-                               PRISONER_DETAILS_PRISONERS_FULL_NAME: 'Billy Fizz',
-                               PRISONER_DETAILS_PRISON_NUMBER: 'P54321-123',
-                               PRISONER_DETAILS_NOMIS_NUMBER: 'N54321C',
-                               PRISONER_DETAILS_PRISONERS_CATEGORY: 'b',
-                               PRISONER_DETAILS_OFFENCE: '<!-- RICH_TEXT --><p>Drunk on duty</p>',
-                               PRISONER_DETAILS_SENTENCE: '<!-- RICH_TEXT --><p>1 year</p>',
-                               PRISONER_DETAILS_SENTENCE_TYPE: 'indeterminate',
-                               PRISONER_DETAILS_TARIFF_LENGTH: '12 months',
-                               PRISONER_DETAILS_TARIFF_EXPIRY_DATE: '29/06/2019'
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        PRISONER_DETAILS_PRISON_INSTITUTION : 'Hull',
+                                        PRISONER_DETAILS_PRISONERS_FULL_NAME: 'Billy Fizz',
+                                        PRISONER_DETAILS_PRISON_NUMBER      : 'P54321-123',
+                                        PRISONER_DETAILS_NOMIS_NUMBER       : 'N54321C',
+                                        PRISONER_DETAILS_PRISONERS_CATEGORY : 'b',
+                                        PRISONER_DETAILS_OFFENCE            : '<!-- RICH_TEXT --><p>Drunk on duty</p>',
+                                        PRISONER_DETAILS_SENTENCE           : '<!-- RICH_TEXT --><p>1 year</p>',
+                                        PRISONER_DETAILS_SENTENCE_TYPE      : 'indeterminate',
+                                        PRISONER_DETAILS_TARIFF_LENGTH      : '12 months',
+                                        PRISONER_DETAILS_TARIFF_EXPIRY_DATE : '29/06/2019'
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Hull"
         content.contains "Billy Fizz"
         content.contains "P54321"
@@ -102,48 +103,51 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "29/06/2019"
     }
 
-
     def "Delius user does not enter any text into the free prisoner contact text fields"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               PRISONER_CONTACT_DETAIL: '',
-                               PRISONER_CONTACT_FAMILY_DETAIL: '',
-                               PRISONER_CONTACT_AGENCIES_DETAIL: '',
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        PRISONER_CONTACT_DETAIL         : '',
+                                        PRISONER_CONTACT_FAMILY_DETAIL  : '',
+                                        PRISONER_CONTACT_AGENCIES_DETAIL: '',
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Offender manager: prisoner contact"
     }
 
     def "Delius user wants to view the text that they entered in the RoSH at point of sentence fields on the Parole Report PDF"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               ROSH_AT_POS_ASSESSMENT_COMPLETED: "yes",
-                               ROSH_AT_POS_DATE: 'Sep 2018',
-                               ROSH_AT_POS_PUBLIC: 'low',
-                               ROSH_AT_POS_KNOWN_ADULT: 'low',
-                               ROSH_AT_POS_CHILDREN: 'low',
-                               ROSH_AT_POS_PRISONERS: 'low',
-                               ROSH_AT_POS_STAFF: 'low',
-                               ROSH_AT_POS_ATTITUDE_INDEX_OFFENCE: '<!-- RICH_TEXT --><p>Prisoner\'s attitude to the index offence text</p>',
-                               ROSH_AT_POS_ATTITUDE_PREVIOUS_OFFENDING: '<!-- RICH_TEXT --><p>Prisoner\'s attitude to their previous offending text</p>'
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        ROSH_AT_POS_ASSESSMENT_COMPLETED       : "yes",
+                                        ROSH_AT_POS_DATE                       : 'Sep 2018',
+                                        ROSH_AT_POS_PUBLIC                     : 'low',
+                                        ROSH_AT_POS_KNOWN_ADULT                : 'low',
+                                        ROSH_AT_POS_CHILDREN                   : 'low',
+                                        ROSH_AT_POS_PRISONERS                  : 'low',
+                                        ROSH_AT_POS_STAFF                      : 'low',
+                                        ROSH_AT_POS_ATTITUDE_INDEX_OFFENCE     : '<!-- RICH_TEXT --><p>Prisoner\'s attitude to the index offence text</p>',
+                                        ROSH_AT_POS_ATTITUDE_PREVIOUS_OFFENDING: '<!-- RICH_TEXT --><p>Prisoner\'s attitude to their previous offending text</p>'
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Risk of Serious Harm (RoSH) at point of sentence"
         !content.contains("The RoSH at point of sentence is not available")
         content.contains "Low"
@@ -154,42 +158,45 @@ class ParoleParom1ReportTest extends Specification {
     def "Delius user wants to view the text that they entered in the RoSH at point of sentence fields without a previous assessment on the Parole Report PDF"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               ROSH_AT_POS_ASSESSMENT_COMPLETED: "no",
-                               ROSH_AT_POS_ATTITUDE_INDEX_OFFENCE: '<!-- RICH_TEXT --><p>Prisoner\'s attitude to the index offence text</p>',
-                               ROSH_AT_POS_ATTITUDE_PREVIOUS_OFFENDING: '<!-- RICH_TEXT --><p>Prisoner\'s attitude to their previous offending text</p>'
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        ROSH_AT_POS_ASSESSMENT_COMPLETED       : "no",
+                                        ROSH_AT_POS_ATTITUDE_INDEX_OFFENCE     : '<!-- RICH_TEXT --><p>Prisoner\'s attitude to the index offence text</p>',
+                                        ROSH_AT_POS_ATTITUDE_PREVIOUS_OFFENDING: '<!-- RICH_TEXT --><p>Prisoner\'s attitude to their previous offending text</p>'
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Risk of Serious Harm (RoSH) at point of sentence"
         content.contains "The RoSH at point of sentence is not available"
         content.contains "Prisoner's attitude to the index offence text"
         content.contains "Prisoner's attitude to their previous offending text"
     }
 
-
     def "Delius user wants to view the text that they entered in the Offender manager: prisoner contact fields on the Parole Report PDF"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               PRISONER_CONTACT_DETAIL: '<!-- RICH_TEXT --><p>Here is prisoner contact detail</p>',
-                               PRISONER_CONTACT_FAMILY_DETAIL: '<!-- RICH_TEXT --><p>Here is prisoner family detail</p>',
-                               PRISONER_CONTACT_AGENCIES_DETAIL: '<!-- RICH_TEXT --><p>Here is prisoner agencies detail</p>',
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        PRISONER_CONTACT_DETAIL         : '<!-- RICH_TEXT --><p>Here is prisoner contact detail</p>',
+                                        PRISONER_CONTACT_FAMILY_DETAIL  : '<!-- RICH_TEXT --><p>Here is prisoner family detail</p>',
+                                        PRISONER_CONTACT_AGENCIES_DETAIL: '<!-- RICH_TEXT --><p>Here is prisoner agencies detail</p>',
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Offender manager: prisoner contact"
         content.contains "Here is prisoner contact detail"
         content.contains "Here is prisoner family detail"
@@ -199,37 +206,42 @@ class ParoleParom1ReportTest extends Specification {
     def "Delius user wants to view the Yes option that they have selected in the OPD Pathway UI on the Parole Report PDF"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               OPD_SCREENED_DATE: '21/10/2018',
-                               CONSIDERED_FOR_OPD_PATHWAY_SERVICES: 'yes'
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        OPD_SCREENED_DATE                  : '21/10/2018',
+                                        CONSIDERED_FOR_OPD_PATHWAY_SERVICES: 'yes'
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Offender Personality Disorder (OPD) pathway"
         content.contains "Date of OPD screen 21/10/2018"
         content.contains "OPD criteria met Yes"
     }
+
     def "Delius user wants to view the No option that they have selected in the OPD Pathway UI on the Parole Report PDF"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               OPD_SCREENED_DATE: '21/10/2018',
-                               CONSIDERED_FOR_OPD_PATHWAY_SERVICES: 'no'
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        OPD_SCREENED_DATE                  : '21/10/2018',
+                                        CONSIDERED_FOR_OPD_PATHWAY_SERVICES: 'no'
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Offender Personality Disorder (OPD) pathway"
         content.contains "Date of OPD screen 21/10/2018"
         content.contains "OPD criteria met No"
@@ -238,21 +250,23 @@ class ParoleParom1ReportTest extends Specification {
     def "Delius user wants to view the text that they entered in the Offender manager: \"Victims\" UI on the Parole Report PD - with Yes"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               VICTIMS_IMPACT_DETAILS: '<!-- RICH_TEXT --><p>Here is victim impact details</p>',
-                               VICTIMS_VLO_CONTACT_DATE: '31/08/2018',
-                               VICTIMS_ENGAGED_IN_VCS: 'yes',
-                               VICTIMS_SUBMIT_VPS: 'yes',
-                               VICTIMS_ORAL_HEARING: 'yes'
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        VICTIMS_IMPACT_DETAILS  : '<!-- RICH_TEXT --><p>Here is victim impact details</p>',
+                                        VICTIMS_VLO_CONTACT_DATE: '31/08/2018',
+                                        VICTIMS_ENGAGED_IN_VCS  : 'yes',
+                                        VICTIMS_SUBMIT_VPS      : 'yes',
+                                        VICTIMS_ORAL_HEARING    : 'yes'
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Impact on the victim"
         content.contains "Here is victim impact details"
         content.contains "Victim Liaison Officer (VLO) contacted 31/08/2018"
@@ -260,24 +274,27 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Victim Personal Statement (VPS) Yes"
         content.contains "Victim Oral Hearing Yes"
     }
+
     def "Delius user wants to view the text that they entered in the Offender manager: \"Victims\" UI on the Parole Report PD - with No"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               VICTIMS_IMPACT_DETAILS: '<!-- RICH_TEXT --><p>Here is victim impact details</p>',
-                               VICTIMS_VLO_CONTACT_DATE: '31/08/2018',
-                               VICTIMS_ENGAGED_IN_VCS: 'no',
-                               VICTIMS_SUBMIT_VPS: 'no',
-                               VICTIMS_ORAL_HEARING: 'no'
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        VICTIMS_IMPACT_DETAILS  : '<!-- RICH_TEXT --><p>Here is victim impact details</p>',
+                                        VICTIMS_VLO_CONTACT_DATE: '31/08/2018',
+                                        VICTIMS_ENGAGED_IN_VCS  : 'no',
+                                        VICTIMS_SUBMIT_VPS      : 'no',
+                                        VICTIMS_ORAL_HEARING    : 'no'
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Impact on the victim"
         content.contains "Here is victim impact details"
         content.contains "Victim Liaison Officer (VLO) contacted 31/08/2018"
@@ -285,59 +302,65 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Victim Personal Statement (VPS) No"
         content.contains "Victim Oral Hearing No"
     }
+
     def "Delius user wants to view the text that they entered in the Offender manager: \"Victims\" UI on the Parole Report PD - with Don't know"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               VICTIMS_SUBMIT_VPS: 'unknown'
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        VICTIMS_SUBMIT_VPS: 'unknown'
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Victim Personal Statement (VPS) Don't know"
     }
 
     def "Delius user wants to view the text that they entered in the Prison sentence plan and response fields on the Parole Report PDF"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               SENTENCE_PLAN: '<!-- RICH_TEXT --><p>Here is current sentence plan detail</p>'
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        SENTENCE_PLAN: '<!-- RICH_TEXT --><p>Here is current sentence plan detail</p>'
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Prison sentence plan"
         content.contains "Here is current sentence plan detail"
     }
 
-
     def "Delius user wants to view the text that they entered in the Multi Agency Public Protection Arrangements (MAPPA) fields on the Parole Report PDF"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               ELIGIBLE_FOR_MAPPA: 'yes',
-                               MAPPA_SCREENED_DATE: '30/03/2018',
-                               MAPPA_CATEGORY: '1',
-                               MAPPA_LEVEL: '2'
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        ELIGIBLE_FOR_MAPPA : 'yes',
+                                        MAPPA_SCREENED_DATE: '30/03/2018',
+                                        MAPPA_CATEGORY     : '1',
+                                        MAPPA_LEVEL        : '2'
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains 'Multi Agency Public Protection Arrangements (MAPPA)'
         content.contains 'MAPPAQ completed'
         content.contains '30/03/2018'
@@ -350,17 +373,19 @@ class ParoleParom1ReportTest extends Specification {
     def "Delius user specifies that the prisoner is NOT eligible for Multi Agency Public Protection Arrangements (MAPPA) on the Parole Report PDF"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               ELIGIBLE_FOR_MAPPA: 'no'
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        ELIGIBLE_FOR_MAPPA: 'no'
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains 'Multi Agency Public Protection Arrangements (MAPPA)'
         !content.contains('MAPPAQ completed')
         !content.contains('Prisoner\'s current MAPPA category')
@@ -368,25 +393,26 @@ class ParoleParom1ReportTest extends Specification {
         content.contains 'The prisoner is not eligible for MAPPA'
     }
 
-
     def "Delius user wants to view the text that they entered in the Current RoSH: community fields on the Parole Report PDF"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               ROSH_COMMUNITY_PUBLIC: 'low',
-                               ROSH_COMMUNITY_KNOWN_ADULT: 'medium',
-                               ROSH_COMMUNITY_CHILDREN: 'high',
-                               ROSH_COMMUNITY_PRISONERS: 'very_high',
-                               ROSH_COMMUNITY_STAFF: 'low',
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        ROSH_COMMUNITY_PUBLIC     : 'low',
+                                        ROSH_COMMUNITY_KNOWN_ADULT: 'medium',
+                                        ROSH_COMMUNITY_CHILDREN   : 'high',
+                                        ROSH_COMMUNITY_PRISONERS  : 'very_high',
+                                        ROSH_COMMUNITY_STAFF      : 'low',
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Current RoSH"
         content.contains "Public"
         content.contains "Known adult"
@@ -401,21 +427,23 @@ class ParoleParom1ReportTest extends Specification {
     def "Delius user wants to view the text that they entered in the Current RoSH: custody fields on the Parole Report PDF"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               ROSH_CUSTODY_PUBLIC: 'low',
-                               ROSH_CUSTODY_KNOWN_ADULT: 'medium',
-                               ROSH_CUSTODY_CHILDREN: 'high',
-                               ROSH_CUSTODY_PRISONERS: 'very_high',
-                               ROSH_CUSTODY_STAFF: 'low',
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        ROSH_CUSTODY_PUBLIC     : 'low',
+                                        ROSH_CUSTODY_KNOWN_ADULT: 'medium',
+                                        ROSH_CUSTODY_CHILDREN   : 'high',
+                                        ROSH_CUSTODY_PRISONERS  : 'very_high',
+                                        ROSH_CUSTODY_STAFF      : 'low',
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Current RoSH"
         content.contains "Public"
         content.contains "Known adult"
@@ -430,47 +458,50 @@ class ParoleParom1ReportTest extends Specification {
     def "Delius user wants to view the text that they entered in the Risk to the prisoner fields on the Parole Report PDF"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               SELF_HARM_COMMUNITY: 'yes',
-                               OTHERS_HARM_COMMUNITY: 'yes',
-                               SELF_HARM_CUSTODY: 'no',
-                               OTHERS_HARM_CUSTODY: 'no'
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        SELF_HARM_COMMUNITY  : 'yes',
+                                        OTHERS_HARM_COMMUNITY: 'yes',
+                                        SELF_HARM_CUSTODY    : 'no',
+                                        OTHERS_HARM_CUSTODY  : 'no'
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Risk to the prisoner"
         content.contains "Self harming risk"
         content.contains "Risk of serious harm from others"
         content.contains "Community Yes Yes"
         content.contains "Custody No No"
-
     }
 
     def "Delius user wants to view the text that they entered in the Risk Management Plan (RMP) fields on the Parole Report PDF"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               RMP_CURRENT_SITUATION: '<!-- RICH_TEXT --><p>Here is current situation detail</p>',
-                               RMP_SUPERVISION: '<!-- RICH_TEXT --><p>Here is supervision detail</p>',
-                               RMP_MONITORING_CONTROL: '<!-- RICH_TEXT --><p>Here is monitoring / control detail</p>',
-                               RMP_INTERVENTIONS_TREATMENT: '<!-- RICH_TEXT --><p>Here is interventions / treatment detail</p>',
-                               RMP_VICTIM_SAFETY_PLANNING: '<!-- RICH_TEXT --><p>Here is victim safety planning detail</p>',
-                               RMP_CONTINGENCY_PLAN: '<!-- RICH_TEXT --><p>Here is contingency plan detail</p>'
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        RMP_CURRENT_SITUATION      : '<!-- RICH_TEXT --><p>Here is current situation detail</p>',
+                                        RMP_SUPERVISION            : '<!-- RICH_TEXT --><p>Here is supervision detail</p>',
+                                        RMP_MONITORING_CONTROL     : '<!-- RICH_TEXT --><p>Here is monitoring / control detail</p>',
+                                        RMP_INTERVENTIONS_TREATMENT: '<!-- RICH_TEXT --><p>Here is interventions / treatment detail</p>',
+                                        RMP_VICTIM_SAFETY_PLANNING : '<!-- RICH_TEXT --><p>Here is victim safety planning detail</p>',
+                                        RMP_CONTINGENCY_PLAN       : '<!-- RICH_TEXT --><p>Here is contingency plan detail</p>'
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Community Risk Management Plan (RMP)"
         !content.contains("A community Risk Management Plan (RMP) is not required.")
 
@@ -496,44 +527,47 @@ class ParoleParom1ReportTest extends Specification {
     def "Delius user wants to view the text that they entered in the \"Resettlement plan for release\" fields on the Parole Report PDF"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               RESETTLEMENT_PLAN_DETAIL: '<!-- RICH_TEXT --><p>Here is resettlement plan detail</p>'
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        RESETTLEMENT_PLAN_DETAIL: '<!-- RICH_TEXT --><p>Here is resettlement plan detail</p>'
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Resettlement plan for release"
         content.contains "Here is resettlement plan detail"
     }
 
-
     def "Delius user wants to view the documents that they have selected in the  \"Sources\" UI in the Parole Report PDF"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               SOURCES_PREVIOUS_CONVICTIONS: true,
-                               SOURCES_CPS_DOCUMENTS: false,
-                               SOURCES_JUDGES_COMMENTS: true,
-                               SOURCES_PAROLE_DOSSIER: true,
-                               SOURCES_PREVIOUS_PAROLE_REPORTS: false,
-                               SOURCES_PROBATION_CASE_RECORD: false,
-                               SOURCES_PRE_SENTENCE_REPORT: false,
-                               SOURCES_TARIFF: false,
-                               SOURCES_OTHER: false,
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        SOURCES_PREVIOUS_CONVICTIONS   : true,
+                                        SOURCES_CPS_DOCUMENTS          : false,
+                                        SOURCES_JUDGES_COMMENTS        : true,
+                                        SOURCES_PAROLE_DOSSIER         : true,
+                                        SOURCES_PREVIOUS_PAROLE_REPORTS: false,
+                                        SOURCES_PROBATION_CASE_RECORD  : false,
+                                        SOURCES_PRE_SENTENCE_REPORT    : false,
+                                        SOURCES_TARIFF                 : false,
+                                        SOURCES_OTHER                  : false,
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Previous convictions Yes"
         content.contains "CPS documents No"
         content.contains "Judges comments Yes"
@@ -544,31 +578,33 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "On/post Tariff Parole Custody Report No"
         content.contains "Other No"
         !content.contains("Other documents")
-
     }
+
     def "Delius user has selected \"other\" documents in the \"Sources\" UI"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               SOURCES_PREVIOUS_CONVICTIONS: false,
-                               SOURCES_CPS_DOCUMENTS: true,
-                               SOURCES_JUDGES_COMMENTS: false,
-                               SOURCES_PAROLE_DOSSIER: false,
-                               SOURCES_PREVIOUS_PAROLE_REPORTS: true,
-                               SOURCES_PROBATION_CASE_RECORD: true,
-                               SOURCES_PRE_SENTENCE_REPORT: true,
-                               SOURCES_TARIFF: true,
-                               SOURCES_OTHER: true,
-                               SOURCES_OTHER_DETAIL: 'lots of other documents',
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        SOURCES_PREVIOUS_CONVICTIONS   : false,
+                                        SOURCES_CPS_DOCUMENTS          : true,
+                                        SOURCES_JUDGES_COMMENTS        : false,
+                                        SOURCES_PAROLE_DOSSIER         : false,
+                                        SOURCES_PREVIOUS_PAROLE_REPORTS: true,
+                                        SOURCES_PROBATION_CASE_RECORD  : true,
+                                        SOURCES_PRE_SENTENCE_REPORT    : true,
+                                        SOURCES_TARIFF                 : true,
+                                        SOURCES_OTHER                  : true,
+                                        SOURCES_OTHER_DETAIL           : 'lots of other documents',
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Previous convictions No"
         content.contains "CPS documents Yes"
         content.contains "Judges comments No"
@@ -581,22 +617,25 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Other documents"
         content.contains "lots of other documents"
     }
+
     def "Delius user wants to view the text that they have entered in the \"Sources\" UI in the Parole Report PDF"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               SOURCES_ASSESSMENT_LIST: '<!-- RICH_TEXT --><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>',
-                               SOURCES_LIMITATIONS: 'yes',
-                               SOURCES_LIMITATIONS_DETAIL: '<!-- RICH_TEXT --><p>Pharetra pharetra massa massa ultricies mi.</p>',
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        SOURCES_ASSESSMENT_LIST   : '<!-- RICH_TEXT --><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>',
+                                        SOURCES_LIMITATIONS       : 'yes',
+                                        SOURCES_LIMITATIONS_DETAIL: '<!-- RICH_TEXT --><p>Pharetra pharetra massa massa ultricies mi.</p>',
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Reports, assessments and directions"
         content.contains "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
         content.contains "Sources: issues and limitations"
@@ -606,19 +645,21 @@ class ParoleParom1ReportTest extends Specification {
     def "Delius user does not have limitations to the sources that have been provided to them"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               SOURCES_ASSESSMENT_LIST: '<!-- RICH_TEXT --><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>',
-                               SOURCES_LIMITATIONS: 'no',
-                               SOURCES_LIMITATIONS_DETAIL: '<!-- RICH_TEXT --><p>Some old text</p>',
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        SOURCES_ASSESSMENT_LIST   : '<!-- RICH_TEXT --><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>',
+                                        SOURCES_LIMITATIONS       : 'no',
+                                        SOURCES_LIMITATIONS_DETAIL: '<!-- RICH_TEXT --><p>Some old text</p>',
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Reports, assessments and directions"
         content.contains "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
         !content.contains("Sources: issues and limitations")
@@ -628,17 +669,19 @@ class ParoleParom1ReportTest extends Specification {
     def "Offender has a Supervision plan for release"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               SUPERVISION_PLAN_DETAIL: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        SUPERVISION_PLAN_DETAIL: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Supervision plan for release"
         content.contains "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
     }
@@ -646,53 +689,58 @@ class ParoleParom1ReportTest extends Specification {
     def "Delius user does not confirm that they have liaised with the Prison Offender Manager"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               PRISON_LIAISON: ''
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        PRISON_LIAISON: ''
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Prison liaison"
     }
 
     def "Delius user confirms that they have liaised with the Prison Offender Manager"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               PRISON_LIAISON: true
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        PRISON_LIAISON: true
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Prison liaison"
         content.contains "I confirm that I have had sight of the On/post Tariff Parole Custody Report"
     }
 
-
     def "Delius user wants to view the Recommendation information that they have entered into the Parole Form UI"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               _RECOMMENDATION_: '<!-- RICH_TEXT --><p>Here is the recommendation detail</p>'
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        _RECOMMENDATION_: '<!-- RICH_TEXT --><p>Here is the recommendation detail</p>'
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Recommendation"
         content.contains "Here is the recommendation detail"
     }
@@ -700,64 +748,71 @@ class ParoleParom1ReportTest extends Specification {
     def "Delius user does not enter any text into the free text fields in the Recommendation UI"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               _RECOMMENDATION_: ''
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        _RECOMMENDATION_: ''
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Recommendation"
     }
 
     def "Delius user wants to view the text that they have entered in the \"Oral hearing\" UI in the Parole Report PDF"() {
 
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               ORAL_HEARING: 'Oral hearing text here',
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        ORAL_HEARING: 'Oral hearing text here',
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Member case assessment and oral hearing considerations"
         content.contains "Oral hearing text here"
     }
 
     def "Delius user does not enter any text into the free text fields"() {
+
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               RISK_ASSESSMENT_RSR_SCORE: '',
-                               RISK_ASSESSMENT_RSR_SCORE_AS_LEVEL: '',
-                               RISK_ASSESSMENT_OGRS3_SCORE: '',
-                               RISK_ASSESSMENT_OGRS3_SCORE_AS_LEVEL: '',
-                               RISK_ASSESSMENT_OGP_SCORE: '',
-                               RISK_ASSESSMENT_OGP_SCORE_AS_LEVEL: '',
-                               RISK_ASSESSMENT_OVP_SCORE: '',
-                               RISK_ASSESSMENT_OVP_SCORE_AS_LEVEL: '',
-                               RISK_ASSESSMENT_OASYS_OSPC_COMPLETED: '',
-                               RISK_ASSESSMENT_OASYS_OSPC_SCORE: '',
-                               RISK_ASSESSMENT_OASYS_OSPI_COMPLETED: '',
-                               RISK_ASSESSMENT_OASYS_OSPI_SCORE: '',
-                               RISK_ASSESSMENT_SARA_COMPLETED: '',
-                               RISK_ASSESSMENT_SARA_SCORE: ''
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        RISK_ASSESSMENT_RSR_SCORE           : '',
+                                        RISK_ASSESSMENT_RSR_SCORE_AS_LEVEL  : '',
+                                        RISK_ASSESSMENT_OGRS3_SCORE         : '',
+                                        RISK_ASSESSMENT_OGRS3_SCORE_AS_LEVEL: '',
+                                        RISK_ASSESSMENT_OGP_SCORE           : '',
+                                        RISK_ASSESSMENT_OGP_SCORE_AS_LEVEL  : '',
+                                        RISK_ASSESSMENT_OVP_SCORE           : '',
+                                        RISK_ASSESSMENT_OVP_SCORE_AS_LEVEL  : '',
+                                        RISK_ASSESSMENT_OASYS_OSPC_COMPLETED: '',
+                                        RISK_ASSESSMENT_OASYS_OSPC_SCORE    : '',
+                                        RISK_ASSESSMENT_OASYS_OSPI_COMPLETED: '',
+                                        RISK_ASSESSMENT_OASYS_OSPI_SCORE    : '',
+                                        RISK_ASSESSMENT_SARA_COMPLETED      : '',
+                                        RISK_ASSESSMENT_SARA_SCORE          : ''
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Current risk assessment scores"
         content.contains "RSR\n" +
                 "OGRS3 (year 2)\n" +
@@ -768,32 +823,35 @@ class ParoleParom1ReportTest extends Specification {
                 "SARA"
     }
 
-    def "Delius user enters risk score for Risk Assessment Score - low" () {
+    def "Delius user enters risk score for Risk Assessment Score - low"() {
+
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               RISK_ASSESSMENT_RSR_SCORE: '2.32',
-                               RISK_ASSESSMENT_RSR_SCORE_AS_LEVEL: 'low',
-                               RISK_ASSESSMENT_OGRS3_SCORE: '22',
-                               RISK_ASSESSMENT_OGRS3_SCORE_AS_LEVEL: 'low',
-                               RISK_ASSESSMENT_OGP_SCORE: '23',
-                               RISK_ASSESSMENT_OGP_SCORE_AS_LEVEL: 'low',
-                               RISK_ASSESSMENT_OVP_SCORE: '24',
-                               RISK_ASSESSMENT_OVP_SCORE_AS_LEVEL: 'low',
-                               RISK_ASSESSMENT_OASYS_OSPC_COMPLETED: 'no',
-                               RISK_ASSESSMENT_OASYS_OSPC_SCORE: '',
-                               RISK_ASSESSMENT_OASYS_OSPI_COMPLETED: 'no',
-                               RISK_ASSESSMENT_OASYS_OSPI_SCORE: '',
-                               RISK_ASSESSMENT_SARA_COMPLETED: 'no',
-                               RISK_ASSESSMENT_SARA_SCORE: ''
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        RISK_ASSESSMENT_RSR_SCORE           : '2.32',
+                                        RISK_ASSESSMENT_RSR_SCORE_AS_LEVEL  : 'low',
+                                        RISK_ASSESSMENT_OGRS3_SCORE         : '22',
+                                        RISK_ASSESSMENT_OGRS3_SCORE_AS_LEVEL: 'low',
+                                        RISK_ASSESSMENT_OGP_SCORE           : '23',
+                                        RISK_ASSESSMENT_OGP_SCORE_AS_LEVEL  : 'low',
+                                        RISK_ASSESSMENT_OVP_SCORE           : '24',
+                                        RISK_ASSESSMENT_OVP_SCORE_AS_LEVEL  : 'low',
+                                        RISK_ASSESSMENT_OASYS_OSPC_COMPLETED: 'no',
+                                        RISK_ASSESSMENT_OASYS_OSPC_SCORE    : '',
+                                        RISK_ASSESSMENT_OASYS_OSPI_COMPLETED: 'no',
+                                        RISK_ASSESSMENT_OASYS_OSPI_SCORE    : '',
+                                        RISK_ASSESSMENT_SARA_COMPLETED      : 'no',
+                                        RISK_ASSESSMENT_SARA_SCORE          : ''
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Current risk assessment scores"
         content.contains "RSR  Low (2.32)"
         content.contains "OGRS3 (year 2)  Low (22)"
@@ -802,35 +860,37 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "OASys Sexual re-offending Predictor (Contact) (OSP/C) N/A"
         content.contains "OASys Sexual re-offending Predictor (Indecent Images) (OSP/I) N/A"
         content.contains "SARA N/A"
-
     }
 
-    def "Delius user enters risk score for Risk Assessment Score - medium" () {
+    def "Delius user enters risk score for Risk Assessment Score - medium"() {
+
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               RISK_ASSESSMENT_RSR_SCORE: '5.32',
-                               RISK_ASSESSMENT_RSR_SCORE_AS_LEVEL: 'medium',
-                               RISK_ASSESSMENT_OGRS3_SCORE: '52',
-                               RISK_ASSESSMENT_OGRS3_SCORE_AS_LEVEL: 'medium',
-                               RISK_ASSESSMENT_OGP_SCORE: '53',
-                               RISK_ASSESSMENT_OGP_SCORE_AS_LEVEL: 'medium',
-                               RISK_ASSESSMENT_OVP_SCORE: '44',
-                               RISK_ASSESSMENT_OVP_SCORE_AS_LEVEL: 'medium',
-                               RISK_ASSESSMENT_OASYS_OSPC_COMPLETED: 'yes',
-                               RISK_ASSESSMENT_OASYS_OSPC_SCORE: 'low',
-                               RISK_ASSESSMENT_OASYS_OSPI_COMPLETED: 'yes',
-                               RISK_ASSESSMENT_OASYS_OSPI_SCORE: 'medium',
-                               RISK_ASSESSMENT_SARA_COMPLETED: 'no',
-                               RISK_ASSESSMENT_SARA_SCORE: ''
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        RISK_ASSESSMENT_RSR_SCORE           : '5.32',
+                                        RISK_ASSESSMENT_RSR_SCORE_AS_LEVEL  : 'medium',
+                                        RISK_ASSESSMENT_OGRS3_SCORE         : '52',
+                                        RISK_ASSESSMENT_OGRS3_SCORE_AS_LEVEL: 'medium',
+                                        RISK_ASSESSMENT_OGP_SCORE           : '53',
+                                        RISK_ASSESSMENT_OGP_SCORE_AS_LEVEL  : 'medium',
+                                        RISK_ASSESSMENT_OVP_SCORE           : '44',
+                                        RISK_ASSESSMENT_OVP_SCORE_AS_LEVEL  : 'medium',
+                                        RISK_ASSESSMENT_OASYS_OSPC_COMPLETED: 'yes',
+                                        RISK_ASSESSMENT_OASYS_OSPC_SCORE    : 'low',
+                                        RISK_ASSESSMENT_OASYS_OSPI_COMPLETED: 'yes',
+                                        RISK_ASSESSMENT_OASYS_OSPI_SCORE    : 'medium',
+                                        RISK_ASSESSMENT_SARA_COMPLETED      : 'no',
+                                        RISK_ASSESSMENT_SARA_SCORE          : ''
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Current risk assessment scores"
         content.contains "RSR  Medium (5.32)"
         content.contains "OGRS3 (year 2)  Medium (52)"
@@ -839,35 +899,37 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "OASys Sexual re-offending Predictor (Contact) (OSP/C) Low"
         content.contains "OASys Sexual re-offending Predictor (Indecent Images) (OSP/I) Medium"
         content.contains "SARA N/A"
-
     }
 
-    def "Delius user enters risk score for Risk Assessment Score - high" () {
+    def "Delius user enters risk score for Risk Assessment Score - high"() {
+
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               RISK_ASSESSMENT_RSR_SCORE: '7.32',
-                               RISK_ASSESSMENT_RSR_SCORE_AS_LEVEL: 'high',
-                               RISK_ASSESSMENT_OGRS3_SCORE: '75',
-                               RISK_ASSESSMENT_OGRS3_SCORE_AS_LEVEL: 'high',
-                               RISK_ASSESSMENT_OGP_SCORE: '76',
-                               RISK_ASSESSMENT_OGP_SCORE_AS_LEVEL: 'high',
-                               RISK_ASSESSMENT_OVP_SCORE: '64',
-                               RISK_ASSESSMENT_OVP_SCORE_AS_LEVEL: 'high',
-                               RISK_ASSESSMENT_OASYS_OSPC_COMPLETED: 'no',
-                               RISK_ASSESSMENT_OASYS_OSPC_SCORE: '',
-                               RISK_ASSESSMENT_OASYS_OSPI_COMPLETED: 'no',
-                               RISK_ASSESSMENT_OASYS_OSPI_SCORE: '',
-                               RISK_ASSESSMENT_SARA_COMPLETED: 'yes',
-                               RISK_ASSESSMENT_SARA_SCORE: 'low'
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        RISK_ASSESSMENT_RSR_SCORE           : '7.32',
+                                        RISK_ASSESSMENT_RSR_SCORE_AS_LEVEL  : 'high',
+                                        RISK_ASSESSMENT_OGRS3_SCORE         : '75',
+                                        RISK_ASSESSMENT_OGRS3_SCORE_AS_LEVEL: 'high',
+                                        RISK_ASSESSMENT_OGP_SCORE           : '76',
+                                        RISK_ASSESSMENT_OGP_SCORE_AS_LEVEL  : 'high',
+                                        RISK_ASSESSMENT_OVP_SCORE           : '64',
+                                        RISK_ASSESSMENT_OVP_SCORE_AS_LEVEL  : 'high',
+                                        RISK_ASSESSMENT_OASYS_OSPC_COMPLETED: 'no',
+                                        RISK_ASSESSMENT_OASYS_OSPC_SCORE    : '',
+                                        RISK_ASSESSMENT_OASYS_OSPI_COMPLETED: 'no',
+                                        RISK_ASSESSMENT_OASYS_OSPI_SCORE    : '',
+                                        RISK_ASSESSMENT_SARA_COMPLETED      : 'yes',
+                                        RISK_ASSESSMENT_SARA_SCORE          : 'low'
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Current risk assessment scores"
         content.contains "RSR  High (7.32)"
         content.contains "OGRS3 (year 2)  High (75)"
@@ -876,35 +938,37 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "OASys Sexual re-offending Predictor (Contact) (OSP/C) N/A"
         content.contains "OASys Sexual re-offending Predictor (Indecent Images) (OSP/I) N/A"
         content.contains "SARA Low"
-
     }
 
-    def "Delius user enters risk score for Risk Assessment Score - very high" () {
+    def "Delius user enters risk score for Risk Assessment Score - very high"() {
+
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               RISK_ASSESSMENT_RSR_SCORE: '9',
-                               RISK_ASSESSMENT_RSR_SCORE_AS_LEVEL: 'high',
-                               RISK_ASSESSMENT_OGRS3_SCORE: '90',
-                               RISK_ASSESSMENT_OGRS3_SCORE_AS_LEVEL: 'very_high',
-                               RISK_ASSESSMENT_OGP_SCORE: '91',
-                               RISK_ASSESSMENT_OGP_SCORE_AS_LEVEL: 'very_high',
-                               RISK_ASSESSMENT_OVP_SCORE: '84',
-                               RISK_ASSESSMENT_OVP_SCORE_AS_LEVEL: 'very_high',
-                               RISK_ASSESSMENT_OASYS_OSPC_COMPLETED: 'yes',
-                               RISK_ASSESSMENT_OASYS_OSPC_SCORE: 'low',
-                               RISK_ASSESSMENT_OASYS_OSPI_COMPLETED: 'yes',
-                               RISK_ASSESSMENT_OASYS_OSPI_SCORE: 'medium',
-                               RISK_ASSESSMENT_SARA_COMPLETED: 'yes',
-                               RISK_ASSESSMENT_SARA_SCORE: 'low'
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        RISK_ASSESSMENT_RSR_SCORE           : '9',
+                                        RISK_ASSESSMENT_RSR_SCORE_AS_LEVEL  : 'high',
+                                        RISK_ASSESSMENT_OGRS3_SCORE         : '90',
+                                        RISK_ASSESSMENT_OGRS3_SCORE_AS_LEVEL: 'very_high',
+                                        RISK_ASSESSMENT_OGP_SCORE           : '91',
+                                        RISK_ASSESSMENT_OGP_SCORE_AS_LEVEL  : 'very_high',
+                                        RISK_ASSESSMENT_OVP_SCORE           : '84',
+                                        RISK_ASSESSMENT_OVP_SCORE_AS_LEVEL  : 'very_high',
+                                        RISK_ASSESSMENT_OASYS_OSPC_COMPLETED: 'yes',
+                                        RISK_ASSESSMENT_OASYS_OSPC_SCORE    : 'low',
+                                        RISK_ASSESSMENT_OASYS_OSPI_COMPLETED: 'yes',
+                                        RISK_ASSESSMENT_OASYS_OSPI_SCORE    : 'medium',
+                                        RISK_ASSESSMENT_SARA_COMPLETED      : 'yes',
+                                        RISK_ASSESSMENT_SARA_SCORE          : 'low'
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Current risk assessment scores"
         content.contains "RSR  High (9)"
         content.contains "OGRS3 (year 2)  Very high (90)"
@@ -913,29 +977,31 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "OASys Sexual re-offending Predictor (Contact) (OSP/C) Low"
         content.contains "OASys Sexual re-offending Predictor (Indecent Images) (OSP/I) Medium"
         content.contains "SARA Low"
-
     }
 
-    def "Delius user signs and dates the report" () {
+    def "Delius user signs and dates the report"() {
+
         when:
-        def result = new RESTClient('http://localhost:8080/').post(
-                path: 'generate',
-                requestContentType: JSON,
-                body: [templateName: 'paroleParom1Report',
-                       values: [
-                               SIGNATURE_NAME: 'Main signature name',
-                               SIGNATURE_DIVISION: 'Main signature division',
-                               SIGNATURE_OFFICE_ADDRESS: 'Main office address',
-                               SIGNATURE_EMAIL: 'main.signature@nps.com',
-                               SIGNATURE_TELEPHONE: '01234 567 890',
-                               SIGNATURE_COUNTER_NAME: 'Counter signature name',
-                               SIGNATURE_COUNTER_ROLE: 'Counter signature role',
-                               SIGNATURE_DATE: '26/09/2018'
-                       ]]
-        )
+        def result =
+                Unirest.post("http://localhost:8080/generate")
+                        .header("Content-Type", "application/json")
+                        .body([
+                                templateName: 'paroleParom1Report',
+                                values      : [
+                                        SIGNATURE_NAME          : 'Main signature name',
+                                        SIGNATURE_DIVISION      : 'Main signature division',
+                                        SIGNATURE_OFFICE_ADDRESS: 'Main office address',
+                                        SIGNATURE_EMAIL         : 'main.signature@nps.com',
+                                        SIGNATURE_TELEPHONE     : '01234 567 890',
+                                        SIGNATURE_COUNTER_NAME  : 'Counter signature name',
+                                        SIGNATURE_COUNTER_ROLE  : 'Counter signature role',
+                                        SIGNATURE_DATE          : '26/09/2018'
+                                ]
+                        ])
+                        .asObject(byte[].class)
 
         then:
-        def content = pageText result.data
+        def content = pageText(result.body)
         content.contains "Signature and date"
         content.contains "Main signature name"
         content.contains "Main signature division"
@@ -945,18 +1011,6 @@ class ParoleParom1ReportTest extends Specification {
         content.contains "Counter signature name"
         content.contains "Counter signature role"
         content.contains "26/09/2018"
-    }
-
-    def setupSpec() {
-
-        Server.run(new Configuration())
-        Thread.sleep 1500
-    }
-
-    def cleanupSpec() {
-
-        Spark.stop()
-        Thread.sleep 3500
     }
 
     def pageText(data) {
@@ -970,7 +1024,7 @@ class ParoleParom1ReportTest extends Specification {
         }
     }
 
-    def toDocument(data) {
-        PDDocument.load(new ByteArrayInputStream(ArrayUtils.toPrimitive(data.collect { it.byteValue() }.toArray(new Byte[0]))))
+    def toDocument(byte[] data) {
+        PDDocument.load(data)
     }
 }
