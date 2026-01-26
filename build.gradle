@@ -42,12 +42,12 @@ jar {
 
 dependencies {
 
-    implementation 'ch.qos.logback:logback-classic:1.5.25'
+    implementation 'ch.qos.logback:logback-classic:1.5.26'
     implementation 'com.google.inject:guice:7.0.0'
     implementation 'com.sparkjava:spark-core:2.9.4'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.21.0'
     implementation 'org.apache.commons:commons-lang3:3.20.0'
-    implementation 'com.konghq:unirest-java-core:4.7.3'
+    implementation 'com.konghq:unirest-java-core:4.7.4'
     implementation 'commons-io:commons-io:2.21.0'
     implementation 'com.openhtmltopdf:openhtmltopdf-core:1.0.10'
     implementation 'com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10'
@@ -58,7 +58,7 @@ dependencies {
 
     testImplementation 'org.spockframework:spock-core:2.4-M7-groovy-5.0'
     testImplementation 'org.apache.groovy:groovy-json'
-    testImplementation 'com.konghq:unirest-java-core:4.7.3'
+    testImplementation 'com.konghq:unirest-java-core:4.7.4'
     testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.21.0'
 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
@@ -93,7 +93,7 @@ configurations.configureEach {
         force "org.eclipse.jetty:jetty-http:9.4.56.v20240826"
         force "org.eclipse.jetty:jetty-io:9.4.56.v20240826"
         force "org.eclipse.jetty:jetty-webapp:9.4.56.v20240826"
-        force "org.eclipse.jetty.websocket:websocket-server:9.4.56.v20240826"
+        force "org.eclipse.jetty.websocket:websocket-server:9.4.58.v20250814"
     }
 }
 
