@@ -9,5 +9,4 @@ jobs:
     uses: ministryofjustice/hmpps-github-actions/.github/workflows/security_trivy.yml@v2
     with:
       channel_id: ${{ vars.SECURITY_ALERTS_SLACK_CHANNEL_ID || 'NO_SLACK' }}
-      subproject: ndelius-new-tech-pdf-generator
     secrets: inherit
