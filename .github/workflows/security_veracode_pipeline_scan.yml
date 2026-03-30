@@ -1,0 +1,22 @@
+name: Security Veracode pipeline scan
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 6 * * MON-FRI"
+jobs:
+  security-veracode-pipeline-scan:
+    name: Security Veracode pipeline scan
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/security_veracode_pipeline_scan.yml@96b1ed2a59da5e9b1c97b03f02d7e0e067ab82aa
+    with:
+      channel_id: ${{ vars.SECURITY_ALERTS_SLACK_CHANNEL_ID || 'NO_SLACK' }}
+    secrets:
+      VERACODE_API_ID_0: ${{ secrets.HMPPS_VERACODE_API_ID_0 }}
+      VERACODE_API_ID_1: ${{ secrets.HMPPS_VERACODE_API_ID_1 }}
+      VERACODE_API_ID_2: ${{ secrets.HMPPS_VERACODE_API_ID_2 }}
+      VERACODE_API_ID_3: ${{ secrets.HMPPS_VERACODE_API_ID_3 }}
+      VERACODE_API_ID_4: ${{ secrets.HMPPS_VERACODE_API_ID_4 }}
+      VERACODE_API_KEY_0: ${{ secrets.HMPPS_VERACODE_API_KEY_0 }}
+      VERACODE_API_KEY_1: ${{ secrets.HMPPS_VERACODE_API_KEY_1 }}
+      VERACODE_API_KEY_2: ${{ secrets.HMPPS_VERACODE_API_KEY_2 }}
+      VERACODE_API_KEY_3: ${{ secrets.HMPPS_VERACODE_API_KEY_3 }}
+      VERACODE_API_KEY_4: ${{ secrets.HMPPS_VERACODE_API_KEY_4 }}
