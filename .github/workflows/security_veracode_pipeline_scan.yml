@@ -6,7 +6,7 @@ on:
 jobs:
   security-veracode-pipeline-scan:
     name: Security Veracode pipeline scan
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/security_veracode_pipeline_scan.yml@9b8ab5d626debf71c4acb94dbaabccc04e9149b4
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/security_veracode_pipeline_scan.yml@d79e83be2cc392b981dd92c8f6f85007d18032e9
     with:
       channel_id: ${{ vars.SECURITY_ALERTS_SLACK_CHANNEL_ID || 'NO_SLACK' }}
       docker_image_app_dir: "/"
