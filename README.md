@@ -6,7 +6,7 @@ A REST-accessible self-contained fat-jar micro-service that creates PDFs from XH
 
 ### Building and running
 
-Build command (includes running unit and integration tests):
+Build command (includes running unit and integration tests) :
 
 - `./gradlew build`
 
