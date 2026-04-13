@@ -9,7 +9,6 @@ jobs:
     uses: ministryofjustice/hmpps-github-actions/.github/workflows/security_veracode_policy_scan.yml@b74c1336dede62686c46e93458e2ef197ca579ca
     with:
       channel_id: ${{ vars.SECURITY_ALERTS_SLACK_CHANNEL_ID || 'NO_SLACK' }}
-      docker_image_app_dir: "/"
     secrets:
       HMPPS_SRE_SLACK_BOT_TOKEN: ${{ secrets.HMPPS_SRE_SLACK_BOT_TOKEN }}
       HMPPS_VERACODE_API_ID_0: ${{ secrets.HMPPS_VERACODE_API_ID_0 }}
