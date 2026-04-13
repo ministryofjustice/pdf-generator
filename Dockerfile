@@ -5,6 +5,7 @@ RUN ./gradlew assemble -Dorg.gradle.daemon=false
 
 FROM eclipse-temurin:25-jre-alpine
 LABEL maintainer="HMPPS Digital Studio <info@digital.justice.gov.uk>"
+WORKDIR /app
 
 ARG BUILD_NUMBER
 ENV BUILD_NUMBER=${BUILD_NUMBER:-1_0_0}
@@ -18,5 +19,5 @@ USER 2000
 
 EXPOSE 8080
 
-COPY --from=builder --chown=appuser:appgroup /app/build/libs/pdfGenerator-*.jar /pdfGenerator.jar
-CMD ["java", "-jar", "/pdfGenerator.jar"]
+COPY --from=builder --chown=appuser:appgroup /app/build/libs/pdfGenerator-*.jar /app/pdfGenerator.jar
+CMD ["java", "-jar", "/app/pdfGenerator.jar"]
