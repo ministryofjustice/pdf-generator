@@ -6,6 +6,8 @@ updates:
       interval: "weekly"
     cooldown:
       default-days: 3
+      exclude:
+        - "uk.gov.justice.*"
     groups:
       minor:
         update-types:
@@ -20,6 +22,8 @@ updates:
       interval: "weekly"
     cooldown:
       default-days: 3
+      exclude:
+        - "ministryofjustice/*"
     groups:
       minor:
         update-types:
