@@ -6,7 +6,7 @@ on:
 jobs:
   security-veracode-policy-check:
     name: Security Veracode policy scan
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/security_veracode_policy_scan.yml@2a7bb1a9bdaa0ebad11f03538dbcf396ba3b7779
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/security_veracode_policy_scan.yml@b7e29ba10659e877df6b75f95fd3d18ae37212a8
     with:
       channel_id: ${{ vars.SECURITY_ALERTS_SLACK_CHANNEL_ID || 'NO_SLACK' }}
     secrets:
