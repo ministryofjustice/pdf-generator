@@ -26,7 +26,7 @@ jobs:
       matrix:
         environments: ['test', 'preprod', 'prod']
     name: helm lint
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/test_helm_lint.yml@b7e29ba10659e877df6b75f95fd3d18ae37212a8 # v2.19.1
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/test_helm_lint.yml@1baa8672173f4e6af81dad6ef88a27f91d9828f2 # v2.20.0
     secrets: inherit
     with:
       environment: ${{ matrix.environments }}
@@ -39,7 +39,7 @@ jobs:
   docker_build:
     name: Build docker image from hmpps-github-actions
     if: github.ref == 'refs/heads/main'
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/docker_build.yml@b7e29ba10659e877df6b75f95fd3d18ae37212a8 # v2.19.1
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/docker_build.yml@1baa8672173f4e6af81dad6ef88a27f91d9828f2 # v2.20.0
     with:
       docker_registry: 'ghcr.io'
       registry_org: 'ministryofjustice'
@@ -53,7 +53,7 @@ jobs:
     needs:
       - docker_build
       - helm_lint
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@b7e29ba10659e877df6b75f95fd3d18ae37212a8 # v2.19.1
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@1baa8672173f4e6af81dad6ef88a27f91d9828f2 # v2.20.0
     secrets: inherit
     with:
       environment: 'test'
@@ -66,7 +66,7 @@ jobs:
     needs:
       - docker_build
       - helm_lint
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@b7e29ba10659e877df6b75f95fd3d18ae37212a8 # v2.19.1
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@1baa8672173f4e6af81dad6ef88a27f91d9828f2 # v2.20.0
     secrets: inherit
     with:
       environment: 'preprod'
@@ -80,7 +80,7 @@ jobs:
       - docker_build
       - helm_lint
       - deploy_preprod
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@b7e29ba10659e877df6b75f95fd3d18ae37212a8 # v2.19.1
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@1baa8672173f4e6af81dad6ef88a27f91d9828f2 # v2.20.0
     secrets: inherit
     with:
       environment: 'prod'
