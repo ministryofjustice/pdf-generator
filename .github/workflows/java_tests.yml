@@ -35,6 +35,8 @@ jobs:
             **/gradle-wrapper.properties
 
       - name: Run tests
+        env:
+          JDK_JAVA_OPTIONS: -XX:+ExitOnOutOfMemoryError -XX:MaxRAMPercentage=50.0 -XX:-UseBASE64Intrinsics
         run: ./gradlew check
 
       - name: Upload test results
