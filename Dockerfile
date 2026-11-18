@@ -1,11 +1,13 @@
 FROM eclipse-temurin:25-jdk-alpine AS builder
 WORKDIR /app
+ENV JDK_JAVA_OPTIONS="-XX:+ExitOnOutOfMemoryError -XX:MaxRAMPercentage=50.0 -XX:-UseBASE64Intrinsics"
 ADD . .
 RUN ./gradlew assemble -Dorg.gradle.daemon=false
 
 FROM eclipse-temurin:25-jre-alpine
 LABEL maintainer="HMPPS Digital Studio <info@digital.justice.gov.uk>"
 WORKDIR /app
+ENV JDK_JAVA_OPTIONS="-XX:+ExitOnOutOfMemoryError -XX:MaxRAMPercentage=50.0 -XX:-UseBASE64Intrinsics"
 
 ARG BUILD_NUMBER
 ENV BUILD_NUMBER=${BUILD_NUMBER:-1_0_0}
