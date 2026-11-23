@@ -42,12 +42,12 @@ jar {
 
 dependencies {
 
-    implementation 'ch.qos.logback:logback-classic:1.6.6'
+    implementation 'ch.qos.logback:logback-classic:1.6.8'
     implementation 'com.google.inject:guice:7.0.0'
     implementation 'com.sparkjava:spark-core:2.9.4'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.22.4'
-    implementation 'org.apache.commons:commons-lang3:3.21.0'
-    implementation 'com.konghq:unirest-java-core:4.11.3'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.23.0'
+    implementation 'org.apache.commons:commons-lang3:3.22.0'
+    implementation 'com.konghq:unirest-java-core:4.11.10'
     implementation 'commons-io:commons-io:2.22.0'
     implementation 'com.openhtmltopdf:openhtmltopdf-core:1.0.10'
     implementation 'com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10'
@@ -58,8 +58,8 @@ dependencies {
 
     testImplementation 'org.spockframework:spock-core:2.4-M7-groovy-5.0'
     testImplementation 'org.apache.groovy:groovy-json'
-    testImplementation 'com.konghq:unirest-java-core:4.11.3'
-    testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.22.4'
+    testImplementation 'com.konghq:unirest-java-core:4.11.10'
+    testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.23.0'
 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
